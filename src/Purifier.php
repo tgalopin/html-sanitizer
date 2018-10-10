@@ -10,16 +10,16 @@ class Purifier implements PurifierInterface
     /**
      * @var DomVisitorInterface
      */
-    private $visitor;
+    private $domVisitor;
 
     /**
      * @var ParserInterface
      */
     private $parser;
 
-    public function __construct(array $config = [], DomVisitorInterface $visitor = null, ParserInterface $parser = null)
+    public function __construct(array $config, DomVisitorInterface $visitor = null, ParserInterface $parser = null)
     {
-        $this->visitor = $visitor ?: $this->createVisitor($config);
+        $this->domVisitor = $visitor ?: $this->createVisitor($config);
         $this->parser = $parser ?: new MastermindsParser();
     }
 
@@ -31,7 +31,7 @@ class Purifier implements PurifierInterface
             return '';
         }
 
-        return $this->visitor->visit($parsed)->render();
+        return $this->domVisitor->visit($parsed)->render();
     }
 
     private function createVisitor(array $config = []): DomVisitorInterface
