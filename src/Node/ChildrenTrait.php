@@ -2,6 +2,9 @@
 
 namespace HtmlPurifier\Node;
 
+/**
+ * Used by nodes which can have children.
+ */
 trait ChildrenTrait
 {
     /**

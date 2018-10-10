@@ -3,7 +3,6 @@
 namespace HtmlPurifier\Visitor;
 
 use HtmlPurifier\Model\Cursor;
-use HtmlPurifier\Node\AttributesNodeInterface;
 
 abstract class AbstractVisitor implements VisitorInterface
 {
@@ -25,7 +24,10 @@ abstract class AbstractVisitor implements VisitorInterface
      *
      * @return array
      */
-    abstract public function getDefaultAllowedAttributes(): array;
+    public function getDefaultAllowedAttributes(): array
+    {
+        return [];
+    }
 
     /**
      * Return this visitor additional default configuration.
@@ -44,27 +46,5 @@ abstract class AbstractVisitor implements VisitorInterface
 
     public function leaveNode(\DOMNode $domNode, Cursor $cursor)
     {
-    }
-
-    /**
-     * Access, sanitize and set attributes from a DOM node to a purified node.
-     *
-     * @param \DOMNode $domNode
-     * @param AttributesNodeInterface $node
-     */
-    protected function setAttributes(\DOMNode $domNode, AttributesNodeInterface $node)
-    {
-        if (!$domNode->attributes->count()) {
-            return;
-        }
-
-        /** @var \DOMAttr $attribute */
-        foreach ($domNode->attributes as $attribute) {
-            $name = strtolower($attribute->name);
-
-            if (in_array($name, $this->config['allowed_attributes'])) {
-                $node->setAttribute($name, $attribute->value);
-            }
-        }
     }
 }

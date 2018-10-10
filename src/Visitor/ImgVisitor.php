@@ -4,10 +4,13 @@ namespace HtmlPurifier\Visitor;
 
 use HtmlPurifier\Model\Cursor;
 use HtmlPurifier\Node\ImgNode;
+use HtmlPurifier\Node\NodeInterface;
 use HtmlPurifier\Sanitizer\ImgSrcSanitizer;
 
 class ImgVisitor extends AbstractVisitor
 {
+    use ChildlessTagVisitorTrait;
+
     /**
      * @var ImgSrcSanitizer
      */
@@ -24,9 +27,9 @@ class ImgVisitor extends AbstractVisitor
         );
     }
 
-    public function supports(\DOMNode $domNode, Cursor $cursor): bool
+    protected function getDomNodeName(): string
     {
-        return 'img' === $domNode->nodeName;
+        return 'img';
     }
 
     public function getDefaultAllowedAttributes(): array
@@ -43,12 +46,11 @@ class ImgVisitor extends AbstractVisitor
         ];
     }
 
-    public function enterNode(\DOMNode $domNode, Cursor $cursor)
+    protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
         $node = new ImgNode($cursor->node);
-        $this->setAttributes($domNode, $node);
-        $node->setAttribute('src', $this->srcSanitizer->sanitize($node->getAttribute('src')));
+        $node->setAttribute('src', $this->srcSanitizer->sanitize($this->getAttribute($domNode, 'src')));
 
-        $cursor->node->addChild($node);
+        return $node;
     }
 }

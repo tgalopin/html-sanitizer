@@ -3,31 +3,25 @@
 namespace HtmlPurifier\Visitor;
 
 use HtmlPurifier\Model\Cursor;
+use HtmlPurifier\Node\NodeInterface;
 use HtmlPurifier\Node\StrongNode;
 
 class StrongVisitor extends AbstractVisitor
 {
+    use ChildrenTagVisitorTrait;
+
+    protected function getDomNodeName(): string
+    {
+        return 'strong';
+    }
+
     public function supports(\DOMNode $domNode, Cursor $cursor): bool
     {
-        return 'strong' === $domNode->nodeName;
+        return 'strong' === $domNode->nodeName || 'b' === $domNode->nodeName;
     }
 
-    public function getDefaultAllowedAttributes(): array
+    protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return [];
-    }
-
-    public function enterNode(\DOMNode $domNode, Cursor $cursor)
-    {
-        $node = new StrongNode($cursor->node);
-        $this->setAttributes($domNode, $node);
-
-        $cursor->node->addChild($node);
-        $cursor->node = $node;
-    }
-
-    public function leaveNode(\DOMNode $domNode, Cursor $cursor)
-    {
-        $cursor->node = $cursor->node->getParent();
+        return new StrongNode($cursor->node);
     }
 }

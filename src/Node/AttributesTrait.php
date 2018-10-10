@@ -16,7 +16,10 @@ trait AttributesTrait
 
     public function setAttribute(string $name, ?string $value)
     {
-        $this->attributes[$name] = $value;
+        // Always use only the first declaration (ease sanitization)
+        if (!array_key_exists($name, $this->attributes)) {
+            $this->attributes[$name] = $value;
+        }
     }
 
     private function renderAttributes(): string

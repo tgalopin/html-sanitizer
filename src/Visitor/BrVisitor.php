@@ -4,24 +4,19 @@ namespace HtmlPurifier\Visitor;
 
 use HtmlPurifier\Model\Cursor;
 use HtmlPurifier\Node\BrNode;
+use HtmlPurifier\Node\NodeInterface;
 
 class BrVisitor extends AbstractVisitor
 {
-    public function supports(\DOMNode $domNode, Cursor $cursor): bool
+    use ChildlessTagVisitorTrait;
+
+    protected function getDomNodeName(): string
     {
-        return 'br' === $domNode->nodeName;
+        return 'br';
     }
 
-    public function getDefaultAllowedAttributes(): array
+    protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return [];
-    }
-
-    public function enterNode(\DOMNode $domNode, Cursor $cursor)
-    {
-        $node = new BrNode($cursor->node);
-        $this->setAttributes($domNode, $node);
-
-        $cursor->node->addChild($node);
+        return new BrNode($cursor->node);
     }
 }

@@ -4,30 +4,19 @@ namespace HtmlPurifier\Visitor;
 
 use HtmlPurifier\Model\Cursor;
 use HtmlPurifier\Node\FigcaptionNode;
+use HtmlPurifier\Node\NodeInterface;
 
 class FigcaptionVisitor extends AbstractVisitor
 {
-    public function supports(\DOMNode $domNode, Cursor $cursor): bool
+    use ChildrenTagVisitorTrait;
+
+    protected function getDomNodeName(): string
     {
-        return 'figcaption' === $domNode->nodeName;
+        return 'figcaption';
     }
 
-    public function getDefaultAllowedAttributes(): array
+    protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return [];
-    }
-
-    public function enterNode(\DOMNode $domNode, Cursor $cursor)
-    {
-        $node = new FigcaptionNode($cursor->node);
-        $this->setAttributes($domNode, $node);
-
-        $cursor->node->addChild($node);
-        $cursor->node = $node;
-    }
-
-    public function leaveNode(\DOMNode $domNode, Cursor $cursor)
-    {
-        $cursor->node = $cursor->node->getParent();
+        return new FigcaptionNode($cursor->node);
     }
 }

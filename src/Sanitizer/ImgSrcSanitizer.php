@@ -34,8 +34,12 @@ class ImgSrcSanitizer implements SanitizerInterface
         }
     }
 
-    public function sanitize(string $input): ?string
+    public function sanitize(?string $input): ?string
     {
+        if ($input === null) {
+            return $input;
+        }
+
         $url = parse_url($input);
         if (!is_array($url)) {
             // Malformed URL

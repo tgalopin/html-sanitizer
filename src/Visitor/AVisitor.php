@@ -4,10 +4,13 @@ namespace HtmlPurifier\Visitor;
 
 use HtmlPurifier\Model\Cursor;
 use HtmlPurifier\Node\ANode;
+use HtmlPurifier\Node\NodeInterface;
 use HtmlPurifier\Sanitizer\AHrefSanitizer;
 
 class AVisitor extends AbstractVisitor
 {
+    use ChildrenTagVisitorTrait;
+
     /**
      * @var AHrefSanitizer
      */
@@ -20,9 +23,9 @@ class AVisitor extends AbstractVisitor
         $this->hrefSanitizer = new AHrefSanitizer($this->config['allowed_hosts'], $this->config['allow_mailto']);
     }
 
-    public function supports(\DOMNode $domNode, Cursor $cursor): bool
+    protected function getDomNodeName(): string
     {
-        return 'a' === $domNode->nodeName;
+        return 'a';
     }
 
     public function getDefaultAllowedAttributes(): array
@@ -34,23 +37,16 @@ class AVisitor extends AbstractVisitor
     {
         return [
             'allowed_hosts' => null,
-            'allow_mailto' => false,
+            'allow_mailto' => true,
             'force_target_blank' => null,
         ];
     }
 
-    public function enterNode(\DOMNode $domNode, Cursor $cursor)
+    protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
         $node = new ANode($cursor->node);
-        $this->setAttributes($domNode, $node);
-        $node->setAttribute('href', $this->hrefSanitizer->sanitize($node->getAttribute('href')));
+        $node->setAttribute('href', $this->hrefSanitizer->sanitize($this->getAttribute($domNode, 'href')));
 
-        $cursor->node->addChild($node);
-        $cursor->node = $node;
-    }
-
-    public function leaveNode(\DOMNode $domNode, Cursor $cursor)
-    {
-        $cursor->node = $cursor->node->getParent();
+        return $node;
     }
 }

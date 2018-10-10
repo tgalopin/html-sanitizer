@@ -3,7 +3,7 @@
 namespace HtmlPurifier\Node;
 
 /**
- * Special node to ignore scripts and all their content
+ * Special node to ignore scripts and all their content.
  */
 class ScriptNode extends AbstractNode
 {

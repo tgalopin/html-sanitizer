@@ -4,30 +4,19 @@ namespace HtmlPurifier\Visitor;
 
 use HtmlPurifier\Model\Cursor;
 use HtmlPurifier\Node\FigureNode;
+use HtmlPurifier\Node\NodeInterface;
 
 class FigureVisitor extends AbstractVisitor
 {
-    public function supports(\DOMNode $domNode, Cursor $cursor): bool
+    use ChildrenTagVisitorTrait;
+
+    protected function getDomNodeName(): string
     {
-        return 'figure' === $domNode->nodeName;
+        return 'figure';
     }
 
-    public function getDefaultAllowedAttributes(): array
+    protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return [];
-    }
-
-    public function enterNode(\DOMNode $domNode, Cursor $cursor)
-    {
-        $node = new FigureNode($cursor->node);
-        $this->setAttributes($domNode, $node);
-
-        $cursor->node->addChild($node);
-        $cursor->node = $node;
-    }
-
-    public function leaveNode(\DOMNode $domNode, Cursor $cursor)
-    {
-        $cursor->node = $cursor->node->getParent();
+        return new FigureNode($cursor->node);
     }
 }
