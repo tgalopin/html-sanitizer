@@ -24,7 +24,7 @@ trait TagVisitorTrait
      */
     private function setAttributes(\DOMNode $domNode, AttributesNodeInterface $node, array $allowedAttributes = [])
     {
-        if (!$domNode->attributes->count()) {
+        if (!count($domNode->attributes)) {
             return;
         }
 
@@ -48,7 +48,7 @@ trait TagVisitorTrait
      */
     private function getAttribute(\DOMNode $domNode, string $name): ?string
     {
-        if (!$domNode->attributes->count()) {
+        if (!count($domNode->attributes)) {
             return null;
         }
 
