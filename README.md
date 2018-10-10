@@ -1,6 +1,6 @@
 # html-purifier
 
-[![SymfonyInsight](https://insight.symfony.com/projects/4eb121bf-9f9d-4d16-813b-f98f07003eaf/mini.png)](https://insight.symfony.com/projects/4eb121bf-9f9d-4d16-813b-f98f07003eaf)
+[![SymfonyInsight](https://insight.symfony.com/projects/befd5a5b-574c-4bea-9c4f-3ad202729a1b/mini.png)](https://insight.symfony.com/projects/befd5a5b-574c-4bea-9c4f-3ad202729a1b)
 
 html-purifier is a library aiming at handling, cleaning and sanitizing HTML sent by external users
 (that you cannot trust), allowing you to store it and display it safely. It has sensible defaults
