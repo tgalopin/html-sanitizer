@@ -7,13 +7,15 @@ aiming at proving a great developer experience while still being entierely confi
 Internally, the purifier has a deep understanding of HTML: it parses the input and create a tree of
 DOMNode objects
 
-parses and understands the HTML structure in order to remove any potential
+It also provides useful features such as the possibility to tranform images URLs to HTTPS or 
+to add a `target="_blank"` attribute on all your links targeting different websites.
 
-XSS or styling attack from
-the content.
-
-It also provides useful features such as the possibility to tranform images URLs to HTTPS,
-to add a `target="_blank"` attribute on all your links targeting different websites, etc.
+- [1. Installation](#installation)
+- [2. Basic usage](#basic-usage)
+- [3. Presets](#presets)
+- [4. Configuring allowed tags](#configuring-allowed-tags)
+- [5. Configuring allowed attributes](#configuring-allowed-attributes)
+- [6. Configuration reference](#configuration-reference)
 
 ## Installation
 
