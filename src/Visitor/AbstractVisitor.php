@@ -58,33 +58,13 @@ abstract class AbstractVisitor implements VisitorInterface
             return;
         }
 
-        $filters = $this->config['allowed_attributes'];
-
         /** @var \DOMAttr $attribute */
         foreach ($domNode->attributes as $attribute) {
             $name = strtolower($attribute->name);
 
-            if (!isset($filters[$name])) {
-                continue;
-            }
-
-            $sanitized = $this->normalize($attribute->value, $filters[$name], $name);
-            if ($sanitized !== null) {
-                $node->setAttribute($name, $sanitized);
+            if (in_array($name, $this->config['allowed_attributes'])) {
+                $node->setAttribute($name, $attribute->value);
             }
         }
-    }
-
-    private function normalize(string $value, string $filter, string $name): ?string
-    {
-        switch ($filter) {
-            case 'int':
-                return (string) ((int) $value);
-
-            case 'bool':
-                return $name;
-        }
-
-        return $value ? $value : null;
     }
 }

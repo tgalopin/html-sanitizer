@@ -8,25 +8,25 @@ Safer, faster and easier to extend HTML purifier
 composer require tgalopin/html-purifier
 ```
 
-## Basic usage
+## Usage
 
 ```php
 <?php
 
-$purifier = new HtmlPurifier\Purifier();
-$safeHtml = $purifier->purify($untrustedHtml);
-```
-
-## Configuration
-
-```php
-<?php
-
-$purifier = new HtmlPurifier\Purifier([
+$purifier = HtmlPurifier\Purifier::create([
     'allowed_tags' => [
-        'img' => ['src' => 'url|data-uri', 'alt' => 'text', 'title' => 'text', 'class' => 'text', 'width' => 'int', 'height' => 'int'],
-        'a' => ['href' => 'url|mailto', 'title' => 'text'],
-        'div' => ['class' => 'text'],
+        'a' => [
+            'allowed_hosts' => ['symfony.com', '*.symfony.com'],
+            'force_target_blank' => ['except_hosts' => ['symfony.com', '*.symfony.com']],
+        ],
+        'img' => [
+            'allowed_hosts' => ['symfony.com', '*.symfony.com'],
+            'allow_data_uri' => false,
+            'force_https' => true,
+        ],
+        'div' => [],
     ],
 ]);
+
+$safeHtml = $purifier->purify($untrustedHtml);
 ```

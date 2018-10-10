@@ -14,7 +14,7 @@ trait AttributesTrait
         return $this->attributes[$name] ?? null;
     }
 
-    public function setAttribute(string $name, string $value)
+    public function setAttribute(string $name, ?string $value)
     {
         $this->attributes[$name] = $value;
     }
@@ -23,7 +23,17 @@ trait AttributesTrait
     {
         $rendered = [];
         foreach ($this->attributes as $name => $value) {
-            $rendered[] = $name.'="'.$value.'"';
+            if ($value === null) {
+                // Tag should be removed as a sanitizer found suspect data inside
+                continue;
+            }
+
+            $attr = $name;
+            if ($value !== '') {
+                $attr .= '="'.$value.'"';
+            }
+
+            $rendered[] = $attr;
         }
 
         return $rendered ? ' '.implode(' ', $rendered) : '';

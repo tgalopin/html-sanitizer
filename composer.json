@@ -16,6 +16,7 @@
     },
     "require": {
         "php": ">=7.1",
+        "ext-dom": "*",
         "masterminds/html5": "^2.3",
         "psr/log": "^1.0"
     },

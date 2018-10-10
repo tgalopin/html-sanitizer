@@ -3,12 +3,8 @@
 namespace Tests\HtmlPurifier;
 
 use HtmlPurifier\Purifier;
-use HtmlPurifier\Visitor;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @group unit
- */
 class PurifierTest extends TestCase
 {
     public function provideFixtures()
@@ -35,19 +31,27 @@ class PurifierTest extends TestCase
 
     private function createPurifier(): Purifier
     {
-        return new Purifier([
-            new Visitor\AVisitor(),
-            new Visitor\BrVisitor(),
-            new Visitor\DelVisitor(),
-            new Visitor\DivVisitor(),
-            new Visitor\EmVisitor(),
-            new Visitor\FigcaptionVisitor(),
-            new Visitor\FigureVisitor(),
-            new Visitor\ImgVisitor(),
-            new Visitor\PVisitor(),
-            new Visitor\ScriptVisitor(),
-            new Visitor\StrongVisitor(),
-            new Visitor\TextVisitor(),
+        return Purifier::create([
+            'allowed_tags' => [
+                'a' => [
+                    'allowed_hosts' => ['trusted.com'],
+                    'allow_mailto' => true,
+                    'force_target_blank' => ['except_hosts' => ['trusted.com']],
+                ],
+                'img' => [
+                    'allowed_hosts' => ['trusted.com'],
+                    'allow_data_uri' => false,
+                    'force_https' => true,
+                ],
+                'br' => [],
+                'del' => [],
+                'div' => [],
+                'em' => [],
+                'figcaption' => [],
+                'figure' => [],
+                'p' => [],
+                'strong' => [],
+            ],
         ]);
     }
 }

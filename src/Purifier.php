@@ -10,7 +10,7 @@ use HtmlPurifier\Visitor\VisitorInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-class Purifier
+class Purifier implements PurifierInterface
 {
     /**
      * @var VisitorInterface[]
@@ -63,6 +63,29 @@ class Purifier
         $this->visit($parsed, $cursor);
 
         return $cursor->node->render();
+    }
+
+    public static function create(array $config = []): self
+    {
+        $tags = $config['allowed_tags'] ?? [];
+
+        $visitors = array_filter([
+            isset($tags['a']) ? new Visitor\AVisitor($tags['a']) : null,
+            isset($tags['br']) ? new Visitor\BrVisitor($tags['br']) : null,
+            isset($tags['del']) ? new Visitor\DelVisitor($tags['del']) : null,
+            isset($tags['div']) ? new Visitor\DivVisitor($tags['div']) : null,
+            isset($tags['em']) ? new Visitor\EmVisitor($tags['em']) : null,
+            isset($tags['figcaption']) ? new Visitor\FigcaptionVisitor($tags['figcaption']) : null,
+            isset($tags['figure']) ? new Visitor\FigureVisitor($tags['figure']) : null,
+            isset($tags['img']) ? new Visitor\ImgVisitor($tags['img']) : null,
+            isset($tags['p']) ? new Visitor\PVisitor($tags['p']) : null,
+            isset($tags['strong']) ? new Visitor\StrongVisitor($tags['strong']) : null,
+
+            new Visitor\ScriptVisitor(),
+            new Visitor\TextVisitor(),
+        ]);
+
+        return new self($visitors, $config['parser'] ?? null, $config['logger'] ?? null);
     }
 
     private function visit(\DOMNode $node, Cursor $cursor)
