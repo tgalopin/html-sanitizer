@@ -184,7 +184,7 @@ $purifier = new HtmlPurifier\Purifier([
             'allowed_attributes' => [],
         ],
         'a' => [
-            'allowed_attributes' => [],
+            'allowed_attributes' => ['href', 'title'],
             
             /*
             * If an array is provided, all the links targeting other hosts than one in this array
@@ -272,7 +272,7 @@ $purifier = new HtmlPurifier\Purifier([
             'allowed_attributes' => [],
         ],
         'iframe' => [
-            'allowed_attributes' => [],
+            'allowed_attributes' => ['src', 'width', 'height', 'frameborder', 'title', 'allow', 'allowfullscreen'],
         
             /*
             * If an array is provided, all the frames relying on other hosts than one in this array
@@ -294,7 +294,7 @@ $purifier = new HtmlPurifier\Purifier([
             'force_https' => false,
         ],
         'img' => [
-            'allowed_attributes' => [],
+            'allowed_attributes' => ['src', 'alt', 'title'],
             
             /*
             * If an array is provided, all the images relying on other hosts than one in this array
