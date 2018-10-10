@@ -1,28 +1,29 @@
 # html-purifier
 
-[![SymfonyInsight](https://insight.symfony.com/projects/befd5a5b-574c-4bea-9c4f-3ad202729a1b/mini.png)](https://insight.symfony.com/projects/befd5a5b-574c-4bea-9c4f-3ad202729a1b)
 [![Build Status](https://travis-ci.org/tgalopin/html-purifier.svg?branch=master)](https://travis-ci.org/tgalopin/html-purifier)
+[![SymfonyInsight](https://insight.symfony.com/projects/befd5a5b-574c-4bea-9c4f-3ad202729a1b/mini.png)](https://insight.symfony.com/projects/befd5a5b-574c-4bea-9c4f-3ad202729a1b)
 
 html-purifier is a library aiming at handling, cleaning and sanitizing HTML sent by external users
 (that you cannot trust), allowing you to store it and display it safely. It has sensible defaults
-aiming at proving a great developer experience while still being entierely configurable.
+to provide a great developer experience while still being entierely configurable.
 
 Internally, the purifier has a deep understanding of HTML: it parses the input and create a tree of
-DOMNode objects
+DOMNode objects, which it uses to keep only the safe elements from the content. By using this
+technique, it is safe (it works with a strict whitelist), fast and easily extensible.
 
 It also provides useful features such as the possibility to tranform images URLs to HTTPS or 
 to add a `target="_blank"` attribute on all your links targeting different websites.
 
-- [1. Installation](#installation)
-- [2. Basic usage](#basic-usage)
-- [3. Presets](#presets)
-- [4. Configuring allowed tags](#configuring-allowed-tags)
-- [5. Configuring allowed attributes](#configuring-allowed-attributes)
-- [6. Configuration reference](#configuration-reference)
+- [Installation](#installation)
+- [Basic usage](#basic-usage)
+- [Presets](#presets)
+- [Configuring allowed tags](#configuring-allowed-tags)
+- [Configuring allowed attributes](#configuring-allowed-attributes)
+- [Configuration reference](#configuration-reference)
 
 ## Installation
 
-html-purifier requires PHP 7.1+ and the `ext-dom` extension.
+html-purifier requires PHP 7.1+.
 
 You can install the library using the following command:
 
@@ -36,23 +37,21 @@ The main entrypoint to the purifier is the `HtmlPurifier\Purifier` class. It req
 an array of configuration that will be used for all the features of the purifier.
 
 The purifier works on a whitelist basis: you will need to tell it every tags and every
-attribute you would like to allow in the HTML. Fortunately, the library also provides
-what we call presets, to improve developer experience: a preset is a list of pre-configured
-tags and attributes that you can easily use out of the box to get a Purifier up and running
-quickly. 
+attribute you would like to allow in the HTML. 
+
+Fortunately, the library has what we call "presets": lists of pre-configured tags and attributes
+that you can use out of the box to get a Purifier up and running quickly. 
 
 Thus a simple first example using the `basic` preset could look like this:
 
 ```php
-<?php
-
 $purifier = new HtmlPurifier\Purifier(['presets' => ['basic']]);
 $safeHtml = $purifier->purify($untrustedHtml);
 ```
 
 ## Presets
 
-There are 7 presets available, which add allowed tags and attributes and configure the purifier
+There are 7 presets available which add allowed tags and attributes and configure the purifier
 accordingly:
 
 - `basic` allows the insertion of basic HTML elements, corresponding to the following tags:
@@ -105,12 +104,12 @@ accordingly:
     - `rt`
     - `ruby`
 
-You can use all the presets to allow for rich content to be inserted in your application:
+You can use all the presets to allow for diverse rich content to be inserted in your application:
 
 ```php
-<?php
-
-$purifier = new HtmlPurifier\Purifier(['presets' => ['basic', 'list', 'table', 'image', 'code', 'iframe', 'extra']]);
+$purifier = new HtmlPurifier\Purifier([
+    'presets' => ['basic', 'list', 'table', 'image', 'code', 'iframe', 'extra'],
+]);
 $safeHtml = $purifier->purify($untrustedHtml);
 ```
 
@@ -119,14 +118,12 @@ $safeHtml = $purifier->purify($untrustedHtml);
 In addition (or instead of) presets, you can configure specific tags, either to allow more attributes on
 them, to configure specific features or simply to allow them in the input.
 
-> **Note**: if you configure custom tags this way, they won't be taken into account.
-> Instead, you should create a purifier extension (TODO: create the extension system).  
+> **Note**: if you configure custom tags (tags unkown to the purifier) this way, they won't be taken into account.
+> Instead, you should create a purifier extension.  
 
 For instance, if you want only the basic tags and unordered lists:
 
 ```php
-<?php
-
 $purifier = new HtmlPurifier\Purifier([
     'presets' => ['basic'],
     'allowed_tags' => [
@@ -141,8 +138,6 @@ customize as you wish the purifier if you want too by removing all the presets. 
 to explicitely allow all the tags you need:
 
 ```php
-<?php
-
 // Allow ONLY strong, em and br (this configuration will remove all the other tags) 
 $purifier = new HtmlPurifier\Purifier([
     'allowed_tags' => [
@@ -161,8 +156,6 @@ All the tags have sensible default allowed attributes but you can override them 
 For instance, to allow the `class` attribute on a `div` tag, you can use the following configuration:
 
 ```php
-<?php
-
 $purifier = new HtmlPurifier\Purifier([
     'presets' => ['basic'],
     'allowed_tags' => [
@@ -178,8 +171,6 @@ $purifier = new HtmlPurifier\Purifier([
 Here is the configuration default values with annotations describing the specific configuration keys:
 
 ```php
-<?php
-
 $purifier = new HtmlPurifier\Purifier([
     'presets' => ['basic', 'list', 'table', 'image', 'code', 'iframe', 'extra'],
     'allowed_tags' => [
