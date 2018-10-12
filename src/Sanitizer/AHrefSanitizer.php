@@ -64,7 +64,7 @@ class AHrefSanitizer implements SanitizerInterface
         }
 
         // URL
-        if (!filter_var($input, FILTER_VALIDATE_URL)) {
+        if (!filter_var($input, FILTER_VALIDATE_URL) || !in_array($url['scheme'], ['http', 'https'])) {
             // Invalid URL
             return null;
         }

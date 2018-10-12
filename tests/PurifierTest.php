@@ -3,12 +3,31 @@
 namespace Tests\HtmlPurifier;
 
 use HtmlPurifier\Purifier;
-use HtmlPurifier\PurifierInterface;
 use PHPUnit\Framework\TestCase;
 
 class PurifierTest extends TestCase
 {
-    public function provideFixtures()
+    public function provideEmptyPurifierFixtures()
+    {
+        yield 'safe' => ['safe'];
+        yield 'scripts' => ['scripts'];
+        yield 'style' => ['style'];
+    }
+
+    /**
+     * @dataProvider provideEmptyPurifierFixtures
+     */
+    public function testEmptyPurifier($dir)
+    {
+        $input = file_get_contents(__DIR__ . '/Fixtures/empty/' . $dir . '/input.html');
+        $expectedOutput = file_get_contents(__DIR__ . '/Fixtures/empty/' . $dir . '/output.html');
+
+        $emptyPurifier = Purifier::create([]);
+
+        $this->assertEquals($expectedOutput, $emptyPurifier->purify($input));
+    }
+
+    public function provideSimplePurifierFixtures()
     {
         yield 'safe' => ['safe'];
         yield 'scripts' => ['scripts'];
@@ -17,21 +36,37 @@ class PurifierTest extends TestCase
     }
 
     /**
-     * @dataProvider provideFixtures
+     * @dataProvider provideSimplePurifierFixtures
      */
-    public function testPurify($dir)
+    public function testSimplePurifier($dir)
     {
-        $input = file_get_contents(__DIR__.'/Fixtures/'.$dir.'/input.html');
-        $expectedOutput = file_get_contents(__DIR__.'/Fixtures/'.$dir.'/output.html');
+        $input = file_get_contents(__DIR__ . '/Fixtures/simple/' . $dir . '/input.html');
+        $expectedOutput = file_get_contents(__DIR__ . '/Fixtures/simple/' . $dir . '/output.html');
 
-        $this->assertEquals($expectedOutput, $this->createPurifier()->purify($input));
+        $emptyPurifier = Purifier::create(['extensions' => ['basic']]);
+
+        $this->assertEquals($expectedOutput, $emptyPurifier->purify($input));
     }
 
-    private function createPurifier(): PurifierInterface
+    public function provideFullPurifierFixtures()
     {
-        return new Purifier([
-            'presets' => ['basic', 'code', 'image', 'list', 'table', 'iframe', 'extra'],
-            'allowed_tags' => [
+        yield 'safe' => ['safe'];
+        yield 'scripts' => ['scripts'];
+        yield 'links' => ['links'];
+        yield 'style' => ['style'];
+    }
+
+    /**
+     * @dataProvider provideFullPurifierFixtures
+     */
+    public function testFullPurifier($dir)
+    {
+        $input = file_get_contents(__DIR__.'/Fixtures/full/'.$dir.'/input.html');
+        $expectedOutput = file_get_contents(__DIR__.'/Fixtures/full/'.$dir.'/output.html');
+
+        $fullPurifier = Purifier::create([
+            'extensions' => ['basic', 'code', 'image', 'list', 'table', 'iframe', 'extra'],
+            'tags' => [
                 'a' => [
                     'allowed_hosts' => ['trusted.com', 'external.com'],
                     'force_target_blank' => ['except_hosts' => ['trusted.com']],
@@ -42,5 +77,7 @@ class PurifierTest extends TestCase
                 ],
             ],
         ]);
+
+        $this->assertEquals($expectedOutput, $fullPurifier->purify($input));
     }
 }

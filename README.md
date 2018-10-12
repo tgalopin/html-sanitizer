@@ -4,21 +4,23 @@
 [![SymfonyInsight](https://insight.symfony.com/projects/befd5a5b-574c-4bea-9c4f-3ad202729a1b/mini.png)](https://insight.symfony.com/projects/befd5a5b-574c-4bea-9c4f-3ad202729a1b)
 
 html-purifier is a library aiming at handling, cleaning and sanitizing HTML sent by external users
-(that you cannot trust), allowing you to store it and display it safely. It has sensible defaults
+(who you cannot trust), allowing you to store it and display it safely. It has sensible defaults
 to provide a great developer experience while still being entierely configurable.
 
 Internally, the purifier has a deep understanding of HTML: it parses the input and create a tree of
 DOMNode objects, which it uses to keep only the safe elements from the content. By using this
 technique, it is safe (it works with a strict whitelist), fast and easily extensible.
 
-It also provides useful features such as the possibility to tranform images URLs to HTTPS or 
-to add a `target="_blank"` attribute on all your links targeting different websites.
+It also provides useful features such as the possibility to tranform images URLs to HTTPS, or 
+to add a `target="_blank"` attribute on all the links to external websites.
 
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
-- [Presets](#presets)
-- [Configuring allowed tags](#configuring-allowed-tags)
+- [Extensions](#extensions)
+- [Filtering images hosts](#filtering-images-hosts)
+- [Filtering links targets, opening external links in a new window](#filtering-links-targets-opening-external-links-in-a-new-window)
 - [Configuring allowed attributes](#configuring-allowed-attributes)
+- [Creating an extension to allow custom tags](#creating-an-extension-to-allow-custom-tags)
 - [Configuration reference](#configuration-reference)
 
 ## Installation
@@ -34,136 +36,263 @@ composer require tgalopin/html-purifier
 ## Basic usage
 
 The main entrypoint to the purifier is the `HtmlPurifier\Purifier` class. It requires
-an array of configuration that will be used for all the features of the purifier.
-
-The purifier works on a whitelist basis: you will need to tell it every tags and every
-attribute you would like to allow in the HTML. 
-
-Fortunately, the library has what we call "presets": lists of pre-configured tags and attributes
-that you can use out of the box to get a Purifier up and running quickly. 
-
-Thus a simple first example using the `basic` preset could look like this:
+an array of configuration:
 
 ```php
-$purifier = new HtmlPurifier\Purifier(['presets' => ['basic']]);
+$purifier = HtmlPurifier\Purifier::create(['extensions' => ['basic']]);
 $safeHtml = $purifier->purify($untrustedHtml);
 ```
 
-## Presets
+The purifier works using *extensions*. Extensions are a set of features that you can easily
+enable to allow specific tags in the content (read the next part to learn more about them). 
 
-There are 7 presets available which add allowed tags and attributes and configure the purifier
-accordingly:
+> Note that the purifier is working using a strict whitelist of allowed tags: in the previous example,
+> the purifier would allow **only** the basic HTML5 tags (`strong`, `a`, `div`, etc., ).
 
-- `basic` allows the insertion of basic HTML elements, corresponding to the following tags:
-    - `a`
-    - `b`
-    - `br`
-    - `blockquote`
-    - `div`
-    - `del`
-    - `em`
-    - `figcaption`
-    - `figure`
-    - `h1`
-    - `h2`
-    - `h3`
-    - `h4`
-    - `h5`
-    - `h6`
-    - `i`
-    - `p`
-    - `q`
-    - `small`
-    - `span`
-    - `strong`
-    - `sub`
-    - `sup`
-- `list` allows the insertion of lists, corresponding to the following tags:
-    - `dd`
-    - `dl`
-    - `dt`
-    - `li`
-    - `ol`
-    - `ul`
-- `table` allows the insertion of tables, corresponding to the following tags:
-    - `table`
-    - `thead`
-    - `tbody`
-    - `tfoot`
-    - `tr`
-    - `td`
-    - `th`
-- `image` allows the insertion of images, corresponding to the `img` tag
-- `code` allows the insertion of code blocks, corresponding to the `pre` and `code` tags
-- `iframe` allows the insertion of images, corresponding to the `iframe` tag
-- `extra` allows the insertion of tables, corresponding to the following tags:
-    - `abbr`
-    - `caption`
-    - `hr`
-    - `rp`
-    - `rt`
-    - `ruby`
+## Extensions
 
-You can use all the presets to allow for diverse rich content to be inserted in your application:
+Extensions are a way to quickly add sets of tags to the whitelist of allowed tags.
+There are 7 core extensions that you can enable by adding them in your configuration:
 
 ```php
-$purifier = new HtmlPurifier\Purifier([
-    'presets' => ['basic', 'list', 'table', 'image', 'code', 'iframe', 'extra'],
+$purifier = HtmlPurifier\Purifier::create([
+    'extensions' => ['basic', 'code', 'image', 'list', 'table', 'iframe', 'extra'],
 ]);
 $safeHtml = $purifier->purify($untrustedHtml);
 ```
 
-## Configuring allowed tags
+Here is the list of tags each extension allow:
 
-In addition (or instead of) presets, you can configure specific tags, either to allow more attributes on
-them, to configure specific features or simply to allow them in the input.
+- **basic** allows the insertion of basic HTML elements:
+  `a`, `b`, `br`, `blockquote`, `div`, `del`, `em`, `figcaption`, `figure`, `h1`, `h2`, `h3`, `h4`, `h5`, 
+  `h6`, `i`, `p`, `q`, `small`, `span`, `strong`, `sub`, `sup`
+- **list** allows the insertion of lists: 
+  `dd`, `dl`, `dt`, `li`, `ol`, `ul`
+- **table** allows the insertion of tables: 
+  `table`, `thead`, `tbody`, `tfoot`, `tr`, `td`, `th`
+- **image** allows the insertion of images: `img`
+- **code** allows the insertion of code blocks: `pre`, `code`
+- **iframe** allows the insertion of iframes: `iframe`
+- **extra** allows the insertion of the following tags: `abbr`, `caption`, `hr`, `rp`, `rt`, `ruby`
 
-> **Note**: if you configure custom tags (tags unkown to the purifier) this way, they won't be taken into account.
-> Instead, you should create a purifier extension.  
+## Filtering images hosts
 
-For instance, if you want only the basic tags and unordered lists:
+The purifier image extension provides a feature to filter images hosts, which can be useful 
+to avoid connecting to external websites that may, for instance, track your website views.
+
+To enable this feature, you need to enable the `image` extension and configure the `img` tag:
 
 ```php
-$purifier = new HtmlPurifier\Purifier([
-    'presets' => ['basic'],
-    'allowed_tags' => [
-        'ul' => [],
-        'li' => [],
+$purifier = HtmlPurifier\Purifier::create([
+    'extensions' => ['image'],
+    'tags' => [
+        'img' => [
+            /*
+            * If an array is provided, all the images relying on other hosts than one in this array
+            * will be disabled (the `src` attribute will be blank). This can be useful if you want
+            * to prevent images contacting external websites.
+            *
+            * Any allowed domain also includes its subdomains.
+            *
+            *      'allowed_hosts' => ['trusted1.com', 'google.com'],
+            */
+            'allowed_hosts' => null,
+            
+            /*
+            * If true, images data-uri URLs will be accepted.
+            */
+            'allow_data_uri' => false,
+            
+            /*
+            * If true, all images URLs using the HTTP ptocol will be rewritten to use HTTPS instead.
+            */
+            'force_https' => false,
+        ],
     ],
 ]);
 ```
 
-Technically speaking, presets are only a preconfigured list of allowed tags and attributes. Therefore you can
-customize as you wish the purifier if you want too by removing all the presets. However, it also means you have
-to explicitely allow all the tags you need:
+## Filtering links targets, opening external links in a new window
+
+The purifier basic extension provides a feature to filter and manipulate links in order to
+avoid your users to leave your website for potentially dangerous external pages.
+
+To enable this feature, you need to enable the `basic` extension and configure the `a` tag:
 
 ```php
-// Allow ONLY strong, em and br (this configuration will remove all the other tags) 
-$purifier = new HtmlPurifier\Purifier([
-    'allowed_tags' => [
-        'strong' => [],
-        'em' => [],
-        'br' => [],
+$purifier = HtmlPurifier\Purifier::create([
+    'extensions' => ['image'],
+    'tags' => [
+        'a' => [
+            /*
+            * If an array is provided, all the links targeting other hosts than one in this array
+            * will be disabled (the `href` attribute will be blank). This can be useful if you want
+            * to prevent links to target external websites.
+            *
+            * Any allowed domain also includes its subdomains.
+            *
+            *      'allowed_hosts' => ['trusted1.com', 'google.com'],
+            */
+            'allowed_hosts' => null,
+            
+            /*
+            * If false, all links containing a mailto target will be disabled (the `href` attribute
+            * will be blank).
+            */
+            'allow_mailto' => true,
+            
+            /*
+            * If an array is provided, a `target="_blank"` attribute will be added to all the links.
+            * You can also provide a list of excluded hosts for this rule using the `except_hosts` key.
+            *
+            * Any excluded host also includes its subdomains.
+            *
+            *      'force_target_blank' => [], // All links
+            *      'force_target_blank' => ['except_hosts' => ['trusted1.com']], // All links except trusted1.com
+            */
+            'force_target_blank' => null,
+        ],
     ],
 ]);
 ```
 
 ## Configuring allowed attributes
 
-In each allowed tag, you can pass dedicated configuration to this tag in the array associated to the tag name.
-All the tags have sensible default allowed attributes but you can override them using the `allowed_attributes` key.
+The core extensions define sensible default allowed attributes for each tag, which mean you usually won't need
+to change them. However, if you want to customize which attributes are allowed on specific tags, you can use
+a tag-specific configuration for them. 
 
-For instance, to allow the `class` attribute on a `div` tag, you can use the following configuration:
+For instance, to allow the `class` attribute on the `div` and `img` tags, you can use the following configuration:
 
 ```php
 $purifier = new HtmlPurifier\Purifier([
-    'presets' => ['basic'],
-    'allowed_tags' => [
+    'extensions' => ['basic'],
+    'tags' => [
         'div' => [
             'allowed_attributes' => ['class'],
         ],
+        'img' => [
+            'allowed_attributes' => ['src', 'alt', 'title', 'class'],
+        ],
     ],
 ]);
+```
+
+## Creating an extension to allow custom tags
+
+If you want to use additional tags than the one present in the purifier core extensions, you can create your
+own extension.
+
+There are two steps in the creation of an extension to handle additional tags: creating the node visitor which
+will handle the tag, and registering it using an extension.
+
+### Creating a node and a node visitor
+
+A node visitor is a class able to handle DOMNode instances of a certain type. It needs to implement the
+`HtmlPurifier\Visitor\VisitorInterface`.
+
+A node visitor is responsible of adding a node to the tree of safe HTML by filtering the DOMNode
+it's given. Thus, for an example `my-tag` custom tag, we need to create two classes: a Node and 
+a NodeVisitor.
+
+The node could looke like this:
+
+```php
+namespace App\Purifier;
+
+use HtmlPurifier\Node\AbstractNode;
+use HtmlPurifier\Node\AttributesNodeInterface;
+use HtmlPurifier\Node\TagNodeTrait;
+use HtmlPurifier\Node\ChildrenTrait;
+
+class MyTagNode extends AbstractNode implements AttributesNodeInterface
+{
+    use TagNodeTrait;
+    use ChildrenTrait;
+
+    public function getTagName(): string
+    {
+        return 'my-tag';
+    }
+}
+```
+
+A simple visitor for a `my-tag` custom tag could look like this:
+
+```php
+namespace App\Purifier;
+
+use HtmlPurifier\Model\Cursor;
+use HtmlPurifier\Node\DivNode;
+use HtmlPurifier\Node\NodeInterface;
+
+class MyTagVisitor extends AbstractVisitor
+{
+    use ChildrenTagVisitorTrait;
+
+    protected function getDomNodeName(): string
+    {
+        return 'my-tag';
+    }
+
+    protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
+    {
+        return new MyTagNode($cursor->node);
+    }
+}
+```
+
+To learn more on how to create a node and a node visitor suiting your needs, we recommand you to read
+the existing [nodes](https://github.com/tgalopin/html-purifier/tree/master/src/Node) 
+and [visitors](https://github.com/tgalopin/html-purifier/tree/master/src/Visitor).
+
+### Registering the node visitor with an extension
+
+Once you created a node and a node visitor, you need to use an extension to register the visitor in the
+purifier.
+
+An extension is a class implementing the `HtmlPurifier\Extension\ExtensionInterface` interface, which requires
+two methods:
+
+- `getName()` which should return the name to use in the configuration (`basic`, `list`, etc.) ;
+- and `getNodeVisitors()` which should return a list of node visitors associated to the tag the visit ;
+
+For our node visitor, this could look like this:
+
+```php
+namespace App\Purifier;
+
+use HtmlPurifier\Extension\ExtensionInterface;
+
+class CustomExtension implements ExtensionInterface
+{
+    public function getName(): string
+    {
+        return 'custom';
+    }
+
+    public function getNodeVisitors(): array
+    {
+        return [
+            'my-tag' => MyTagVisitor::class,
+        ];
+    }
+}
+```
+
+Then, you can use the builder to create a Purifier that include this extension:
+
+```php
+$builder = new HtmlPurifier\PurifierBuilder();
+$builder->registerExtension(new HtmlPurifier\Extension\BasicExtension());
+$builder->registerExtension(new HtmlPurifier\Extension\ListExtension());
+// Add the other core ones you need
+
+$builder->registerExtension(new App\Purifier\CustomExtension());
+
+$purifier = $builder->build([
+    'extensions' => ['basic', 'list', 'custom'],
+});
 ```
 
 ## Configuration reference
@@ -172,8 +301,8 @@ Here is the configuration default values with annotations describing the specifi
 
 ```php
 $purifier = new HtmlPurifier\Purifier([
-    'presets' => ['basic', 'list', 'table', 'image', 'code', 'iframe', 'extra'],
-    'allowed_tags' => [
+    'extensions' => ['basic', 'list', 'table', 'image', 'code', 'iframe', 'extra'],
+    'tags' => [
         'abbr' => [
             'allowed_attributes' => [],
         ],
