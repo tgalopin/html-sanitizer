@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\HtmlPurifier;
+namespace Tests\HtmlSanitizer;
 
-use HtmlPurifier\Purifier;
+use HtmlSanitizer\Sanitizer;
 use PHPUnit\Framework\TestCase;
 
-class PurifierTest extends TestCase
+class SanitizerTest extends TestCase
 {
-    public function provideEmptyPurifierFixtures()
+    public function provideEmptySanitizerFixtures()
     {
         yield 'safe' => ['safe'];
         yield 'scripts' => ['scripts'];
@@ -24,19 +24,19 @@ class PurifierTest extends TestCase
     }
 
     /**
-     * @dataProvider provideEmptyPurifierFixtures
+     * @dataProvider provideEmptySanitizerFixtures
      */
-    public function testEmptyPurifier($dir)
+    public function testEmptySanitizer($dir)
     {
         $input = file_get_contents(__DIR__ . '/Fixtures/empty/' . $dir . '/input.html');
         $expectedOutput = file_get_contents(__DIR__ . '/Fixtures/empty/' . $dir . '/output.html');
 
-        $emptyPurifier = Purifier::create([]);
+        $emptySanitizer = Sanitizer::create([]);
 
-        $this->assertEquals($expectedOutput, $emptyPurifier->purify($input));
+        $this->assertEquals($expectedOutput, $emptySanitizer->sanitize($input));
     }
 
-    public function provideSimplePurifierFixtures()
+    public function provideSimpleSanitizerFixtures()
     {
         yield 'safe' => ['safe'];
         yield 'scripts' => ['scripts'];
@@ -45,19 +45,19 @@ class PurifierTest extends TestCase
     }
 
     /**
-     * @dataProvider provideSimplePurifierFixtures
+     * @dataProvider provideSimpleSanitizerFixtures
      */
-    public function testSimplePurifier($dir)
+    public function testSimpleSanitizer($dir)
     {
         $input = file_get_contents(__DIR__ . '/Fixtures/simple/' . $dir . '/input.html');
         $expectedOutput = file_get_contents(__DIR__ . '/Fixtures/simple/' . $dir . '/output.html');
 
-        $emptyPurifier = Purifier::create(['extensions' => ['basic']]);
+        $emptySanitizer = Sanitizer::create(['extensions' => ['basic']]);
 
-        $this->assertEquals($expectedOutput, $emptyPurifier->purify($input));
+        $this->assertEquals($expectedOutput, $emptySanitizer->sanitize($input));
     }
 
-    public function provideFullPurifierFixtures()
+    public function provideFullSanitizerFixtures()
     {
         yield 'safe' => ['safe'];
         yield 'scripts' => ['scripts'];
@@ -66,14 +66,14 @@ class PurifierTest extends TestCase
     }
 
     /**
-     * @dataProvider provideFullPurifierFixtures
+     * @dataProvider provideFullSanitizerFixtures
      */
-    public function testFullPurifier($dir)
+    public function testFullSanitizer($dir)
     {
         $input = file_get_contents(__DIR__.'/Fixtures/full/'.$dir.'/input.html');
         $expectedOutput = file_get_contents(__DIR__.'/Fixtures/full/'.$dir.'/output.html');
 
-        $fullPurifier = Purifier::create([
+        $fullSanitizer = Sanitizer::create([
             'extensions' => ['basic', 'code', 'image', 'list', 'table', 'iframe', 'extra'],
             'tags' => [
                 'a' => [
@@ -87,6 +87,6 @@ class PurifierTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals($expectedOutput, $fullPurifier->purify($input));
+        $this->assertEquals($expectedOutput, $fullSanitizer->sanitize($input));
     }
 }

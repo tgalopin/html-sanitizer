@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace HtmlPurifier\Node;
+namespace HtmlSanitizer\Node;
 
 /**
  * Used by nodes which can have children.

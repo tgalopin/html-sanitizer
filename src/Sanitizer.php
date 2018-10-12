@@ -9,22 +9,22 @@
  * file that was distributed with this source code.
  */
 
-namespace HtmlPurifier;
+namespace HtmlSanitizer;
 
-use HtmlPurifier\Extension\BasicExtension;
-use HtmlPurifier\Extension\CodeExtension;
-use HtmlPurifier\Extension\ExtraExtension;
-use HtmlPurifier\Extension\IframeExtension;
-use HtmlPurifier\Extension\ImageExtension;
-use HtmlPurifier\Extension\ListExtension;
-use HtmlPurifier\Extension\TableExtension;
-use HtmlPurifier\Parser\MastermindsParser;
-use HtmlPurifier\Parser\ParserInterface;
+use HtmlSanitizer\Extension\BasicExtension;
+use HtmlSanitizer\Extension\CodeExtension;
+use HtmlSanitizer\Extension\ExtraExtension;
+use HtmlSanitizer\Extension\IframeExtension;
+use HtmlSanitizer\Extension\ImageExtension;
+use HtmlSanitizer\Extension\ListExtension;
+use HtmlSanitizer\Extension\TableExtension;
+use HtmlSanitizer\Parser\MastermindsParser;
+use HtmlSanitizer\Parser\ParserInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
  */
-class Purifier implements PurifierInterface
+class Sanitizer implements SanitizerInterface
 {
     /**
      * @var DomVisitorInterface
@@ -43,15 +43,15 @@ class Purifier implements PurifierInterface
     }
 
     /**
-     * Quickly create an already configured purifier using the default builder.
+     * Quickly create an already configured sanitizer using the default builder.
      *
      * @param array $config
      *
-     * @return PurifierInterface
+     * @return SanitizerInterface
      */
-    public static function create(array $config): PurifierInterface
+    public static function create(array $config): SanitizerInterface
     {
-        $builder = new PurifierBuilder();
+        $builder = new SanitizerBuilder();
         $builder->registerExtension(new BasicExtension());
         $builder->registerExtension(new ListExtension());
         $builder->registerExtension(new ImageExtension());
@@ -63,7 +63,7 @@ class Purifier implements PurifierInterface
         return $builder->build($config);
     }
 
-    public function purify(string $html): string
+    public function sanitize(string $html): string
     {
         try {
             $parsed = $this->parser->parse($html);

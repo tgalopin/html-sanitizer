@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace HtmlPurifier\Exception;
+namespace HtmlSanitizer\Exception;
 
-use HtmlPurifier\Parser\ParserInterface;
+use HtmlSanitizer\Parser\ParserInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>

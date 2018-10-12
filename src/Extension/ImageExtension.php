@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace HtmlPurifier\Extension;
+namespace HtmlSanitizer\Extension;
 
-use HtmlPurifier\Visitor\ImgVisitor;
+use HtmlSanitizer\Visitor\ImgVisitor;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>

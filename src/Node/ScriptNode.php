@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace HtmlPurifier\Node;
+namespace HtmlSanitizer\Node;
 
 /**
  * Special node to ignore scripts and all their content.

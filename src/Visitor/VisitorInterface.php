@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace HtmlPurifier\Visitor;
+namespace HtmlSanitizer\Visitor;
 
-use HtmlPurifier\Model\Cursor;
+use HtmlSanitizer\Model\Cursor;
 
 /**
  * A visitor visit supported DOM nodes to decide whether and how to include them in the final output.

@@ -1,13 +1,13 @@
-# html-purifier
+# html-sanitizer
 
-[![Build Status](https://travis-ci.org/tgalopin/html-purifier.svg?branch=master)](https://travis-ci.org/tgalopin/html-purifier)
+[![Build Status](https://travis-ci.org/tgalopin/html-sanitizer.svg?branch=master)](https://travis-ci.org/tgalopin/html-sanitizer)
 [![SymfonyInsight](https://insight.symfony.com/projects/befd5a5b-574c-4bea-9c4f-3ad202729a1b/mini.png)](https://insight.symfony.com/projects/befd5a5b-574c-4bea-9c4f-3ad202729a1b)
 
-html-purifier is a library aiming at handling, cleaning and sanitizing HTML sent by external users
+html-sanitizer is a library aiming at handling, cleaning and sanitizing HTML sent by external users
 (who you cannot trust), allowing you to store it and display it safely. It has sensible defaults
 to provide a great developer experience while still being entierely configurable.
 
-Internally, the purifier has a deep understanding of HTML: it parses the input and create a tree of
+Internally, the sanitizer has a deep understanding of HTML: it parses the input and create a tree of
 DOMNode objects, which it uses to keep only the safe elements from the content. By using this
 technique, it is safe (it works with a strict whitelist), fast and easily extensible.
 
@@ -25,29 +25,29 @@ to add a `target="_blank"` attribute on all the links to external websites.
 
 ## Installation
 
-html-purifier requires PHP 7.1+.
+html-sanitizer requires PHP 7.1+.
 
 You can install the library using the following command:
 
 ```
-composer require tgalopin/html-purifier
+composer require tgalopin/html-sanitizer
 ```
 
 ## Basic usage
 
-The main entrypoint to the purifier is the `HtmlPurifier\Purifier` class. It requires
+The main entrypoint to the sanitizer is the `HtmlSanitizer\Sanitizer` class. It requires
 an array of configuration:
 
 ```php
-$purifier = HtmlPurifier\Purifier::create(['extensions' => ['basic']]);
-$safeHtml = $purifier->purify($untrustedHtml);
+$sanitizer = HtmlSanitizer\Sanitizer::create(['extensions' => ['basic']]);
+$safeHtml = $sanitizer->sanitize($untrustedHtml);
 ```
 
-The purifier works using *extensions*. Extensions are a set of features that you can easily
+The sanitizer works using *extensions*. Extensions are a set of features that you can easily
 enable to allow specific tags in the content (read the next part to learn more about them). 
 
-> Note that the purifier is working using a strict whitelist of allowed tags: in the previous example,
-> the purifier would allow **only** the basic HTML5 tags (`strong`, `a`, `div`, etc., ).
+> Note that the sanitizer is working using a strict whitelist of allowed tags: in the previous example,
+> the sanitizer would allow **only** the basic HTML5 tags (`strong`, `a`, `div`, etc., ).
 
 ## Extensions
 
@@ -55,10 +55,10 @@ Extensions are a way to quickly add sets of tags to the whitelist of allowed tag
 There are 7 core extensions that you can enable by adding them in your configuration:
 
 ```php
-$purifier = HtmlPurifier\Purifier::create([
+$sanitizer = HtmlSanitizer\Sanitizer::create([
     'extensions' => ['basic', 'code', 'image', 'list', 'table', 'iframe', 'extra'],
 ]);
-$safeHtml = $purifier->purify($untrustedHtml);
+$safeHtml = $sanitizer->sanitize($untrustedHtml);
 ```
 
 Here is the list of tags each extension allow:
@@ -77,13 +77,13 @@ Here is the list of tags each extension allow:
 
 ## Filtering images hosts
 
-The purifier image extension provides a feature to filter images hosts, which can be useful 
+The sanitizer image extension provides a feature to filter images hosts, which can be useful 
 to avoid connecting to external websites that may, for instance, track your website views.
 
 To enable this feature, you need to enable the `image` extension and configure the `img` tag:
 
 ```php
-$purifier = HtmlPurifier\Purifier::create([
+$sanitizer = HtmlSanitizer\Sanitizer::create([
     'extensions' => ['image'],
     'tags' => [
         'img' => [
@@ -114,13 +114,13 @@ $purifier = HtmlPurifier\Purifier::create([
 
 ## Filtering links targets, opening external links in a new window
 
-The purifier basic extension provides a feature to filter and manipulate links in order to
+The sanitizer basic extension provides a feature to filter and manipulate links in order to
 avoid your users to leave your website for potentially dangerous external pages.
 
 To enable this feature, you need to enable the `basic` extension and configure the `a` tag:
 
 ```php
-$purifier = HtmlPurifier\Purifier::create([
+$sanitizer = HtmlSanitizer\Sanitizer::create([
     'extensions' => ['image'],
     'tags' => [
         'a' => [
@@ -165,7 +165,7 @@ a tag-specific configuration for them.
 For instance, to allow the `class` attribute on the `div` and `img` tags, you can use the following configuration:
 
 ```php
-$purifier = HtmlPurifier\Purifier::create([
+$sanitizer = HtmlSanitizer\Sanitizer::create([
     'extensions' => ['basic'],
     'tags' => [
         'div' => [
@@ -180,7 +180,7 @@ $purifier = HtmlPurifier\Purifier::create([
 
 ## Creating an extension to allow custom tags
 
-If you want to use additional tags than the one present in the purifier core extensions, you can create your
+If you want to use additional tags than the one present in the sanitizer core extensions, you can create your
 own extension.
 
 There are two steps in the creation of an extension to handle additional tags: creating the node visitor which
@@ -189,7 +189,7 @@ will handle the tag, and registering it using an extension.
 ### Creating a node and a node visitor
 
 A node visitor is a class able to handle DOMNode instances of a certain type. It needs to implement the
-`HtmlPurifier\Visitor\VisitorInterface`.
+`HtmlSanitizer\Visitor\VisitorInterface`.
 
 A node visitor is responsible of adding a node to the tree of safe HTML by filtering the DOMNode
 it's given. Thus, for an example `my-tag` custom tag, we need to create two classes: a Node and 
@@ -198,12 +198,12 @@ a NodeVisitor.
 The node could looke like this:
 
 ```php
-namespace App\Purifier;
+namespace App\Sanitizer;
 
-use HtmlPurifier\Node\AbstractNode;
-use HtmlPurifier\Node\AttributesNodeInterface;
-use HtmlPurifier\Node\TagNodeTrait;
-use HtmlPurifier\Node\ChildrenTrait;
+use HtmlSanitizer\Node\AbstractNode;
+use HtmlSanitizer\Node\AttributesNodeInterface;
+use HtmlSanitizer\Node\TagNodeTrait;
+use HtmlSanitizer\Node\ChildrenTrait;
 
 class MyTagNode extends AbstractNode implements AttributesNodeInterface
 {
@@ -220,11 +220,11 @@ class MyTagNode extends AbstractNode implements AttributesNodeInterface
 A simple visitor for a `my-tag` custom tag could look like this:
 
 ```php
-namespace App\Purifier;
+namespace App\Sanitizer;
 
-use HtmlPurifier\Model\Cursor;
-use HtmlPurifier\Node\DivNode;
-use HtmlPurifier\Node\NodeInterface;
+use HtmlSanitizer\Model\Cursor;
+use HtmlSanitizer\Node\DivNode;
+use HtmlSanitizer\Node\NodeInterface;
 
 class MyTagVisitor extends AbstractVisitor
 {
@@ -243,15 +243,15 @@ class MyTagVisitor extends AbstractVisitor
 ```
 
 To learn more on how to create a node and a node visitor suiting your needs, we recommand you to read
-the existing [nodes](https://github.com/tgalopin/html-purifier/tree/master/src/Node) 
-and [visitors](https://github.com/tgalopin/html-purifier/tree/master/src/Visitor).
+the existing [nodes](https://github.com/tgalopin/html-sanitizer/tree/master/src/Node) 
+and [visitors](https://github.com/tgalopin/html-sanitizer/tree/master/src/Visitor).
 
 ### Registering the node visitor with an extension
 
 Once you created a node and a node visitor, you need to use an extension to register the visitor in the
-purifier.
+sanitizer.
 
-An extension is a class implementing the `HtmlPurifier\Extension\ExtensionInterface` interface, which requires
+An extension is a class implementing the `HtmlSanitizer\Extension\ExtensionInterface` interface, which requires
 two methods:
 
 - `getName()` which should return the name to use in the configuration (`basic`, `list`, etc.) ;
@@ -260,9 +260,9 @@ two methods:
 For our node visitor, this could look like this:
 
 ```php
-namespace App\Purifier;
+namespace App\Sanitizer;
 
-use HtmlPurifier\Extension\ExtensionInterface;
+use HtmlSanitizer\Extension\ExtensionInterface;
 
 class CustomExtension implements ExtensionInterface
 {
@@ -280,17 +280,17 @@ class CustomExtension implements ExtensionInterface
 }
 ```
 
-Then, you can use the builder to create a Purifier that include this extension:
+Then, you can use the builder to create a Sanitizer that include this extension:
 
 ```php
-$builder = new HtmlPurifier\PurifierBuilder();
-$builder->registerExtension(new HtmlPurifier\Extension\BasicExtension());
-$builder->registerExtension(new HtmlPurifier\Extension\ListExtension());
+$builder = new HtmlSanitizer\SanitizerBuilder();
+$builder->registerExtension(new HtmlSanitizer\Extension\BasicExtension());
+$builder->registerExtension(new HtmlSanitizer\Extension\ListExtension());
 // Add the other core ones you need
 
-$builder->registerExtension(new App\Purifier\CustomExtension());
+$builder->registerExtension(new App\Sanitizer\CustomExtension());
 
-$purifier = $builder->build([
+$sanitizer = $builder->build([
     'extensions' => ['basic', 'list', 'custom'],
 });
 ```
@@ -300,7 +300,7 @@ $purifier = $builder->build([
 Here is the configuration default values with annotations describing the specific configuration keys:
 
 ```php
-$purifier = HtmlPurifier\Purifier::create([
+$sanitizer = HtmlSanitizer\Sanitizer::create([
     'extensions' => ['basic', 'list', 'table', 'image', 'code', 'iframe', 'extra'],
     'tags' => [
         'abbr' => [
@@ -512,5 +512,5 @@ $purifier = HtmlPurifier\Purifier::create([
 
 ## Thanks
 
-Thanks to the contributors of the Masterminds great HTML5 parser on which this purifier depends on:
+Thanks to the contributors of the Masterminds great HTML5 parser on which this sanitizer depends on:
 [Masterminds/html5-php](https://github.com/Masterminds/html5-php)!

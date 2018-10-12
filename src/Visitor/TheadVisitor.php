@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace HtmlPurifier\Visitor;
+namespace HtmlSanitizer\Visitor;
 
-use HtmlPurifier\Model\Cursor;
-use HtmlPurifier\Node\NodeInterface;
-use HtmlPurifier\Node\TheadNode;
+use HtmlSanitizer\Model\Cursor;
+use HtmlSanitizer\Node\NodeInterface;
+use HtmlSanitizer\Node\TheadNode;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>

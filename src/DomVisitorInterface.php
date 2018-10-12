@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace HtmlPurifier;
+namespace HtmlSanitizer;
 
-use HtmlPurifier\Node\DocumentNode;
+use HtmlSanitizer\Node\DocumentNode;
 
 /**
  * Visit a parsed DOM node to create the equivalent purified DocumentNode.

@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace HtmlPurifier\Parser;
+namespace HtmlSanitizer\Parser;
 
-use HtmlPurifier\Exception\ParsingFailedException;
+use HtmlSanitizer\Exception\ParsingFailedException;
 use Masterminds\HTML5;
 
 /**

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace HtmlPurifier\Node;
+namespace HtmlSanitizer\Node;
 
 /**
  * Root node of the purified HTML. Contains all the other nodes.

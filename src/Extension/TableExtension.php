@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace HtmlPurifier\Extension;
+namespace HtmlSanitizer\Extension;
 
-use HtmlPurifier\Visitor\TableVisitor;
-use HtmlPurifier\Visitor\TbodyVisitor;
-use HtmlPurifier\Visitor\TdVisitor;
-use HtmlPurifier\Visitor\TfootVisitor;
-use HtmlPurifier\Visitor\TheadVisitor;
-use HtmlPurifier\Visitor\ThVisitor;
-use HtmlPurifier\Visitor\TrVisitor;
+use HtmlSanitizer\Visitor\TableVisitor;
+use HtmlSanitizer\Visitor\TbodyVisitor;
+use HtmlSanitizer\Visitor\TdVisitor;
+use HtmlSanitizer\Visitor\TfootVisitor;
+use HtmlSanitizer\Visitor\TheadVisitor;
+use HtmlSanitizer\Visitor\ThVisitor;
+use HtmlSanitizer\Visitor\TrVisitor;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>

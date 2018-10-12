@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace HtmlPurifier\Extension;
+namespace HtmlSanitizer\Extension;
 
-use HtmlPurifier\Visitor\AbbrVisitor;
-use HtmlPurifier\Visitor\CaptionVisitor;
-use HtmlPurifier\Visitor\HrVisitor;
-use HtmlPurifier\Visitor\RpVisitor;
-use HtmlPurifier\Visitor\RtVisitor;
-use HtmlPurifier\Visitor\RubyVisitor;
+use HtmlSanitizer\Visitor\AbbrVisitor;
+use HtmlSanitizer\Visitor\CaptionVisitor;
+use HtmlSanitizer\Visitor\HrVisitor;
+use HtmlSanitizer\Visitor\RpVisitor;
+use HtmlSanitizer\Visitor\RtVisitor;
+use HtmlSanitizer\Visitor\RubyVisitor;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>

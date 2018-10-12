@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\HtmlPurifier;
+namespace Tests\HtmlSanitizer;
 
-use HtmlPurifier\Sanitizer\ImgSrcSanitizer;
+use HtmlSanitizer\Sanitizer\ImgSrcSanitizer;
 use PHPUnit\Framework\TestCase;
 
 class IframeSrcSanitizerTest extends TestCase

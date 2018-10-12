@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace HtmlPurifier\Extension;
+namespace HtmlSanitizer\Extension;
 
-use HtmlPurifier\Visitor\CodeVisitor;
-use HtmlPurifier\Visitor\PreVisitor;
+use HtmlSanitizer\Visitor\CodeVisitor;
+use HtmlSanitizer\Visitor\PreVisitor;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>

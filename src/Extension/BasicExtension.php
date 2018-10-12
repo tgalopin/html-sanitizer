@@ -9,30 +9,30 @@
  * file that was distributed with this source code.
  */
 
-namespace HtmlPurifier\Extension;
+namespace HtmlSanitizer\Extension;
 
-use HtmlPurifier\Visitor\AVisitor;
-use HtmlPurifier\Visitor\BlockquoteVisitor;
-use HtmlPurifier\Visitor\BrVisitor;
-use HtmlPurifier\Visitor\DelVisitor;
-use HtmlPurifier\Visitor\DivVisitor;
-use HtmlPurifier\Visitor\EmVisitor;
-use HtmlPurifier\Visitor\FigcaptionVisitor;
-use HtmlPurifier\Visitor\FigureVisitor;
-use HtmlPurifier\Visitor\H1Visitor;
-use HtmlPurifier\Visitor\H2Visitor;
-use HtmlPurifier\Visitor\H3Visitor;
-use HtmlPurifier\Visitor\H4Visitor;
-use HtmlPurifier\Visitor\H5Visitor;
-use HtmlPurifier\Visitor\H6Visitor;
-use HtmlPurifier\Visitor\IVisitor;
-use HtmlPurifier\Visitor\PVisitor;
-use HtmlPurifier\Visitor\QVisitor;
-use HtmlPurifier\Visitor\SmallVisitor;
-use HtmlPurifier\Visitor\SpanVisitor;
-use HtmlPurifier\Visitor\StrongVisitor;
-use HtmlPurifier\Visitor\SubVisitor;
-use HtmlPurifier\Visitor\SupVisitor;
+use HtmlSanitizer\Visitor\AVisitor;
+use HtmlSanitizer\Visitor\BlockquoteVisitor;
+use HtmlSanitizer\Visitor\BrVisitor;
+use HtmlSanitizer\Visitor\DelVisitor;
+use HtmlSanitizer\Visitor\DivVisitor;
+use HtmlSanitizer\Visitor\EmVisitor;
+use HtmlSanitizer\Visitor\FigcaptionVisitor;
+use HtmlSanitizer\Visitor\FigureVisitor;
+use HtmlSanitizer\Visitor\H1Visitor;
+use HtmlSanitizer\Visitor\H2Visitor;
+use HtmlSanitizer\Visitor\H3Visitor;
+use HtmlSanitizer\Visitor\H4Visitor;
+use HtmlSanitizer\Visitor\H5Visitor;
+use HtmlSanitizer\Visitor\H6Visitor;
+use HtmlSanitizer\Visitor\IVisitor;
+use HtmlSanitizer\Visitor\PVisitor;
+use HtmlSanitizer\Visitor\QVisitor;
+use HtmlSanitizer\Visitor\SmallVisitor;
+use HtmlSanitizer\Visitor\SpanVisitor;
+use HtmlSanitizer\Visitor\StrongVisitor;
+use HtmlSanitizer\Visitor\SubVisitor;
+use HtmlSanitizer\Visitor\SupVisitor;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>

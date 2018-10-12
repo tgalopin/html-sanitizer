@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace HtmlPurifier;
+namespace HtmlSanitizer;
 
 /**
  * Purify a given untrusted HTML source string to return a trustable one.
@@ -18,7 +18,7 @@ namespace HtmlPurifier;
  *
  * @author Titouan Galopin <galopintitouan@gmail.com>
  */
-interface PurifierInterface
+interface SanitizerInterface
 {
-    public function purify(string $html): string;
+    public function sanitize(string $html): string;
 }

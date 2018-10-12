@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace HtmlPurifier\Model;
+namespace HtmlSanitizer\Model;
 
-use HtmlPurifier\Node\NodeInterface;
+use HtmlSanitizer\Node\NodeInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>

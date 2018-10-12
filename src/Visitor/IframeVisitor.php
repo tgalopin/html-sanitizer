@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace HtmlPurifier\Visitor;
+namespace HtmlSanitizer\Visitor;
 
-use HtmlPurifier\Model\Cursor;
-use HtmlPurifier\Node\IframeNode;
-use HtmlPurifier\Node\NodeInterface;
-use HtmlPurifier\Sanitizer\IframeSrcSanitizer;
+use HtmlSanitizer\Model\Cursor;
+use HtmlSanitizer\Node\IframeNode;
+use HtmlSanitizer\Node\NodeInterface;
+use HtmlSanitizer\Sanitizer\IframeSrcSanitizer;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>

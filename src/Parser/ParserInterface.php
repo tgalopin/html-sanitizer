@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace HtmlPurifier\Parser;
+namespace HtmlSanitizer\Parser;
 
-use HtmlPurifier\Exception\ParsingFailedException;
+use HtmlSanitizer\Exception\ParsingFailedException;
 
 /**
  * A parser transforms a HTML string into a tree of DOMNode objects.
@@ -21,7 +21,7 @@ interface ParserInterface
     /**
      * Parse a given string and returns a DOMNode tree.
      * This method must throw a ParsingFailedException if parsing failed in order for
-     * the purifier to catch it and return an empty string.
+     * the sanitizer to catch it and return an empty string.
      *
      * @param string $html
      *

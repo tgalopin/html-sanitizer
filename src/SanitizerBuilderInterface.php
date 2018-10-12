@@ -9,19 +9,19 @@
  * file that was distributed with this source code.
  */
 
-namespace HtmlPurifier;
+namespace HtmlSanitizer;
 
-use HtmlPurifier\Extension\ExtensionInterface;
+use HtmlSanitizer\Extension\ExtensionInterface;
 
 /**
- * Create a purifier using purifier extensions and configuration.
+ * Create a sanitizer using sanitizer extensions and configuration.
  *
  * @author Titouan Galopin <galopintitouan@gmail.com>
  */
-interface PurifierBuilderInterface
+interface SanitizerBuilderInterface
 {
     /**
-     * Register an extension to use in the purifier being built.
+     * Register an extension to use in the sanitizer being built.
      *
      * @param ExtensionInterface $extension
      *
@@ -30,11 +30,11 @@ interface PurifierBuilderInterface
     public function registerExtension(ExtensionInterface $extension);
 
     /**
-     * Build the purifier using the given configuration.
+     * Build the sanitizer using the given configuration.
      *
      * @param array $config
      *
-     * @return PurifierInterface
+     * @return SanitizerInterface
      */
-    public function build(array $config): PurifierInterface;
+    public function build(array $config): SanitizerInterface;
 }
