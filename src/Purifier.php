@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the HTML sanitizer project.
+ *
+ * (c) Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace HtmlPurifier;
 
 use HtmlPurifier\Extension\BasicExtension;
@@ -12,6 +21,9 @@ use HtmlPurifier\Extension\TableExtension;
 use HtmlPurifier\Parser\MastermindsParser;
 use HtmlPurifier\Parser\ParserInterface;
 
+/**
+ * @author Titouan Galopin <galopintitouan@gmail.com>
+ */
 class Purifier implements PurifierInterface
 {
     /**
