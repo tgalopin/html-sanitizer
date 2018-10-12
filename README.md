@@ -165,7 +165,7 @@ a tag-specific configuration for them.
 For instance, to allow the `class` attribute on the `div` and `img` tags, you can use the following configuration:
 
 ```php
-$purifier = new HtmlPurifier\Purifier([
+$purifier = HtmlPurifier\Purifier::create([
     'extensions' => ['basic'],
     'tags' => [
         'div' => [
@@ -300,7 +300,7 @@ $purifier = $builder->build([
 Here is the configuration default values with annotations describing the specific configuration keys:
 
 ```php
-$purifier = new HtmlPurifier\Purifier([
+$purifier = HtmlPurifier\Purifier::create([
     'extensions' => ['basic', 'list', 'table', 'image', 'code', 'iframe', 'extra'],
     'tags' => [
         'abbr' => [
