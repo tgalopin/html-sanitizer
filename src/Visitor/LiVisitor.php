@@ -1,11 +1,23 @@
 <?php
 
-namespace HtmlPurifier\Visitor;
+/*
+ * This file is part of the HTML sanitizer project.
+ *
+ * (c) Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-use HtmlPurifier\Model\Cursor;
-use HtmlPurifier\Node\LiNode;
-use HtmlPurifier\Node\NodeInterface;
+namespace HtmlSanitizer\Visitor;
 
+use HtmlSanitizer\Model\Cursor;
+use HtmlSanitizer\Node\LiNode;
+use HtmlSanitizer\Node\NodeInterface;
+
+/**
+ * @author Titouan Galopin <galopintitouan@gmail.com>
+ */
 class LiVisitor extends AbstractVisitor
 {
     use ChildrenTagVisitorTrait;

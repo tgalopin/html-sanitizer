@@ -1,6 +1,6 @@
 {
-    "name": "tgalopin/html-purifier",
-    "description": "Safer, faster and easier to extend HTML purifier",
+    "name": "tgalopin/html-sanitizer",
+    "description": "Safer, faster and easier to extend HTML sanitizer",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -11,7 +11,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "HtmlPurifier\\": "src"
+            "HtmlSanitizer\\": "src"
         }
     },
     "require": {

@@ -1,12 +1,24 @@
 <?php
 
-namespace HtmlPurifier\Visitor;
+/*
+ * This file is part of the HTML sanitizer project.
+ *
+ * (c) Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-use HtmlPurifier\Model\Cursor;
-use HtmlPurifier\Node\ImgNode;
-use HtmlPurifier\Node\NodeInterface;
-use HtmlPurifier\Sanitizer\ImgSrcSanitizer;
+namespace HtmlSanitizer\Visitor;
 
+use HtmlSanitizer\Model\Cursor;
+use HtmlSanitizer\Node\ImgNode;
+use HtmlSanitizer\Node\NodeInterface;
+use HtmlSanitizer\Sanitizer\ImgSrcSanitizer;
+
+/**
+ * @author Titouan Galopin <galopintitouan@gmail.com>
+ */
 class ImgVisitor extends AbstractVisitor
 {
     use ChildlessTagVisitorTrait;

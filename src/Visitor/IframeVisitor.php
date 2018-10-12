@@ -1,12 +1,24 @@
 <?php
 
-namespace HtmlPurifier\Visitor;
+/*
+ * This file is part of the HTML sanitizer project.
+ *
+ * (c) Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-use HtmlPurifier\Model\Cursor;
-use HtmlPurifier\Node\IframeNode;
-use HtmlPurifier\Node\NodeInterface;
-use HtmlPurifier\Sanitizer\IframeSrcSanitizer;
+namespace HtmlSanitizer\Visitor;
 
+use HtmlSanitizer\Model\Cursor;
+use HtmlSanitizer\Node\IframeNode;
+use HtmlSanitizer\Node\NodeInterface;
+use HtmlSanitizer\Sanitizer\IframeSrcSanitizer;
+
+/**
+ * @author Titouan Galopin <galopintitouan@gmail.com>
+ */
 class IframeVisitor extends AbstractVisitor
 {
     use ChildrenTagVisitorTrait;

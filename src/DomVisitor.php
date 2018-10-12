@@ -1,11 +1,23 @@
 <?php
 
-namespace HtmlPurifier;
+/*
+ * This file is part of the HTML sanitizer project.
+ *
+ * (c) Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-use HtmlPurifier\Model\Cursor;
-use HtmlPurifier\Node\DocumentNode;
-use HtmlPurifier\Visitor\VisitorInterface;
+namespace HtmlSanitizer;
 
+use HtmlSanitizer\Model\Cursor;
+use HtmlSanitizer\Node\DocumentNode;
+use HtmlSanitizer\Visitor\VisitorInterface;
+
+/**
+ * @author Titouan Galopin <galopintitouan@gmail.com>
+ */
 class DomVisitor implements DomVisitorInterface
 {
     /**

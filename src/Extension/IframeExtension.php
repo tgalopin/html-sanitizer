@@ -1,9 +1,21 @@
 <?php
 
-namespace HtmlPurifier\Extension;
+/*
+ * This file is part of the HTML sanitizer project.
+ *
+ * (c) Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-use HtmlPurifier\Visitor\IframeVisitor;
+namespace HtmlSanitizer\Extension;
 
+use HtmlSanitizer\Visitor\IframeVisitor;
+
+/**
+ * @author Titouan Galopin <galopintitouan@gmail.com>
+ */
 class IframeExtension implements ExtensionInterface
 {
     public function getName(): string

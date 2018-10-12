@@ -11,14 +11,14 @@
 
 namespace HtmlSanitizer;
 
-use HtmlSanitizer\Node\DocumentNode;
-
 /**
- * Visit a parsed DOM node to create the equivalent purified DocumentNode.
+ * Purify a given untrusted HTML source string to return a trustable one.
+ * This usually includes removal of all the sources of XSS, and may also includes
+ * additional protections like images sources and links targets filters.
  *
  * @author Titouan Galopin <galopintitouan@gmail.com>
  */
-interface DomVisitorInterface
+interface SanitizerInterface
 {
-    public function visit(\DOMNode $node): DocumentNode;
+    public function sanitize(string $html): string;
 }
