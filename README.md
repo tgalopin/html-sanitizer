@@ -324,7 +324,14 @@ Here is the configuration default values with annotations describing the specifi
 
 ```php
 $sanitizer = HtmlSanitizer\Sanitizer::create([
+    /*
+     * List of extensions to enable on this sanitizer.
+     */
     'extensions' => ['basic', 'list', 'table', 'image', 'code', 'iframe', 'extra'],
+
+    /*
+     * Configuration for specific tags.
+     */
     'tags' => [
         'abbr' => [
             'allowed_attributes' => [],
@@ -333,31 +340,31 @@ $sanitizer = HtmlSanitizer\Sanitizer::create([
             'allowed_attributes' => ['href', 'title'],
             
             /*
-            * If an array is provided, all the links targeting other hosts than one in this array
-            * will be disabled (the `href` attribute will be blank). This can be useful if you want
-            * to prevent links to target external websites.
-            *
-            * Any allowed domain also includes its subdomains.
-            *
-            *      'allowed_hosts' => ['trusted1.com', 'google.com'],
-            */
+             * If an array is provided, all the links targeting other hosts than one in this array
+             * will be disabled (the `href` attribute will be blank). This can be useful if you want
+             * to prevent links to target external websites.
+             *
+             * Any allowed domain also includes its subdomains.
+             *
+             *      'allowed_hosts' => ['trusted1.com', 'google.com'],
+             */
             'allowed_hosts' => null,
             
             /*
-            * If false, all links containing a mailto target will be disabled (the `href` attribute
-            * will be blank).
-            */
+             * If false, all links containing a mailto target will be disabled (the `href` attribute
+             * will be blank).
+             */
             'allow_mailto' => true,
             
             /*
-            * If an array is provided, a `target="_blank"` attribute will be added to all the links.
-            * You can also provide a list of excluded hosts for this rule using the `except_hosts` key.
-            *
-            * Any excluded host also includes its subdomains.
-            *
-            *      'force_target_blank' => [], // All links
-            *      'force_target_blank' => ['except_hosts' => ['trusted1.com']], // All links except trusted1.com
-            */
+             * If an array is provided, a `target="_blank"` attribute will be added to all the links.
+             * You can also provide a list of excluded hosts for this rule using the `except_hosts` key.
+             *
+             * Any excluded host also includes its subdomains.
+             *
+             *      'force_target_blank' => [], // All links
+             *      'force_target_blank' => ['except_hosts' => ['trusted1.com']], // All links except trusted1.com
+             */
             'force_target_blank' => null,
         ],
         'blockquote' => [
@@ -421,46 +428,46 @@ $sanitizer = HtmlSanitizer\Sanitizer::create([
             'allowed_attributes' => ['src', 'width', 'height', 'frameborder', 'title', 'allow', 'allowfullscreen'],
         
             /*
-            * If an array is provided, all the frames relying on other hosts than one in this array
-            * will be disabled (the `src` attribute will be blank). This can be useful if you want
-            * to prevent frames from external websites.
-            *
-            * Be careful: some website integrations rely in frames and may break if you use this
-            * configuration key.
-            *
-            * Any allowed domain also includes its subdomains.
-            *
-            *      'allowed_hosts' => ['trusted1.com', 'google.com'],
-            */
+             * If an array is provided, all the frames relying on other hosts than one in this array
+             * will be disabled (the `src` attribute will be blank). This can be useful if you want
+             * to prevent frames from external websites.
+             *
+             * Be careful: some website integrations rely in frames and may break if you use this
+             * configuration key.
+             *
+             * Any allowed domain also includes its subdomains.
+             *
+             *      'allowed_hosts' => ['trusted1.com', 'google.com'],
+             */
             'allowed_hosts' => null,
             
             /*
-            * If true, all frames URLS using the HTTP protocol will be rewritten to use HTTPS instead.
-            */
+             * If true, all frames URLS using the HTTP protocol will be rewritten to use HTTPS instead.
+             */
             'force_https' => false,
         ],
         'img' => [
             'allowed_attributes' => ['src', 'alt', 'title'],
             
             /*
-            * If an array is provided, all the images relying on other hosts than one in this array
-            * will be disabled (the `src` attribute will be blank). This can be useful if you want
-            * to prevent images contacting external websites.
-            *
-            * Any allowed domain also includes its subdomains.
-            *
-            *      'allowed_hosts' => ['trusted1.com', 'google.com'],
-            */
+             * If an array is provided, all the images relying on other hosts than one in this array
+             * will be disabled (the `src` attribute will be blank). This can be useful if you want
+             * to prevent images contacting external websites.
+             *
+             * Any allowed domain also includes its subdomains.
+             *
+             *      'allowed_hosts' => ['trusted1.com', 'google.com'],
+             */
             'allowed_hosts' => null,
             
             /*
-            * If true, images data-uri URLs will be accepted.
-            */
+             * If true, images data-uri URLs will be accepted.
+             */
             'allow_data_uri' => false,
             
             /*
-            * If true, all images URLs using the HTTP ptocol will be rewritten to use HTTPS instead.
-            */
+             * If true, all images URLs using the HTTP ptocol will be rewritten to use HTTPS instead.
+             */
             'force_https' => false,
         ],
         'i' => [

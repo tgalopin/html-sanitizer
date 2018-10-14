@@ -65,6 +65,17 @@ class Sanitizer implements SanitizerInterface
 
     public function sanitize(string $html): string
     {
+        /*
+         * Only operate on valid UTF-8 strings. This is necessary to prevent cross
+         * site scripting issues on Internet Explorer 6. Idea from Drupal (filter_xss).
+         */
+        if (!$this->isValidUtf8($html)) {
+            return '';
+        }
+
+        // Remove NULL character
+        $html = str_replace(chr(0), '', $html);
+
         try {
             $parsed = $this->parser->parse($html);
         } catch (\Exception $exception) {
@@ -72,5 +83,16 @@ class Sanitizer implements SanitizerInterface
         }
 
         return $this->domVisitor->visit($parsed)->render();
+    }
+
+    /**
+     * @param string $html
+     *
+     * @return bool
+     */
+    private function isValidUtf8(string $html): bool
+    {
+        // preg_match() fails silently on strings containing invalid UTF-8.
+        return mb_strlen($html) == 0 || preg_match('/^./us', $html) === 1;
     }
 }
