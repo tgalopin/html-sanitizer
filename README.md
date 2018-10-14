@@ -208,7 +208,7 @@ use HtmlSanitizer\Node\HasChildrenTrait;
 
 class MyTagNode extends AbstractTagNode
 {
-    use HasChildrenTrait;
+    use HasChildrenTrait; // Or IsChildlessTrait
 
     public function getTagName(): string
     {
@@ -229,7 +229,7 @@ use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
 
 class MyTagNodeVisitor extends AbstractNodeVisitor
 {
-    use HasChildrenNodeVisitorTrait;
+    use HasChildrenNodeVisitorTrait; // Or IsChildlessTagVisitorTrait
 
     protected function getDomNodeName(): string
     {
@@ -295,6 +295,9 @@ class MyTagExtension implements ExtensionInterface
     {
         return [
             'my-tag' => new MyTagNodeVisitor($config['tags']['my-tag'] ?? []),
+            
+            // You can also override previous extensions tags here, for instance:
+            // 'img' => new MyCustomImgVisitor(),
         ];
     }
 }
