@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\HtmlSanitizer;
+namespace Tests\HtmlSanitizer\Sanitizer;
 
-use HtmlSanitizer\Sanitizer\AHrefSanitizer;
+use HtmlSanitizer\Extension\Basic\Sanitizer\AHrefSanitizer;
 use PHPUnit\Framework\TestCase;
 
 class AHrefSanitizerTest extends TestCase

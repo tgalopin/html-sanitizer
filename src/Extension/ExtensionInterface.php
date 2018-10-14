@@ -11,6 +11,8 @@
 
 namespace HtmlSanitizer\Extension;
 
+use HtmlSanitizer\Visitor\NodeVisitorInterface;
+
 /**
  * A sanitizer extension allows to easily add features to the sanitizer to handle specific tags.
  *
@@ -24,14 +26,14 @@ interface ExtensionInterface
     public function getName(): string;
 
     /**
-     * Return a list of node visitor classes to register in the sanitizer and the tag handled by the visitor,
-     * following the format: tagName => visitorClassname.
-     *
+     * Return a list of node visitors to register in the sanitizer following the format tagName => visitor.
      * For instance:
      *
-     *      'strong' => StrongVisitor::class,
+     *      'strong' => new StrongVisitor($config,
      *
-     * @return string[]
+     * @param array $config The configuration given by the user of the library.
+     *
+     * @return NodeVisitorInterface[]
      */
-    public function getNodeVisitors(): array;
+    public function createNodeVisitors(array $config = []): array;
 }

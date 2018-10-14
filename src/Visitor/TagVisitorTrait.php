@@ -12,10 +12,12 @@
 namespace HtmlSanitizer\Visitor;
 
 use HtmlSanitizer\Model\Cursor;
-use HtmlSanitizer\Node\AttributesNodeInterface;
+use HtmlSanitizer\Node\TagNodeInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @internal
  */
 trait TagVisitorTrait
 {
@@ -30,10 +32,10 @@ trait TagVisitorTrait
      * Set attributes from a DOM node to a purified node.
      *
      * @param \DOMNode $domNode
-     * @param AttributesNodeInterface $node
+     * @param TagNodeInterface $node
      * @param array $allowedAttributes
      */
-    private function setAttributes(\DOMNode $domNode, AttributesNodeInterface $node, array $allowedAttributes = [])
+    private function setAttributes(\DOMNode $domNode, TagNodeInterface $node, array $allowedAttributes = [])
     {
         if (!count($domNode->attributes)) {
             return;

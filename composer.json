@@ -14,6 +14,11 @@
             "HtmlSanitizer\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\HtmlSanitizer\\": "tests"
+        }
+    },
     "require": {
         "php": ">=7.1",
         "ext-dom": "*",
