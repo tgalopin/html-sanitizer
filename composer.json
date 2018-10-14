@@ -1,6 +1,6 @@
 {
     "name": "tgalopin/html-sanitizer",
-    "description": "Safer, faster and easier to extend HTML sanitizer",
+    "description": "Sanitize untrustworthy HTML user input",
     "type": "library",
     "license": "MIT",
     "authors": [
