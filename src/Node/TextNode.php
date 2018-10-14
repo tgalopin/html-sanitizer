@@ -16,7 +16,7 @@ namespace HtmlSanitizer\Node;
  */
 class TextNode extends AbstractNode
 {
-    use ChildlessTrait;
+    use IsChildlessTrait;
 
     private $text = '';
 

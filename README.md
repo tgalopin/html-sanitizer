@@ -184,7 +184,10 @@ If you want to use additional tags than the one present in the sanitizer core ex
 own extension.
 
 There are two steps in the creation of an extension to handle additional tags: creating the node visitor which
-will handle the tag, and registering it using an extension.
+will handle the custom tag, and registering it using an extension.
+
+You can also have a look at the custom tag extension in the tests to better understand how to create your own:
+https://github.com/tgalopin/html-sanitizer/tree/master/tests/Extension. 
 
 ### Creating a node and a node visitor
 
@@ -200,15 +203,12 @@ The node could looke like this:
 ```php
 namespace App\Sanitizer;
 
-use HtmlSanitizer\Node\AbstractNode;
-use HtmlSanitizer\Node\AttributesNodeInterface;
-use HtmlSanitizer\Node\TagNodeTrait;
-use HtmlSanitizer\Node\ChildrenTrait;
+use HtmlSanitizer\Node\AbstractTagNode;
+use HtmlSanitizer\Node\HasChildrenTrait;
 
-class MyTagNode extends AbstractNode implements AttributesNodeInterface
+class MyTagNode extends AbstractTagNode
 {
-    use TagNodeTrait;
-    use ChildrenTrait;
+    use HasChildrenTrait;
 
     public function getTagName(): string
     {
@@ -223,21 +223,41 @@ A simple visitor for a `my-tag` custom tag could look like this:
 namespace App\Sanitizer;
 
 use HtmlSanitizer\Model\Cursor;
-use HtmlSanitizer\Node\DivNode;
 use HtmlSanitizer\Node\NodeInterface;
+use HtmlSanitizer\Visitor\AbstractNodeVisitor;
+use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
 
-class MyTagVisitor extends AbstractVisitor
+class MyTagNodeVisitor extends AbstractNodeVisitor
 {
-    use ChildrenTagVisitorTrait;
+    use HasChildrenNodeVisitorTrait;
 
     protected function getDomNodeName(): string
     {
         return 'my-tag';
     }
 
+    public function getDefaultAllowedAttributes(): array
+    {
+        return [
+            'class', 'width', 'height'
+        ];
+    }
+
+    public function getDefaultConfiguration(): array
+    {
+        return [
+            'custom_config' => null,
+        ];
+    }
+
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return new MyTagNode($cursor->node);
+        // You need to pass the current node as your node parent
+        $node = new MyTagNode($cursor->node);
+        
+        // You can use $this->config['custom_config'] to access the user-defined configuration
+
+        return $node;
     }
 }
 ```
@@ -255,7 +275,7 @@ An extension is a class implementing the `HtmlSanitizer\Extension\ExtensionInter
 two methods:
 
 - `getName()` which should return the name to use in the configuration (`basic`, `list`, etc.) ;
-- and `getNodeVisitors()` which should return a list of node visitors associated to the tag the visit ;
+- and `createNodeVisitors()` which should return a list of node visitors associated to the tag the visit ;
 
 For our node visitor, this could look like this:
 
@@ -264,17 +284,17 @@ namespace App\Sanitizer;
 
 use HtmlSanitizer\Extension\ExtensionInterface;
 
-class CustomExtension implements ExtensionInterface
+class MyTagExtension implements ExtensionInterface
 {
     public function getName(): string
     {
-        return 'custom';
+        return 'my-tag';
     }
 
-    public function getNodeVisitors(): array
+    public function createNodeVisitors(array $config = []): array
     {
         return [
-            'my-tag' => MyTagVisitor::class,
+            'my-tag' => new MyTagNodeVisitor($config['tags']['my-tag'] ?? []),
         ];
     }
 }
@@ -288,10 +308,10 @@ $builder->registerExtension(new HtmlSanitizer\Extension\BasicExtension());
 $builder->registerExtension(new HtmlSanitizer\Extension\ListExtension());
 // Add the other core ones you need
 
-$builder->registerExtension(new App\Sanitizer\CustomExtension());
+$builder->registerExtension(new App\Sanitizer\MyTagExtension());
 
 $sanitizer = $builder->build([
-    'extensions' => ['basic', 'list', 'custom'],
+    'extensions' => ['basic', 'list', 'my-tag'],
 });
 ```
 

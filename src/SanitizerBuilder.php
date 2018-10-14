@@ -12,10 +12,9 @@
 namespace HtmlSanitizer;
 
 use HtmlSanitizer\Extension\ExtensionInterface;
-use HtmlSanitizer\Visitor\ScriptVisitor;
-use HtmlSanitizer\Visitor\StyleVisitor;
-use HtmlSanitizer\Visitor\TextVisitor;
-use HtmlSanitizer\Visitor\VisitorInterface;
+use HtmlSanitizer\Visitor\ScriptNodeVisitor;
+use HtmlSanitizer\Visitor\StyleNodeVisitor;
+use HtmlSanitizer\Visitor\TextNodeVisitor;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
@@ -23,13 +22,13 @@ use HtmlSanitizer\Visitor\VisitorInterface;
 class SanitizerBuilder implements SanitizerBuilderInterface
 {
     /**
-     * @var VisitorInterface[][]
+     * @var ExtensionInterface[]
      */
-    private $nodeVisitors = [];
+    private $extensions = [];
 
     public function registerExtension(ExtensionInterface $extension)
     {
-        $this->nodeVisitors[$extension->getName()] = $extension->getNodeVisitors();
+        $this->extensions[$extension->getName()] = $extension;
     }
 
     public function build(array $config): SanitizerInterface
@@ -37,23 +36,23 @@ class SanitizerBuilder implements SanitizerBuilderInterface
         $nodeVisitors = [];
 
         foreach ($config['extensions'] ?? [] as $extensionName) {
-            if (!isset($this->nodeVisitors[$extensionName])) {
+            if (!isset($this->extensions[$extensionName])) {
                 throw new \InvalidArgumentException(sprintf(
                     'You have requested a non-existent sanitizer extension "%s" (available extensions: %s)',
                     $extensionName,
-                    implode(', ', array_keys($this->nodeVisitors))
+                    implode(', ', array_keys($this->extensions))
                 ));
             }
 
-            foreach ($this->nodeVisitors[$extensionName] as $tagName => $className) {
-                $nodeVisitors[$tagName] = new $className($config['tags'][$tagName] ?? []);
+            foreach ($this->extensions[$extensionName]->createNodeVisitors($config) as $tagName => $visitor) {
+                $nodeVisitors[$tagName] = $visitor;
             }
         }
 
         // Always required visitors
-        $nodeVisitors['script'] = new ScriptVisitor();
-        $nodeVisitors['style'] = new StyleVisitor();
-        $nodeVisitors['#text'] = new TextVisitor();
+        $nodeVisitors['script'] = new ScriptNodeVisitor();
+        $nodeVisitors['style'] = new StyleNodeVisitor();
+        $nodeVisitors['#text'] = new TextNodeVisitor();
 
         return new Sanitizer(new DomVisitor($nodeVisitors));
     }

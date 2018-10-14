@@ -26,13 +26,6 @@ interface NodeInterface
     public function getParent(): ?NodeInterface;
 
     /**
-     * Return whether this type of node can have children or not.
-     *
-     * @return bool
-     */
-    public function canHaveChildren(): bool;
-
-    /**
      * Add a child to this node.
      *
      * @param NodeInterface $node

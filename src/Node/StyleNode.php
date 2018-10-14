@@ -16,10 +16,9 @@ namespace HtmlSanitizer\Node;
  *
  * @author Titouan Galopin <galopintitouan@gmail.com>
  */
-class StyleNode extends AbstractNode
+class StyleNode extends AbstractTagNode
 {
-    use TagNodeTrait;
-    use ChildlessTrait;
+    use IsChildlessTrait;
 
     public function getTagName(): string
     {

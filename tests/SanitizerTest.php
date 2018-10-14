@@ -12,7 +12,9 @@
 namespace Tests\HtmlSanitizer;
 
 use HtmlSanitizer\Sanitizer;
+use HtmlSanitizer\SanitizerBuilder;
 use PHPUnit\Framework\TestCase;
+use Tests\HtmlSanitizer\Extension\CustomExtension;
 
 class SanitizerTest extends TestCase
 {
@@ -84,9 +86,42 @@ class SanitizerTest extends TestCase
                     'allowed_hosts' => ['trusted.com'],
                     'force_https' => true,
                 ],
+                'iframe' => [
+                    'allowed_hosts' => ['trusted.com'],
+                    'force_https' => true,
+                ],
             ],
         ]);
 
         $this->assertEquals($expectedOutput, $fullSanitizer->sanitize($input));
+    }
+
+    public function testClassicalExtension()
+    {
+        $input = file_get_contents(__DIR__.'/Fixtures/extension/classical/input.html');
+        $expectedOutput = file_get_contents(__DIR__.'/Fixtures/extension/classical/output.html');
+
+        $builder = new SanitizerBuilder();
+        $builder->registerExtension(new CustomExtension());
+
+        $fullSanitizer = $builder->build([
+            'extensions' => ['custom'],
+            'tags' => [
+                'custom' => [
+                    'custom_data' => 'foo',
+                ],
+            ],
+        ]);
+
+        $this->assertEquals($expectedOutput, $fullSanitizer->sanitize($input));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThrowInvalidExtension()
+    {
+        $builder = new SanitizerBuilder();
+        $builder->build(['extensions' => ['invalid']]);
     }
 }

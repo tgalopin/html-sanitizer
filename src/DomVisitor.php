@@ -13,7 +13,7 @@ namespace HtmlSanitizer;
 
 use HtmlSanitizer\Model\Cursor;
 use HtmlSanitizer\Node\DocumentNode;
-use HtmlSanitizer\Visitor\VisitorInterface;
+use HtmlSanitizer\Visitor\NodeVisitorInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
@@ -21,12 +21,12 @@ use HtmlSanitizer\Visitor\VisitorInterface;
 class DomVisitor implements DomVisitorInterface
 {
     /**
-     * @var VisitorInterface[]
+     * @var NodeVisitorInterface[]
      */
     private $visitors;
 
     /**
-     * @var VisitorInterface[]
+     * @var NodeVisitorInterface[]
      */
     private $reversedVisitors;
 
@@ -57,10 +57,8 @@ class DomVisitor implements DomVisitorInterface
             }
         }
 
-        if ($cursor->node->canHaveChildren()) {
-            foreach ($node->childNodes ?? [] as $k => $child) {
-                $this->visitNode($child, $cursor);
-            }
+        foreach ($node->childNodes ?? [] as $k => $child) {
+            $this->visitNode($child, $cursor);
         }
 
         foreach ($this->reversedVisitors as $visitor) {

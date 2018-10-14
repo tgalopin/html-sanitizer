@@ -18,7 +18,7 @@ namespace HtmlSanitizer\Node;
  */
 class DocumentNode implements NodeInterface
 {
-    use ChildrenTrait;
+    use HasChildrenTrait;
 
     public function getParent(): ?NodeInterface
     {

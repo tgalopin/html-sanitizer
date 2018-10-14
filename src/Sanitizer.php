@@ -11,13 +11,13 @@
 
 namespace HtmlSanitizer;
 
-use HtmlSanitizer\Extension\BasicExtension;
-use HtmlSanitizer\Extension\CodeExtension;
-use HtmlSanitizer\Extension\ExtraExtension;
-use HtmlSanitizer\Extension\IframeExtension;
-use HtmlSanitizer\Extension\ImageExtension;
-use HtmlSanitizer\Extension\ListExtension;
-use HtmlSanitizer\Extension\TableExtension;
+use HtmlSanitizer\Extension\Basic\BasicExtension;
+use HtmlSanitizer\Extension\Code\CodeExtension;
+use HtmlSanitizer\Extension\Extra\ExtraExtension;
+use HtmlSanitizer\Extension\Iframe\IframeExtension;
+use HtmlSanitizer\Extension\Image\ImageExtension;
+use HtmlSanitizer\Extension\Listing\ListExtension;
+use HtmlSanitizer\Extension\Table\TableExtension;
 use HtmlSanitizer\Parser\MastermindsParser;
 use HtmlSanitizer\Parser\ParserInterface;
 
