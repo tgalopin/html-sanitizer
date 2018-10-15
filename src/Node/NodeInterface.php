@@ -12,7 +12,7 @@
 namespace HtmlSanitizer\Node;
 
 /**
- * Represents a node of the purified tree.
+ * Represents a node of the sanitized tree.
  *
  * @author Titouan Galopin <galopintitouan@gmail.com>
  */

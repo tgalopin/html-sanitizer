@@ -121,7 +121,7 @@ To enable this feature, you need to enable the `basic` extension and configure t
 
 ```php
 $sanitizer = HtmlSanitizer\Sanitizer::create([
-    'extensions' => ['image'],
+    'extensions' => ['basic'],
     'tags' => [
         'a' => [
             /*

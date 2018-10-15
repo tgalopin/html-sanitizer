@@ -14,7 +14,7 @@ namespace HtmlSanitizer;
 use HtmlSanitizer\Node\DocumentNode;
 
 /**
- * Visit a parsed DOM node to create the equivalent purified DocumentNode.
+ * Visit a parsed DOM node to create the equivalent sanitized DocumentNode.
  *
  * @author Titouan Galopin <galopintitouan@gmail.com>
  */

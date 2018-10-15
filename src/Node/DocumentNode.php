@@ -12,7 +12,7 @@
 namespace HtmlSanitizer\Node;
 
 /**
- * Root node of the purified HTML. Contains all the other nodes.
+ * Root node of the sanitized HTML. Contains all the other nodes.
  *
  * @author Titouan Galopin <galopintitouan@gmail.com>
  */

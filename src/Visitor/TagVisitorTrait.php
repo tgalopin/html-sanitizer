@@ -29,7 +29,7 @@ trait TagVisitorTrait
     }
 
     /**
-     * Set attributes from a DOM node to a purified node.
+     * Set attributes from a DOM node to a sanitized node.
      *
      * @param \DOMNode $domNode
      * @param TagNodeInterface $node
