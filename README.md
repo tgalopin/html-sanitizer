@@ -5,13 +5,13 @@
 
 html-sanitizer is a library aiming at handling, cleaning and sanitizing HTML sent by external users
 (who you cannot trust), allowing you to store it and display it safely. It has sensible defaults
-to provide a great developer experience while still being entierely configurable.
+to provide a great developer experience while still being entirely configurable.
 
 Internally, the sanitizer has a deep understanding of HTML: it parses the input and create a tree of
 DOMNode objects, which it uses to keep only the safe elements from the content. By using this
 technique, it is safe (it works with a strict whitelist), fast and easily extensible.
 
-It also provides useful features such as the possibility to tranform images URLs to HTTPS, or 
+It also provides useful features such as the possibility to transform images URLs to HTTPS, or 
 to add a `target="_blank"` attribute on all the links to external websites.
 
 - [Installation](#installation)
@@ -35,7 +35,7 @@ composer require tgalopin/html-sanitizer
 
 ## Basic usage
 
-The main entrypoint to the sanitizer is the `HtmlSanitizer\Sanitizer` class. It requires
+The main entry point to the sanitizer is the `HtmlSanitizer\Sanitizer` class. It requires
 an array of configuration:
 
 ```php
@@ -104,7 +104,7 @@ $sanitizer = HtmlSanitizer\Sanitizer::create([
             'allow_data_uri' => false,
             
             /*
-            * If true, all images URLs using the HTTP ptocol will be rewritten to use HTTPS instead.
+            * If true, all images URLs using the HTTP protocol will be rewritten to use HTTPS instead.
             */
             'force_https' => false,
         ],
@@ -198,7 +198,7 @@ A node visitor is responsible of adding a node to the tree of safe HTML by filte
 it's given. Thus, for an example `my-tag` custom tag, we need to create two classes: a Node and 
 a NodeVisitor.
 
-The node could looke like this:
+The node could look like this:
 
 ```php
 namespace App\Sanitizer;
@@ -262,7 +262,7 @@ class MyTagNodeVisitor extends AbstractNodeVisitor
 }
 ```
 
-To learn more on how to create a node and a node visitor suiting your needs, we recommand you to read
+To learn more on how to create a node and a node visitor suiting your needs, we recommend you to read
 the existing [nodes](https://github.com/tgalopin/html-sanitizer/tree/master/src/Node) 
 and [visitors](https://github.com/tgalopin/html-sanitizer/tree/master/src/Visitor).
 
@@ -466,7 +466,7 @@ $sanitizer = HtmlSanitizer\Sanitizer::create([
             'allow_data_uri' => false,
             
             /*
-             * If true, all images URLs using the HTTP ptocol will be rewritten to use HTTPS instead.
+             * If true, all images URLs using the HTTP protocol will be rewritten to use HTTPS instead.
              */
             'force_https' => false,
         ],
