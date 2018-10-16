@@ -1,7 +1,8 @@
 # html-sanitizer
 
 [![Build Status](https://travis-ci.org/tgalopin/html-sanitizer.svg?branch=master)](https://travis-ci.org/tgalopin/html-sanitizer)
-[![SymfonyInsight](https://insight.symfony.com/projects/befd5a5b-574c-4bea-9c4f-3ad202729a1b/mini.png)](https://insight.symfony.com/projects/befd5a5b-574c-4bea-9c4f-3ad202729a1b)
+
+[![SymfonyInsight](https://insight.symfony.com/projects/befd5a5b-574c-4bea-9c4f-3ad202729a1b/big.svg)](https://insight.symfony.com/projects/befd5a5b-574c-4bea-9c4f-3ad202729a1b)
 
 html-sanitizer is a library aiming at handling, cleaning and sanitizing HTML sent by external users
 (who you cannot trust), allowing you to store it and display it safely. It has sensible defaults
