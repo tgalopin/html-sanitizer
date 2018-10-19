@@ -12,14 +12,13 @@ Internally, the sanitizer has a deep understanding of HTML: it parses the input 
 DOMNode objects, which it uses to keep only the safe elements from the content. By using this
 technique, it is safe (it works with a strict whitelist), fast and easily extensible.
 
-It also provides useful features such as the possibility to transform images URLs to HTTPS, or 
-to add a `target="_blank"` attribute on all the links to external websites.
+It also provides useful features such as the possibility to transform images or iframes URLs to HTTPS.
 
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
 - [Extensions](#extensions)
-- [Filtering images hosts](#filtering-images-hosts)
-- [Filtering links targets, opening external links in a new window](#filtering-links-targets-opening-external-links-in-a-new-window)
+- [Filtering images and iframes hosts](#filtering-images-and-iframes-hosts)
+- [Forcing HTTPS on images and iframes source hosts](#forcing-https-on-images-and-iframes-source-hosts)
 - [Configuring allowed attributes](#configuring-allowed-attributes)
 - [Creating an extension to allow custom tags](#creating-an-extension-to-allow-custom-tags)
 - [Configuration reference](#configuration-reference)
@@ -76,16 +75,16 @@ Here is the list of tags each extension allow:
 - **iframe** allows the insertion of iframes: `iframe`
 - **extra** allows the insertion of the following tags: `abbr`, `caption`, `hr`, `rp`, `rt`, `ruby`
 
-## Filtering images hosts
+## Filtering images and iframes hosts
 
-The sanitizer image extension provides a feature to filter images hosts, which can be useful 
+The sanitizer image and iframe extensions provide a feature to filter hosts, which can be useful 
 to avoid connecting to external websites that may, for instance, track your website views.
 
-To enable this feature, you need to enable the `image` extension and configure the `img` tag:
+To enable this feature, you need to enable the `image` and/or `iframe` extension and configure the tag:
 
 ```php
 $sanitizer = HtmlSanitizer\Sanitizer::create([
-    'extensions' => ['image'],
+    'extensions' => ['image', 'iframe'],
     'tags' => [
         'img' => [
             /*
@@ -103,55 +102,46 @@ $sanitizer = HtmlSanitizer\Sanitizer::create([
             * If true, images data-uri URLs will be accepted.
             */
             'allow_data_uri' => false,
-            
-            /*
-            * If true, all images URLs using the HTTP protocol will be rewritten to use HTTPS instead.
-            */
-            'force_https' => false,
         ],
-    ],
-]);
-```
-
-## Filtering links targets, opening external links in a new window
-
-The sanitizer basic extension provides a feature to filter and manipulate links in order to
-avoid your users to leave your website for potentially dangerous external pages.
-
-To enable this feature, you need to enable the `basic` extension and configure the `a` tag:
-
-```php
-$sanitizer = HtmlSanitizer\Sanitizer::create([
-    'extensions' => ['basic'],
-    'tags' => [
-        'a' => [
+        
+        'iframe' => [
             /*
-            * If an array is provided, all the links targeting other hosts than one in this array
-            * will be disabled (the `href` attribute will be blank). This can be useful if you want
-            * to prevent links to target external websites.
+            * If an array is provided, all the iframes relying on other hosts than one in this array
+            * will be disabled (the `src` attribute will be blank). This can be useful if you want
+            * to prevent iframes contacting external websites.
             *
             * Any allowed domain also includes its subdomains.
             *
             *      'allowed_hosts' => ['trusted1.com', 'google.com'],
             */
             'allowed_hosts' => null,
-            
+        ],
+    ],
+]);
+```
+
+## Forcing HTTPs on images and iframes source hosts
+
+The sanitizer image and iframe extensions provide a feature to force HTTPs on targeted hosts.
+
+To enable this feature, you need to enable the `image` and/or `iframe` extension and configure the tag:
+
+```php
+$sanitizer = HtmlSanitizer\Sanitizer::create([
+    'extensions' => ['image', 'iframe'],
+    'tags' => [
+        'img' => [
             /*
-            * If false, all links containing a mailto target will be disabled (the `href` attribute
-            * will be blank).
-            */
-            'allow_mailto' => true,
-            
+             * If true, all images URLs using the HTTP protocol will be rewritten to use HTTPS instead.
+             */
+            'force_https' => false,
+        ],
+        
+        'iframe' => [
             /*
-            * If an array is provided, a `target="_blank"` attribute will be added to all the links.
-            * You can also provide a list of excluded hosts for this rule using the `except_hosts` key.
-            *
-            * Any excluded host also includes its subdomains.
-            *
-            *      'force_target_blank' => [], // All links
-            *      'force_target_blank' => ['except_hosts' => ['trusted1.com']], // All links except trusted1.com
-            */
-            'force_target_blank' => null,
+             * If true, all iframes URLs using the HTTP protocol will be rewritten to use HTTPS instead.
+             */
+            'force_https' => false,
         ],
     ],
 ]);
@@ -187,8 +177,9 @@ own extension.
 There are two steps in the creation of an extension to handle additional tags: creating the node visitor which
 will handle the custom tag, and registering it using an extension.
 
-You can also have a look at the custom tag extension in the tests to better understand how to create your own:
-https://github.com/tgalopin/html-sanitizer/tree/master/tests/Extension. 
+To better understand how to create an extension suited to your needs, you can also have a look at the
+[Image extension](https://github.com/tgalopin/html-sanitizer/tree/master/src/Extension/Image)
+which shows the different features available.
 
 ### Creating a node and a node visitor
 
@@ -262,10 +253,6 @@ class MyTagNodeVisitor extends AbstractNodeVisitor
     }
 }
 ```
-
-To learn more on how to create a node and a node visitor suiting your needs, we recommend you to read
-the existing [nodes](https://github.com/tgalopin/html-sanitizer/tree/master/src/Node) 
-and [visitors](https://github.com/tgalopin/html-sanitizer/tree/master/src/Visitor).
 
 ### Registering the node visitor with an extension
 
@@ -356,17 +343,6 @@ $sanitizer = HtmlSanitizer\Sanitizer::create([
              * will be blank).
              */
             'allow_mailto' => true,
-            
-            /*
-             * If an array is provided, a `target="_blank"` attribute will be added to all the links.
-             * You can also provide a list of excluded hosts for this rule using the `except_hosts` key.
-             *
-             * Any excluded host also includes its subdomains.
-             *
-             *      'force_target_blank' => [], // All links
-             *      'force_target_blank' => ['except_hosts' => ['trusted1.com']], // All links except trusted1.com
-             */
-            'force_target_blank' => null,
         ],
         'blockquote' => [
             'allowed_attributes' => [],

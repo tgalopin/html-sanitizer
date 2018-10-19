@@ -23,7 +23,8 @@
         "php": ">=7.1",
         "ext-dom": "*",
         "masterminds/html5": "^2.3",
-        "psr/log": "^1.0"
+        "psr/log": "^1.0",
+        "league/uri-parser": "^1.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.4",

@@ -12,49 +12,27 @@
 namespace Tests\HtmlSanitizer\Sanitizer;
 
 use HtmlSanitizer\Extension\Basic\Sanitizer\AHrefSanitizer;
-use PHPUnit\Framework\TestCase;
 
-class AHrefSanitizerTest extends TestCase
+class AHrefSanitizerTest extends AbstractUrlSanitizerTest
 {
     public function provideMailToForbidden()
     {
-        $uris = [
-            '/local/link' => true,
-            'https://trusted.com/link.php' => true,
-            'https://trusted.com/link.php?query=1#foo' => true,
-            'https://subdomain.trusted.com/link' => true,
-
-            'https://untrusted.com/link' => false,
-            'foo:invalid' => false,
-
-            'mailto:test@gmail.com' => false,
-
+        $urls = array_merge($this->provideUrls(), [
             'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' => false,
-            'data:text/plain;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' => false,
+            'mailto:test@gmail.com' => false,
+            'mailto:' => false,
+            'mailto:invalid' => false,
+        ]);
 
-            // Ensure https://bugs.php.net/bug.php?id=73192 is handled
-            'https://untrusted.com:80?@trusted.com/' => false,
-            'https://untrusted.com:80#@trusted.com/' => false,
-
-            // Ensure https://medium.com/secjuice/php-ssrf-techniques-9d422cb28d51 is handled
-            '0://untrusted.com;trusted.com' => false,
-            '0://untrusted.com:80;trusted.com:80' => false,
-            '0://untrusted.com:80,trusted.com:80' => false,
-            'data:text/plain;base64,SSBsb3ZlIFBIUAo=trusted.com' => false,
-            'data://text/plain;base64,SSBsb3ZlIFBIUAo=trusted.com' => false,
-            'data:google.com/plain;base64,SSBsb3ZlIFBIUAo=' => false,
-            'data://google.com/plain;base64,SSBsb3ZlIFBIUAo=' => false,
-        ];
-
-        foreach ($uris as $uri => $accepted) {
-            yield [$uri, $accepted ? $uri : null];
+        foreach ($urls as $url => $accepted) {
+            yield $url => [$url, $accepted ? $url : null];
         }
     }
 
     /**
      * @dataProvider provideMailToForbidden
      */
-    public function testSanitizeMailToForbidden($input, $expected)
+    public function testMailToForbidden($input, $expected)
     {
         $sanitizer = new AHrefSanitizer(['trusted.com'], false);
         $this->assertEquals($expected, $sanitizer->sanitize($input));
@@ -62,29 +40,22 @@ class AHrefSanitizerTest extends TestCase
 
     public function provideMailToAllowed()
     {
-        $uris = [
+        $urls = array_merge($this->provideUrls(), [
+            'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' => false,
             'mailto:test@gmail.com' => true,
-
-            // Invalid e-mail
             'mailto:' => false,
             'mailto:invalid' => false,
+        ]);
 
-            // Ensure https://medium.com/secjuice/php-ssrf-techniques-9d422cb28d51 is handled
-            'data:text/plain;base64,SSBsb3ZlIFBIUAo=trusted.com' => false,
-            'data://text/plain;base64,SSBsb3ZlIFBIUAo=trusted.com' => false,
-            'data:google.com/plain;base64,SSBsb3ZlIFBIUAo=' => false,
-            'data://google.com/plain;base64,SSBsb3ZlIFBIUAo=' => false,
-        ];
-
-        foreach ($uris as $uri => $accepted) {
-            yield [$uri, $accepted ? $uri : null];
+        foreach ($urls as $url => $accepted) {
+            yield $url => [$url, $accepted ? $url : null];
         }
     }
 
     /**
      * @dataProvider provideMailToAllowed
      */
-    public function testSanitizeMailToAllowed($input, $expected)
+    public function testMailToAllowed($input, $expected)
     {
         $sanitizer = new AHrefSanitizer(['trusted.com'], true);
         $this->assertEquals($expected, $sanitizer->sanitize($input));
