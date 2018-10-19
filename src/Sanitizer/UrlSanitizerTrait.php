@@ -11,20 +11,52 @@
 
 namespace HtmlSanitizer\Sanitizer;
 
+use function League\Uri\build;
+use League\Uri\Exception as UriException;
+use function League\Uri\parse;
+
 /**
  * @internal
  */
 trait UrlSanitizerTrait
 {
     /**
-     * @var string[][]
+     * @var string[]
      */
     private $allowedHosts;
 
+    private function parseAndCleanUrl(?string $input, array $allowedSchemes): ?array
+    {
+        if ($input === null) {
+            return null;
+        }
+
+        // Remove invalid characters
+        $input = str_replace(["\n", "\t", "\r", chr(0)], '', $input);
+
+        try {
+            $url = parse($input);
+        } catch (UriException $e) {
+            return null;
+        }
+
+        // Malformed URL
+        if (!is_array($url) || !$url) {
+            return null;
+        }
+
+        // Invalid scheme
+        if (!in_array($url['scheme'], array_merge($allowedSchemes, [null]), true)) {
+            return null;
+        }
+
+        return $url;
+    }
+
     private function isLocalUrl(array $url): bool
     {
-        return !isset($url['scheme']) && !isset($url['host']) && !isset($url['port'])
-            && !isset($url['user']) && !isset($url['pass']);
+        return $url['scheme'] === null && $url['host'] === null && $url['port'] === null
+            && $url['user'] === null && $url['pass'] === null;
     }
 
     private function isAllowedHost(string $host): bool
@@ -35,8 +67,8 @@ trait UrlSanitizerTrait
 
         $parts = array_reverse(explode('.', $host));
 
-        foreach ($this->allowedHosts as $trustedParts) {
-            if ($this->matchAllowedHostParts($parts, $trustedParts)) {
+        foreach ($this->allowedHosts as $allowedHost) {
+            if ($this->matchAllowedHostParts($parts, array_reverse(explode('.', $allowedHost)))) {
                 return true;
             }
         }
@@ -46,13 +78,18 @@ trait UrlSanitizerTrait
 
     private function matchAllowedHostParts(array $uriParts, array $trustedParts): bool
     {
-        // Check each chunk of the domain is either stricly equal or a wildcard
+        // Check each chunk of the domain is valid
         foreach ($trustedParts as $key => $trustedPart) {
-            if ($uriParts[$key] !== $trustedPart && '*' !== $trustedPart) {
+            if ($uriParts[$key] !== $trustedPart) {
                 return false;
             }
         }
 
         return true;
+    }
+
+    private function buildUrl(array $url): string
+    {
+        return htmlspecialchars(build($url), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     }
 }

@@ -35,66 +35,45 @@ class ImgSrcSanitizer
         $this->allowedHosts = $allowedHosts;
         $this->allowDataUri = $allowDataUri;
         $this->forceHttps = $forceHttps;
-
-        if (is_array($allowedHosts)) {
-            // Pre-split the hosts for hosts checks
-            $this->allowedHosts = [];
-            foreach ($allowedHosts as $allowedHost) {
-                $this->allowedHosts[] = array_reverse(explode('.', $allowedHost));
-            }
-        }
     }
 
     public function sanitize(?string $input): ?string
     {
-        if ($input === null) {
-            return $input;
-        }
-
-        $url = parse_url($input);
-        if (!is_array($url)) {
-            // Malformed URL
+        $url = $this->parseAndCleanUrl($input, ['https', 'http', 'mailto', 'data']);
+        if (!$url) {
             return null;
         }
 
-        // Local image
+        // Local URL
         if ($this->isLocalUrl($url)) {
-            return $input;
+            return $this->buildUrl($url);
         }
 
-        // Data-URI
-        if (isset($url['scheme']) && $url['scheme'] === 'data') {
+        // data
+        if ($url['scheme'] === 'data') {
             if (!$this->allowDataUri || empty($url['path'])) {
                 return null;
             }
 
+            // Allow only images as content type
             if (mb_strpos($url['path'], 'image/') !== 0) {
-                // Allow only images as content type
                 return null;
             }
 
-            return $input;
+            return $this->buildUrl($url);
         }
 
-        if (!isset($url['host'])) {
-            // If there is no host and it's also not a local image nor a data-uri, this is an invalid string
+        // Absolute URL: check host
+        if (!$url['host'] || !$this->isAllowedHost($url['host'])) {
             return null;
         }
 
-        // URL
-        if (!filter_var($input, FILTER_VALIDATE_URL)) {
-            // Invalid URL
-            return null;
+        // Force HTTPS
+        if ($this->forceHttps && $url['scheme'] === 'http') {
+            $url['scheme'] = 'https';
         }
 
-        if (!$this->isAllowedHost($url['host'])) {
-            return null;
-        }
-
-        if ($this->forceHttps && isset($url['scheme']) && $url['scheme'] === 'http') {
-            return 'https'.mb_substr($input, 4);
-        }
-
-        return $input;
+        // Allowed: rebuild a clean URL
+        return $this->buildUrl($url);
     }
 }

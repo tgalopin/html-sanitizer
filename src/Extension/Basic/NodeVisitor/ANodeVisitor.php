@@ -52,7 +52,6 @@ class ANodeVisitor extends AbstractNodeVisitor
         return [
             'allowed_hosts' => null,
             'allow_mailto' => true,
-            'force_target_blank' => null,
         ];
     }
 

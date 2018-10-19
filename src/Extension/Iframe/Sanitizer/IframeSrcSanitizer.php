@@ -29,47 +29,31 @@ class IframeSrcSanitizer
     {
         $this->allowedHosts = $allowedHosts;
         $this->forceHttps = $forceHttps;
-
-        if (is_array($allowedHosts)) {
-            // Pre-split the hosts for hosts checks
-            $this->allowedHosts = [];
-            foreach ($allowedHosts as $allowedHost) {
-                $this->allowedHosts[] = array_reverse(explode('.', $allowedHost));
-            }
-        }
     }
 
     public function sanitize(?string $input): ?string
     {
-        if ($input === null) {
-            return $input;
-        }
-
-        $url = parse_url($input);
-        if (!is_array($url)) {
-            // Malformed URL
+        $url = $this->parseAndCleanUrl($input, ['https', 'http', 'mailto']);
+        if (!$url) {
             return null;
         }
 
-        // Local frame
+        // Local URL
         if ($this->isLocalUrl($url)) {
-            return $input;
+            return $this->buildUrl($url);
         }
 
-        // URL
-        if (!filter_var($input, FILTER_VALIDATE_URL)) {
-            // Invalid URL
+        // Absolute URL: check host
+        if (!$url['host'] || !$this->isAllowedHost($url['host'])) {
             return null;
         }
 
-        if (!$this->isAllowedHost($url['host'])) {
-            return null;
+        // Force HTTPS
+        if ($this->forceHttps && $url['scheme'] === 'http') {
+            $url['scheme'] = 'https';
         }
 
-        if ($this->forceHttps && isset($url['scheme']) && $url['scheme'] === 'http') {
-            return 'https'.mb_substr($input, 4);
-        }
-
-        return $input;
+        // Allowed: rebuild a clean URL
+        return $this->buildUrl($url);
     }
 }

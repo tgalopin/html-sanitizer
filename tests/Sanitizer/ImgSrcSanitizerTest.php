@@ -12,58 +12,42 @@
 namespace Tests\HtmlSanitizer\Sanitizer;
 
 use HtmlSanitizer\Extension\Image\Sanitizer\ImgSrcSanitizer;
-use PHPUnit\Framework\TestCase;
 
-class ImgSrcSanitizerTest extends TestCase
+class ImgSrcSanitizerTest extends AbstractUrlSanitizerTest
 {
-    public function provideDataUriForbidden()
+    public function provideDataUriForbiddenForceHttps()
     {
-        $uris = [
-            '/local/image.jpeg' => true,
-            'https://trusted.com/image.jpeg' => true,
-            'https://trusted.com/image.jpeg?query=1#foo' => true,
-            'https://subdomain.trusted.com/image.jpeg' => true,
-
-            'https://untrusted.com/image.jpeg' => false,
-            'foo:invalid' => false,
-
+        $urls = array_merge($this->provideUrls(), [
             'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' => false,
+
+            // Invalid URL
+            'data:' => false,
+            'data://image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' => false,
+
+            // Non-image content-type
             'data:text/plain;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' => false,
+        ]);
 
-            // Ensure https://bugs.php.net/bug.php?id=73192 is handled
-            'https://untrusted.com:80?@trusted.com/' => false,
-            'https://untrusted.com:80#@trusted.com/' => false,
-
-            // Ensure https://medium.com/secjuice/php-ssrf-techniques-9d422cb28d51 is handled
-            '0://untrusted.com;trusted.com' => false,
-            '0://untrusted.com:80;trusted.com:80' => false,
-            '0://untrusted.com:80,trusted.com:80' => false,
-            'data:text/plain;base64,SSBsb3ZlIFBIUAo=trusted.com' => false,
-            'data://text/plain;base64,SSBsb3ZlIFBIUAo=trusted.com' => false,
-            'data:google.com/plain;base64,SSBsb3ZlIFBIUAo=' => false,
-            'data://google.com/plain;base64,SSBsb3ZlIFBIUAo=' => false,
-        ];
-
-        foreach ($uris as $uri => $accepted) {
-            yield [$uri, $accepted ? $uri : null];
+        foreach ($urls as $url => $accepted) {
+            yield $url => [$url, $accepted ? $url : null];
         }
 
         // Ensure HTTP is rewritten to HTTPS
-        yield ['http://trusted.com/image.jpeg', 'https://trusted.com/image.jpeg'];
+        yield 'http://trusted.com/image.jpeg' => ['http://trusted.com/image.jpeg', 'https://trusted.com/image.jpeg'];
     }
 
     /**
-     * @dataProvider provideDataUriForbidden
+     * @dataProvider provideDataUriForbiddenForceHttps
      */
-    public function testSanitizeDataUriForbidden($input, $expected)
+    public function testDataUriForbiddenForceHttps($input, $expected)
     {
         $sanitizer = new ImgSrcSanitizer(['trusted.com'], false, true);
         $this->assertEquals($expected, $sanitizer->sanitize($input));
     }
 
-    public function provideDataUriAllowed()
+    public function provideDataUriAllowedDontForceHttps()
     {
-        $uris = [
+        $urls = array_merge($this->provideUrls(), [
             'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' => true,
 
             // Invalid URL
@@ -72,26 +56,20 @@ class ImgSrcSanitizerTest extends TestCase
 
             // Non-image content-type
             'data:text/plain;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' => false,
+        ]);
 
-            // Ensure https://medium.com/secjuice/php-ssrf-techniques-9d422cb28d51 is handled
-            'data:text/plain;base64,SSBsb3ZlIFBIUAo=trusted.com' => false,
-            'data://text/plain;base64,SSBsb3ZlIFBIUAo=trusted.com' => false,
-            'data:google.com/plain;base64,SSBsb3ZlIFBIUAo=' => false,
-            'data://google.com/plain;base64,SSBsb3ZlIFBIUAo=' => false,
-
-            // Ensure HTTP is kept
-            'http://trusted.com/image.jpeg' => true,
-        ];
-
-        foreach ($uris as $uri => $accepted) {
-            yield [$uri, $accepted ? $uri : null];
+        foreach ($urls as $url => $accepted) {
+            yield $url => [$url, $accepted ? $url : null];
         }
+
+        // Ensure HTTP is kept
+        yield 'http://trusted.com/image.jpeg' => ['http://trusted.com/image.jpeg', 'http://trusted.com/image.jpeg'];
     }
 
     /**
-     * @dataProvider provideDataUriAllowed
+     * @dataProvider provideDataUriAllowedDontForceHttps
      */
-    public function testSanitizeDataUriAllowed($input, $expected)
+    public function testDataUriAllowedDontForceHttps($input, $expected)
     {
         $sanitizer = new ImgSrcSanitizer(['trusted.com'], true, false);
         $this->assertEquals($expected, $sanitizer->sanitize($input));
