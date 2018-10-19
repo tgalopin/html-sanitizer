@@ -21,7 +21,7 @@ class ScriptNodeVisitor extends AbstractNodeVisitor
 {
     public function supports(\DOMNode $domNode, Cursor $cursor): bool
     {
-        return 'script' === $domNode->nodeName;
+        return 'script' === $domNode->nodeName || 'noscript' === $domNode->nodeName;
     }
 
     public function getDefaultAllowedAttributes(): array

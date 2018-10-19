@@ -54,6 +54,6 @@ class SanitizerBuilder implements SanitizerBuilderInterface
         $nodeVisitors['style'] = new StyleNodeVisitor();
         $nodeVisitors['#text'] = new TextNodeVisitor();
 
-        return new Sanitizer(new DomVisitor($nodeVisitors));
+        return new Sanitizer(new DomVisitor($nodeVisitors), $config['max_input_length'] ?? 20000);
     }
 }

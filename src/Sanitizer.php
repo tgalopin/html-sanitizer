@@ -32,13 +32,19 @@ class Sanitizer implements SanitizerInterface
     private $domVisitor;
 
     /**
+     * @var int
+     */
+    private $maxInputLength;
+
+    /**
      * @var ParserInterface
      */
     private $parser;
 
-    public function __construct(DomVisitorInterface $domVisitor, ParserInterface $parser = null)
+    public function __construct(DomVisitorInterface $domVisitor, int $maxInputLength, ParserInterface $parser = null)
     {
         $this->domVisitor = $domVisitor;
+        $this->maxInputLength = $maxInputLength;
         $this->parser = $parser ?: new MastermindsParser();
     }
 
@@ -65,6 +71,11 @@ class Sanitizer implements SanitizerInterface
 
     public function sanitize(string $html): string
     {
+        // Prevent DOS attack induced by extremely long HTML strings
+        if (mb_strlen($html) > $this->maxInputLength) {
+            $html = mb_substr($html, 0, $this->maxInputLength);
+        }
+
         /*
          * Only operate on valid UTF-8 strings. This is necessary to prevent cross
          * site scripting issues on Internet Explorer 6. Idea from Drupal (filter_xss).

@@ -11,6 +11,8 @@
 
 namespace HtmlSanitizer\Node;
 
+use HtmlSanitizer\Sanitizer\StringSanitizerTrait;
+
 /**
  * Abstract base class for tags.
  *
@@ -18,6 +20,8 @@ namespace HtmlSanitizer\Node;
  */
 abstract class AbstractTagNode extends AbstractNode implements TagNodeInterface
 {
+    use StringSanitizerTrait;
+
     private $attributes = [];
 
     /**
@@ -60,9 +64,24 @@ abstract class AbstractTagNode extends AbstractNode implements TagNodeInterface
                 continue;
             }
 
-            $attr = $name;
+            $attr = $this->encodeHtmlEntities($name);
             if ($value !== '') {
-                $attr .= '="'.$value.'"';
+                // In quirks mode, IE8 does a poor job producing innerHTML values.
+                // If JavaScript does:
+                //      nodeA.innerHTML = nodeB.innerHTML;
+                // and nodeB contains (or even if ` was encoded properly):
+                //      <div attr="``foo=bar">
+                // then IE8 will produce:
+                //      <div attr=``foo=bar>
+                // as the value of nodeB.innerHTML and assign it to nodeA.
+                // IE8's HTML parser treats `` as a blank attribute value and foo=bar becomes a separate attribute.
+                // Adding a space at the end of the attribute prevents this by forcing IE8 to put double
+                // quotes around the attribute when computing nodeB.innerHTML.
+                if (false !== mb_strpos($value, '`')) {
+                    $value .= ' ';
+                }
+
+                $attr .= '="'.$this->encodeHtmlEntities($value).'"';
             }
 
             $rendered[] = $attr;

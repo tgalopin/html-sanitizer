@@ -11,12 +11,15 @@
 
 namespace HtmlSanitizer\Node;
 
+use HtmlSanitizer\Sanitizer\StringSanitizerTrait;
+
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
  */
 class TextNode extends AbstractNode
 {
     use IsChildlessTrait;
+    use StringSanitizerTrait;
 
     private $text = '';
 
@@ -29,6 +32,6 @@ class TextNode extends AbstractNode
 
     public function render(): string
     {
-        return htmlspecialchars($this->text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        return $this->encodeHtmlEntities($this->text);
     }
 }

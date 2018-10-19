@@ -38,7 +38,7 @@ class FullSanitizerTest extends AbstractSanitizerTest
 
     public function provideFixtures(): array
     {
-        return [
+        return array_merge(parent::provideFixtures(), [
 
             /*
              * Normal tags
@@ -61,8 +61,8 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 '<a href="https://external.com" title="Link title">Lorem ipsum</a>',
             ],
             [
-                '<a href="mailto:test@gmail.com" title="Link title" class="foo">Lorem ipsum</a>',
-                '<a href="mailto:test@gmail.com" title="Link title">Lorem ipsum</a>',
+                '<a href="mailto:test&#64;gmail.com" title="Link title" class="foo">Lorem ipsum</a>',
+                '<a href="mailto:test&#64;gmail.com" title="Link title">Lorem ipsum</a>',
             ],
             [
                 '<blockquote class="foo">Lorem ipsum</blockquote>',
@@ -173,6 +173,10 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 '<img />',
             ],
             [
+                '<img title="" />',
+                '<img title />',
+            ],
+            [
                 '<i class="foo">Lorem ipsum</i>',
                 '<i>Lorem ipsum</i>',
             ],
@@ -270,8 +274,8 @@ class FullSanitizerTest extends AbstractSanitizerTest
              */
 
             [
-                '<a href="mailto:test@gmail.com">Test</a>',
-                '<a href="mailto:test@gmail.com">Test</a>',
+                '<a href="mailto:test&#64;gmail.com">Test</a>',
+                '<a href="mailto:test&#64;gmail.com">Test</a>',
             ],
             [
                 '<a href="mailto:alert(\'ok\')">Test</a>',
@@ -311,7 +315,7 @@ class FullSanitizerTest extends AbstractSanitizerTest
             ],
             [
                 '<a href= onmouseover="alert(\\\'XSS\\\');">Lorem ipsum</a>',
-                '<a href="onmouseover=&quot;alert(\&#039;XSS\&#039;);&quot;">Lorem ipsum</a>',
+                '<a href="onmouseover&#61;&#34;alert(\&#039;XSS\&#039;);&#34;">Lorem ipsum</a>',
             ],
 
             /*
@@ -332,27 +336,27 @@ class FullSanitizerTest extends AbstractSanitizerTest
             ],
             [
                 '<img src= onmouseover="alert(\'XSS\');" />',
-                '<img src="onmouseover=&quot;alert(&#039;XSS&#039;);&quot;" />',
+                '<img src="onmouseover&#61;&#34;alert(&#039;XSS&#039;);&#34;" />',
             ],
             [
                 '<<img src="javascript:evil"/>img src="javascript:evil"/>',
-                '<img />img src=&quot;javascript:evil&quot;/&gt;',
+                '<img />img src&#61;&#34;javascript:evil&#34;/&gt;',
             ],
             [
                 '<<a href="javascript:evil"/>a href="javascript:evil"/>',
-                '<a></a>a href=&quot;javascript:evil&quot;/&gt;',
+                '<a></a>a href&#61;&#34;javascript:evil&#34;/&gt;',
             ],
             [
                 '!<textarea>&lt;/textarea&gt;&lt;svg/onload=prompt`xs`&gt;</textarea>!',
-                '!&lt;/textarea&gt;&lt;svg/onload=prompt`xs`&gt;!',
+                '!&lt;/textarea&gt;&lt;svg/onload&#61;prompt&#96;xs&#96;&gt;!',
             ],
             [
                 '<iframe src= onmouseover="alert(\'XSS\');" />',
-                '<iframe src="onmouseover=&quot;alert(&#039;XSS&#039;);&quot;"></iframe>',
+                '<iframe src="onmouseover&#61;&#34;alert(&#039;XSS&#039;);&#34;"></iframe>',
             ],
             [
                 '<<iframe src="javascript:evil"/>iframe src="javascript:evil"/>',
-                '<iframe></iframe>iframe src=&quot;javascript:evil&quot;/&gt;',
+                '<iframe></iframe>iframe src&#61;&#34;javascript:evil&#34;/&gt;',
             ],
 
             /*
@@ -372,6 +376,6 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 '<a>Lorem ipsum dolor sit amet, consectetur.</a>',
             ],
 
-        ];
+        ]);
     }
 }
