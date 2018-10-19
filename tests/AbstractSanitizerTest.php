@@ -11,7 +11,6 @@
 
 namespace Tests\HtmlSanitizer;
 
-use HtmlSanitizer\Sanitizer;
 use HtmlSanitizer\SanitizerBuilder;
 use HtmlSanitizer\SanitizerInterface;
 use PHPUnit\Framework\TestCase;
@@ -20,20 +19,57 @@ abstract class AbstractSanitizerTest extends TestCase
 {
     abstract public function createSanitizer(): SanitizerInterface;
 
-    abstract public function provideFixtures(): array;
-
-    public function testRemoveNullByte()
+    public function provideFixtures(): array
     {
-        $this->assertSame('Null byte', Sanitizer::create([])->sanitize("Null byte\0"));
-    }
+        // Fixtures shared by all sanitizers
+        return [
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testThrowInvalidExtension()
-    {
-        $builder = new SanitizerBuilder();
-        $builder->build(['extensions' => ['invalid']]);
+            [
+                'hello world',
+                'hello world',
+            ],
+            [
+                '&lt;hello world&gt;',
+                '&lt;hello world&gt;',
+            ],
+            [
+                '< Hello',
+                ' Hello',
+            ],
+            [
+                'Lorem & Ipsum',
+                'Lorem &amp; Ipsum',
+            ],
+
+            // Unknown tag
+            [
+                '<unknown>Lorem ipsum</unknown>',
+                'Lorem ipsum',
+            ],
+
+            // Scripts
+            [
+                '<script>alert(\'ok\');</script>',
+                '',
+            ],
+            [
+                '<noscript>Lorem ipsum</noscript>',
+                '',
+            ],
+
+            // Styles
+            [
+                '<style>body { background: red; }</style>',
+                '',
+            ],
+
+            // Comments
+            [
+                'Lorem ipsum dolor sit amet, consectetur<!-- comment<script>alert(\'ok\')</script> -->',
+                'Lorem ipsum dolor sit amet, consectetur',
+            ],
+
+        ];
     }
 
     public function provideSanitizerInput()
@@ -49,5 +85,25 @@ abstract class AbstractSanitizerTest extends TestCase
     public function testSanitize($input, $expectedOutput)
     {
         $this->assertEquals($expectedOutput, $this->createSanitizer()->sanitize($input));
+    }
+
+    public function testRemoveNullByte()
+    {
+        $this->assertSame('Null byte', $this->createSanitizer()->sanitize("Null byte\0"));
+        $this->assertSame('Null byte', $this->createSanitizer()->sanitize("Null byte&#0;"));
+    }
+
+    public function testDeeplyNestedTagDos()
+    {
+        $this->assertNotEmpty($this->createSanitizer()->sanitize(str_repeat('<div>T', 20000)));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testThrowInvalidExtension()
+    {
+        $builder = new SanitizerBuilder();
+        $builder->build(['extensions' => ['invalid']]);
     }
 }

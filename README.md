@@ -23,6 +23,14 @@ It also provides useful features such as the possibility to transform images or 
 - [Creating an extension to allow custom tags](#creating-an-extension-to-allow-custom-tags)
 - [Configuration reference](#configuration-reference)
 
+Many thanks to:
+- [The Open Web Application Security Project](https://www.owasp.org/index.php/OWASP_Java_HTML_Sanitizer_Project) 
+  from which many of the tests of this library are extracted (more specifically from
+  [OWASP/java-html-sanitizer](https://github.com/OWASP/java-html-sanitizer)) ;
+- [Masterminds/html5-php](https://github.com/Masterminds/html5-php) which is a great HTML5 parser, used by default
+  in this library ;
+- [The PHP League URI parser](http://uri.thephpleague.com/) which allows this library to filter hosts safely ;
+
 ## Installation
 
 html-sanitizer requires PHP 7.1+.
@@ -312,6 +320,16 @@ Here is the configuration default values with annotations describing the specifi
 
 ```php
 $sanitizer = HtmlSanitizer\Sanitizer::create([
+
+    /*
+     * Maximum length in number of characters this sanitizer will accept as inputs.
+     * Longer inputs will be truncated.
+     *
+     * This field is necessary to prevent a Denial of Service attack induced by extremely
+     * long HTML inputs from users.
+     */
+    'max_input_length' => 20000,
+
     /*
      * List of extensions to enable on this sanitizer.
      */
@@ -516,8 +534,3 @@ $sanitizer = HtmlSanitizer\Sanitizer::create([
     ],
 ]);
 ```
-
-## Thanks
-
-Thanks to the contributors of the Masterminds great HTML5 parser on which this sanitizer depends on:
-[Masterminds/html5-php](https://github.com/Masterminds/html5-php)!

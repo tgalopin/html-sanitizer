@@ -23,7 +23,7 @@ class SimpleSanitizerTest extends AbstractSanitizerTest
 
     public function provideFixtures(): array
     {
-        return [
+        return array_merge(parent::provideFixtures(), [
 
             /*
              * Normal tags
@@ -46,8 +46,8 @@ class SimpleSanitizerTest extends AbstractSanitizerTest
                 '<a href="https://external.com" title="Link title">Lorem ipsum</a>',
             ],
             [
-                '<a href="mailto:test@gmail.com" title="Link title" class="foo">Lorem ipsum</a>',
-                '<a href="mailto:test@gmail.com" title="Link title">Lorem ipsum</a>',
+                '<a href="mailto:test&#64;gmail.com" title="Link title" class="foo">Lorem ipsum</a>',
+                '<a href="mailto:test&#64;gmail.com" title="Link title">Lorem ipsum</a>',
             ],
             [
                 '<blockquote class="foo">Lorem ipsum</blockquote>',
@@ -243,8 +243,8 @@ class SimpleSanitizerTest extends AbstractSanitizerTest
              */
 
             [
-                '<a href="mailto:test@gmail.com">Test</a>',
-                '<a href="mailto:test@gmail.com">Test</a>',
+                '<a href="mailto:test&#64;gmail.com">Test</a>',
+                '<a href="mailto:test&#64;gmail.com">Test</a>',
             ],
             [
                 '<a href="mailto:alert(\'ok\')">Test</a>',
@@ -284,7 +284,7 @@ class SimpleSanitizerTest extends AbstractSanitizerTest
             ],
             [
                 '<a href= onmouseover="alert(\\\'XSS\\\');">Lorem ipsum</a>',
-                '<a href="onmouseover=&quot;alert(\&#039;XSS\&#039;);&quot;">Lorem ipsum</a>',
+                '<a href="onmouseover&#61;&#34;alert(\&#039;XSS\&#039;);&#34;">Lorem ipsum</a>',
             ],
 
 
@@ -306,7 +306,7 @@ class SimpleSanitizerTest extends AbstractSanitizerTest
             ],
             [
                 '"><script>...</script><input value="',
-                '&quot;&gt;',
+                '&#34;&gt;',
             ],
 
             /*
@@ -326,6 +326,43 @@ class SimpleSanitizerTest extends AbstractSanitizerTest
                 '<a>Lorem ipsum dolor sit amet, consectetur.</a>',
             ],
 
-        ];
+            /*
+             * Ideas extracted from https://github.com/OWASP/java-html-sanitizer
+             */
+
+            [
+                '<p/b onload=""/',
+                '<p></p>',
+            ],
+            [
+                '<p onload=""/b/',
+                '<p></p>',
+            ],
+            [
+                '<p onload=""<a href="/" onload="">first part of the text</> second part',
+                '<p><a href="/">first part of the text second part</a></p>',
+            ],
+            [
+                '<p onload=""<b onload="">Hello',
+                '<p><strong>Hello</strong></p>',
+            ],
+            [
+                '<p>Hello world</b style="width:expression(alert(1))">',
+                '<p>Hello world</p>',
+            ],
+            [
+                "<A TITLE=\"harmless\0  SCRIPT = javascript:alert(1) ignored = ignored\">",
+                '<a title="harmless  SCRIPT &#61; javascript:alert(1) ignored &#61; ignored"></a>',
+            ],
+            [
+                '<div style1="expression(\'alert(1)">Hello</div>',
+                '<div>Hello</div>',
+            ],
+            [
+                '<a title="``onmouseover=alert(1337)">Hello</a>',
+                '<a title="&#96;&#96;onmouseover&#61;alert(1337) ">Hello</a>',
+            ],
+
+        ]);
     }
 }

@@ -90,6 +90,6 @@ trait UrlSanitizerTrait
 
     private function buildUrl(array $url): string
     {
-        return htmlspecialchars(build($url), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        return build($url);
     }
 }
