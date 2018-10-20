@@ -65,8 +65,12 @@ abstract class AbstractSanitizerTest extends TestCase
 
             // Comments
             [
-                'Lorem ipsum dolor sit amet, consectetur<!-- comment<script>alert(\'ok\')</script> -->',
+                'Lorem ipsum dolor sit amet, consectetur<!--if[true]> <script>alert(1337)</script> -->',
                 'Lorem ipsum dolor sit amet, consectetur',
+            ],
+            [
+                'Lorem ipsum<![CDATA[ <!-- ]]> <script>alert(1337)</script> <!-- -->',
+                'Lorem ipsum  ',
             ],
 
         ];
