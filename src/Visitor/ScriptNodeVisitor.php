@@ -16,6 +16,8 @@ use HtmlSanitizer\Node\ScriptNode;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @internal
  */
 class ScriptNodeVisitor extends AbstractNodeVisitor
 {

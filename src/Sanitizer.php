@@ -23,6 +23,8 @@ use HtmlSanitizer\Parser\ParserInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @final
  */
 class Sanitizer implements SanitizerInterface
 {

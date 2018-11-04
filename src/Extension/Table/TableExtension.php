@@ -15,6 +15,8 @@ use HtmlSanitizer\Extension\ExtensionInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @final
  */
 class TableExtension implements ExtensionInterface
 {

@@ -15,6 +15,8 @@ use HtmlSanitizer\Sanitizer\StringSanitizerTrait;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @internal
  */
 class TextNode extends AbstractNode
 {

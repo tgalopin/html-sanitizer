@@ -19,6 +19,8 @@ use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @final
  */
 class SmallNodeVisitor extends AbstractNodeVisitor
 {

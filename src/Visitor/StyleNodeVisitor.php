@@ -16,6 +16,8 @@ use HtmlSanitizer\Node\StyleNode;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @internal
  */
 class StyleNodeVisitor extends AbstractNodeVisitor
 {

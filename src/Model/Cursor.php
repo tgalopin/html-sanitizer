@@ -15,6 +15,8 @@ use HtmlSanitizer\Node\NodeInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @final
  */
 class Cursor
 {
