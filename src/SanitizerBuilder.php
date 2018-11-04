@@ -14,7 +14,6 @@ namespace HtmlSanitizer;
 use HtmlSanitizer\Extension\ExtensionInterface;
 use HtmlSanitizer\Visitor\ScriptNodeVisitor;
 use HtmlSanitizer\Visitor\StyleNodeVisitor;
-use HtmlSanitizer\Visitor\TextNodeVisitor;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
@@ -52,7 +51,6 @@ class SanitizerBuilder implements SanitizerBuilderInterface
         // Always required visitors
         $nodeVisitors['script'] = new ScriptNodeVisitor();
         $nodeVisitors['style'] = new StyleNodeVisitor();
-        $nodeVisitors['#text'] = new TextNodeVisitor();
 
         return new Sanitizer(new DomVisitor($nodeVisitors), $config['max_input_length'] ?? 20000);
     }
