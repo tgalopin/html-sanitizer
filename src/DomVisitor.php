@@ -13,6 +13,7 @@ namespace HtmlSanitizer;
 
 use HtmlSanitizer\Model\Cursor;
 use HtmlSanitizer\Node\DocumentNode;
+use HtmlSanitizer\Node\TextNode;
 use HtmlSanitizer\Visitor\NodeVisitorInterface;
 
 /**
@@ -58,7 +59,12 @@ class DomVisitor implements DomVisitorInterface
         }
 
         foreach ($node->childNodes ?? [] as $k => $child) {
-            $this->visitNode($child, $cursor);
+            if ('#text' === $child->nodeName) {
+                $cursor->node->addChild(new TextNode($cursor->node, $child->nodeValue));
+            } elseif (!$child instanceof \DOMText) {
+                // Ignore CDATA sections
+                $this->visitNode($child, $cursor);
+            }
         }
 
         foreach ($this->reversedVisitors as $visitor) {

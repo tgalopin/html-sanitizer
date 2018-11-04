@@ -1,0 +1,112 @@
+<h1><a id="user-content-creating-an-extension-to-allow-custom-tags" class="anchor" aria-hidden="true" href="#creating-an-extension-to-allow-custom-tags"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Creating an extension to allow custom tags</h1>
+<p>If you want to use additional tags than the one present in the sanitizer core extensions, you can create your
+    own extension.</p>
+<p>There are two steps in the creation of an extension to handle additional tags: creating the node visitor which
+    will handle the custom tag, and registering it using an extension.</p>
+<p>To better understand how to create an extension suited to your needs, you can also have a look at the
+    <a href="https://github.com/tgalopin/html-sanitizer/tree/master/src/Extension/Image">Image extension</a>
+    which shows the different features available.</p>
+<h2><a id="user-content-creating-a-node-and-a-node-visitor" class="anchor" aria-hidden="true" href="#creating-a-node-and-a-node-visitor"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Creating a node and a node visitor</h2>
+<p>A node visitor is a class able to handle DOMNode instances of a certain type. It needs to implement the
+    <code>HtmlSanitizer\Visitor\VisitorInterface</code>.</p>
+<p>A node visitor is responsible of adding a node to the tree of safe HTML by filtering the DOMNode
+    it's given. Thus, for an example <code>my-tag</code> custom tag, we need to create two classes: a Node and
+    a NodeVisitor.</p>
+<p>The node could look like this:</p>
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1"><span class="pl-k">namespace</span> <span class="pl-en">App\Sanitizer</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">use</span> <span class="pl-c1">HtmlSanitizer\Node\AbstractTagNode</span>;</span>
+<span class="pl-s1"><span class="pl-k">use</span> <span class="pl-c1">HtmlSanitizer\Node\HasChildrenTrait</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">MyTagNode</span> <span class="pl-k">extends</span> <span class="pl-e">AbstractTagNode</span></span>
+<span class="pl-s1">{</span>
+<span class="pl-s1">    <span class="pl-k">use</span> <span class="pl-c1">HasChildrenTrait</span>; <span class="pl-c"><span class="pl-c">//</span> Or IsChildlessTrait</span></span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">getTagName</span>(): <span class="pl-k">string</span></span>
+<span class="pl-s1">    {</span>
+<span class="pl-s1">        <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">'</span>my-tag<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1">}</span></pre></div>
+<p>A simple visitor for a <code>my-tag</code> custom tag could look like this:</p>
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1"><span class="pl-k">namespace</span> <span class="pl-en">App\Sanitizer</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">use</span> <span class="pl-c1">HtmlSanitizer\Model\Cursor</span>;</span>
+<span class="pl-s1"><span class="pl-k">use</span> <span class="pl-c1">HtmlSanitizer\Node\NodeInterface</span>;</span>
+<span class="pl-s1"><span class="pl-k">use</span> <span class="pl-c1">HtmlSanitizer\Visitor\AbstractNodeVisitor</span>;</span>
+<span class="pl-s1"><span class="pl-k">use</span> <span class="pl-c1">HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">MyTagNodeVisitor</span> <span class="pl-k">extends</span> <span class="pl-e">AbstractNodeVisitor</span></span>
+<span class="pl-s1">{</span>
+<span class="pl-s1">    <span class="pl-k">use</span> <span class="pl-c1">HasChildrenNodeVisitorTrait</span>; <span class="pl-c"><span class="pl-c">//</span> Or IsChildlessTagVisitorTrait</span></span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-k">protected</span> <span class="pl-k">function</span> <span class="pl-en">getDomNodeName</span>(): <span class="pl-k">string</span></span>
+<span class="pl-s1">    {</span>
+<span class="pl-s1">        <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">'</span>my-tag<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">getDefaultAllowedAttributes</span>(): <span class="pl-k">array</span></span>
+<span class="pl-s1">    {</span>
+<span class="pl-s1">        <span class="pl-k">return</span> [</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>class<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>width<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>height<span class="pl-pds">'</span></span></span>
+<span class="pl-s1">        ];</span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">getDefaultConfiguration</span>(): <span class="pl-k">array</span></span>
+<span class="pl-s1">    {</span>
+<span class="pl-s1">        <span class="pl-k">return</span> [</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>custom_config<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">null</span>,</span>
+<span class="pl-s1">        ];</span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-k">protected</span> <span class="pl-k">function</span> <span class="pl-en">createNode</span>(<span class="pl-c1">\DOMNode</span> <span class="pl-smi">$domNode</span>, <span class="pl-c1">Cursor</span> <span class="pl-smi">$cursor</span>): <span class="pl-c1">NodeInterface</span></span>
+<span class="pl-s1">    {</span>
+<span class="pl-s1">        <span class="pl-c"><span class="pl-c">//</span> You need to pass the current node as your node parent</span></span>
+<span class="pl-s1">        <span class="pl-smi">$node</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">MyTagNode</span>(<span class="pl-smi">$cursor</span><span class="pl-k">-&gt;</span><span class="pl-smi">node</span>);</span>
+<span class="pl-s1">        </span>
+<span class="pl-s1">        <span class="pl-c"><span class="pl-c">//</span> You can use $this-&gt;config['custom_config'] to access the user-defined configuration</span></span>
+<span class="pl-s1"></span>
+<span class="pl-s1">        <span class="pl-k">return</span> <span class="pl-smi">$node</span>;</span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1">}</span></pre></div>
+<h2><a id="user-content-registering-the-node-visitor-with-an-extension" class="anchor" aria-hidden="true" href="#registering-the-node-visitor-with-an-extension"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Registering the node visitor with an extension</h2>
+<p>Once you created a node and a node visitor, you need to use an extension to register the visitor in the
+    sanitizer.</p>
+<p>An extension is a class implementing the <code>HtmlSanitizer\Extension\ExtensionInterface</code> interface, which requires
+    two methods:</p>
+<ul>
+    <li><code>getName()</code> which should return the name to use in the configuration (<code>basic</code>, <code>list</code>, etc.) ;</li>
+    <li>and <code>createNodeVisitors()</code> which should return a list of node visitors associated to the tag the visit ;</li>
+</ul>
+<p>For our node visitor, this could look like this:</p>
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1"><span class="pl-k">namespace</span> <span class="pl-en">App\Sanitizer</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">use</span> <span class="pl-c1">HtmlSanitizer\Extension\ExtensionInterface</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">MyTagExtension</span> <span class="pl-k">implements</span> <span class="pl-e">ExtensionInterface</span></span>
+<span class="pl-s1">{</span>
+<span class="pl-s1">    <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">getName</span>(): <span class="pl-k">string</span></span>
+<span class="pl-s1">    {</span>
+<span class="pl-s1">        <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">'</span>my-tag<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">createNodeVisitors</span>(<span class="pl-k">array</span> <span class="pl-smi">$config</span> <span class="pl-k">=</span> []): <span class="pl-k">array</span></span>
+<span class="pl-s1">    {</span>
+<span class="pl-s1">        <span class="pl-k">return</span> [</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>my-tag<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-k">new</span> <span class="pl-c1">MyTagNodeVisitor</span>(<span class="pl-smi">$config</span>[<span class="pl-s"><span class="pl-pds">'</span>tags<span class="pl-pds">'</span></span>][<span class="pl-s"><span class="pl-pds">'</span>my-tag<span class="pl-pds">'</span></span>] ?? []),</span>
+<span class="pl-s1">            </span>
+<span class="pl-s1">            <span class="pl-c"><span class="pl-c">//</span> You can also override previous extensions tags here, for instance:</span></span>
+<span class="pl-s1">            <span class="pl-c"><span class="pl-c">//</span> 'img' =&gt; new MyCustomImgVisitor(),</span></span>
+<span class="pl-s1">        ];</span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1">}</span></pre></div>
+<p>Then, you can use the builder to create a Sanitizer that include this extension:</p>
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1"><span class="pl-smi">$builder</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">HtmlSanitizer\</span><span class="pl-c1">SanitizerBuilder</span>();</span>
+<span class="pl-s1"><span class="pl-smi">$builder</span><span class="pl-k">-&gt;</span>registerExtension(<span class="pl-k">new</span> <span class="pl-c1">HtmlSanitizer\Extension\</span><span class="pl-c1">BasicExtension</span>());</span>
+<span class="pl-s1"><span class="pl-smi">$builder</span><span class="pl-k">-&gt;</span>registerExtension(<span class="pl-k">new</span> <span class="pl-c1">HtmlSanitizer\Extension\</span><span class="pl-c1">ListExtension</span>());</span>
+<span class="pl-s1"><span class="pl-c"><span class="pl-c">//</span> Add the other core ones you need</span></span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-smi">$builder</span><span class="pl-k">-&gt;</span>registerExtension(<span class="pl-k">new</span> <span class="pl-c1">App\Sanitizer\</span><span class="pl-c1">MyTagExtension</span>());</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-smi">$sanitizer</span> <span class="pl-k">=</span> <span class="pl-smi">$builder</span><span class="pl-k">-&gt;</span>build([</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>extensions<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [<span class="pl-s"><span class="pl-pds">'</span>basic<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>list<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>my-tag<span class="pl-pds">'</span></span>],</span>
+<span class="pl-s1">});</span></pre></div>
