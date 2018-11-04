@@ -62,9 +62,9 @@ class DomVisitor implements DomVisitorInterface
 
         foreach ($node->childNodes ?? [] as $k => $child) {
             if ('#text' === $child->nodeName) {
+                // Add text in the safe tree without a visitor for performance
                 $cursor->node->addChild(new TextNode($cursor->node, $child->nodeValue));
-            } elseif (!$child instanceof \DOMText) {
-                // Ignore CDATA sections
+            } elseif (!$child instanceof \DOMText) { // Ignore HTML comments
                 $this->visitNode($child, $cursor);
             }
         }

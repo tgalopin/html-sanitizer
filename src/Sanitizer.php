@@ -20,6 +20,7 @@ use HtmlSanitizer\Extension\Listing\ListExtension;
 use HtmlSanitizer\Extension\Table\TableExtension;
 use HtmlSanitizer\Parser\MastermindsParser;
 use HtmlSanitizer\Parser\ParserInterface;
+use HtmlSanitizer\Util\Dumper;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
