@@ -17,6 +17,8 @@ use HtmlSanitizer\Visitor\StyleNodeVisitor;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @final
  */
 class SanitizerBuilder implements SanitizerBuilderInterface
 {

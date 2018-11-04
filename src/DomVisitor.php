@@ -18,6 +18,8 @@ use HtmlSanitizer\Visitor\NodeVisitorInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @final
  */
 class DomVisitor implements DomVisitorInterface
 {

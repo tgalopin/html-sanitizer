@@ -20,6 +20,8 @@ use HtmlSanitizer\Visitor\IsChildlessTagVisitorTrait;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @final
  */
 class ImgNodeVisitor extends AbstractNodeVisitor
 {

@@ -16,6 +16,8 @@ use HtmlSanitizer\Node\IsChildlessTrait;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @final
  */
 class HrNode extends AbstractTagNode
 {

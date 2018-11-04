@@ -19,6 +19,8 @@ use HtmlSanitizer\Visitor\IsChildlessTagVisitorTrait;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @final
  */
 class HrNodeVisitor extends AbstractNodeVisitor
 {

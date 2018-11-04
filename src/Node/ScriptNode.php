@@ -15,6 +15,8 @@ namespace HtmlSanitizer\Node;
  * Special node to ignore scripts and all their content.
  *
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @internal
  */
 class ScriptNode extends AbstractTagNode
 {

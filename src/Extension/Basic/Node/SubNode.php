@@ -16,6 +16,8 @@ use HtmlSanitizer\Node\HasChildrenTrait;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @final
  */
 class SubNode extends AbstractTagNode
 {

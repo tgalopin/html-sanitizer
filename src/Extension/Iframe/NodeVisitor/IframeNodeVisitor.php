@@ -20,6 +20,8 @@ use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @final
  */
 class IframeNodeVisitor extends AbstractNodeVisitor
 {

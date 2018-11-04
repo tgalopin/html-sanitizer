@@ -15,6 +15,8 @@ namespace HtmlSanitizer\Node;
  * Root node of the sanitized HTML. Contains all the other nodes.
  *
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @internal
  */
 class DocumentNode implements NodeInterface
 {

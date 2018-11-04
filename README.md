@@ -32,6 +32,15 @@ This library is also available as [a Symfony bundle](https://github.com/tgalopin
 If you discover a security vulnerability within Symfony, please follow
 [our disclosure procedure](https://github.com/tgalopin/html-sanitizer/blob/master/docs/A-security-disclosure-procedure.md).
 
+## Backward Compatibility promise
+
+This library follows the same Backward Compatibility promise as the Symfony framework:
+[https://symfony.com/doc/current/contributing/code/bc.html](https://symfony.com/doc/current/contributing/code/bc.html)
+
+> *Note*: many classes in this library are either marked `@final` or `@internal`.
+> `@internal` classes are excluded from any Backward Compatiblity promise (you should not use them in your code)
+> whereas `@final` classes can be used but should not be extended (use composition instead).
+
 ## Thanks
 
 Many thanks to:
