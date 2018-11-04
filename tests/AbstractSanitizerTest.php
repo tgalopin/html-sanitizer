@@ -99,7 +99,7 @@ abstract class AbstractSanitizerTest extends TestCase
 
     public function testDeeplyNestedTagDos()
     {
-        $this->assertNotEmpty($this->createSanitizer()->sanitize(str_repeat('<div>T', 20000)));
+        $this->assertNotEmpty($this->createSanitizer()->sanitize(str_repeat('<div>T', 10000)));
     }
 
     /**

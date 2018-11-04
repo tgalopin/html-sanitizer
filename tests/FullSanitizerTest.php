@@ -344,7 +344,7 @@ class FullSanitizerTest extends AbstractSanitizerTest
             ],
             [
                 '<<a href="javascript:evil"/>a href="javascript:evil"/>',
-                '<a></a>a href&#61;&#34;javascript:evil&#34;/&gt;',
+                '<a>a href&#61;&#34;javascript:evil&#34;/&gt;</a>',
             ],
             [
                 '!<textarea>&lt;/textarea&gt;&lt;svg/onload=prompt`xs`&gt;</textarea>!',
@@ -356,7 +356,7 @@ class FullSanitizerTest extends AbstractSanitizerTest
             ],
             [
                 '<<iframe src="javascript:evil"/>iframe src="javascript:evil"/>',
-                '<iframe></iframe>iframe src&#61;&#34;javascript:evil&#34;/&gt;',
+                '<iframe>iframe src&#61;&#34;javascript:evil&#34;/&gt;</iframe>',
             ],
 
             /*
