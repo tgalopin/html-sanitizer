@@ -12,66 +12,117 @@
 namespace Tests\HtmlSanitizer\Sanitizer;
 
 use HtmlSanitizer\Extension\Image\Sanitizer\ImgSrcSanitizer;
+use PHPUnit\Framework\TestCase;
 
-class ImgSrcSanitizerTest extends AbstractUrlSanitizerTest
+class ImgSrcSanitizerTest extends TestCase
 {
-    public function provideDataUriForbiddenForceHttps()
+    public function provideUrls()
     {
-        $urls = array_merge($this->provideUrls(), [
-            'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' => false,
+        // Simple cases
+        yield [
+            'allowedHosts' => null,
+            'allowDataUri' => false,
+            'forceHttps' => false,
+            'input' => 'https://trusted.com/image.php',
+            'output' => 'https://trusted.com/image.php',
+        ];
 
-            // Invalid URL
-            'data:' => false,
-            'data://image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' => false,
+        yield [
+            'allowedHosts' => ['trusted.com'],
+            'allowDataUri' => false,
+            'forceHttps' => false,
+            'input' => 'https://trusted.com/image.php',
+            'output' => 'https://trusted.com/image.php',
+        ];
 
-            // Non-image content-type
-            'data:text/plain;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' => false,
-        ]);
+        yield [
+            'allowedHosts' => ['trusted.com'],
+            'allowDataUri' => false,
+            'forceHttps' => false,
+            'input' => 'https://untrusted.com/image.php',
+            'output' => null,
+        ];
 
-        foreach ($urls as $url => $accepted) {
-            yield $url => [$url, $accepted ? $url : null];
-        }
+        yield [
+            'allowedHosts' => null,
+            'allowDataUri' => false,
+            'forceHttps' => false,
+            'input' => '/image.php',
+            'output' => null,
+        ];
 
-        // Ensure HTTP is rewritten to HTTPS
-        yield 'http://trusted.com/image.jpeg' => ['http://trusted.com/image.jpeg', 'https://trusted.com/image.jpeg'];
+        yield [
+            'allowedHosts' => null,
+            'allowDataUri' => true,
+            'forceHttps' => false,
+            'input' => '/image.php',
+            'output' => null,
+        ];
+
+        // Force HTTPS
+        yield [
+            'allowedHosts' => ['trusted.com'],
+            'allowDataUri' => false,
+            'forceHttps' => true,
+            'input' => 'http://trusted.com/image.php',
+            'output' => 'https://trusted.com/image.php',
+        ];
+
+        // Data-URI
+        yield [
+            'allowedHosts' => null,
+            'allowDataUri' => false,
+            'forceHttps' => false,
+            'input' => 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+            'output' => null,
+        ];
+
+        yield [
+            'allowedHosts' => null,
+            'allowDataUri' => true,
+            'forceHttps' => false,
+            'input' => 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+            'output' => 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+        ];
+
+        yield [
+            'allowedHosts' => ['trusted.com'],
+            'allowDataUri' => true,
+            'forceHttps' => false,
+            'input' => 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+            'output' => 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+        ];
+
+        yield [
+            'allowedHosts' => null,
+            'allowDataUri' => true,
+            'forceHttps' => false,
+            'input' => 'data://image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+            'output' => null,
+        ];
+
+        yield [
+            'allowedHosts' => null,
+            'allowDataUri' => true,
+            'forceHttps' => false,
+            'input' => 'data:',
+            'output' => null,
+        ];
+
+        yield [
+            'allowedHosts' => null,
+            'allowDataUri' => true,
+            'forceHttps' => false,
+            'input' => 'data:text/plain;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+            'output' => null,
+        ];
     }
 
     /**
-     * @dataProvider provideDataUriForbiddenForceHttps
+     * @dataProvider provideUrls
      */
-    public function testDataUriForbiddenForceHttps($input, $expected)
+    public function testSanitize($allowedHosts, $allowDataUri, $forceHttps, $input, $expected)
     {
-        $sanitizer = new ImgSrcSanitizer(['trusted.com'], false, true);
-        $this->assertEquals($expected, $sanitizer->sanitize($input));
-    }
-
-    public function provideDataUriAllowedDontForceHttps()
-    {
-        $urls = array_merge($this->provideUrls(), [
-            'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' => true,
-
-            // Invalid URL
-            'data:' => false,
-            'data://image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' => false,
-
-            // Non-image content-type
-            'data:text/plain;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' => false,
-        ]);
-
-        foreach ($urls as $url => $accepted) {
-            yield $url => [$url, $accepted ? $url : null];
-        }
-
-        // Ensure HTTP is kept
-        yield 'http://trusted.com/image.jpeg' => ['http://trusted.com/image.jpeg', 'http://trusted.com/image.jpeg'];
-    }
-
-    /**
-     * @dataProvider provideDataUriAllowedDontForceHttps
-     */
-    public function testDataUriAllowedDontForceHttps($input, $expected)
-    {
-        $sanitizer = new ImgSrcSanitizer(['trusted.com'], true, false);
-        $this->assertEquals($expected, $sanitizer->sanitize($input));
+        $this->assertSame($expected, (new ImgSrcSanitizer($allowedHosts, $allowDataUri, $forceHttps))->sanitize($input));
     }
 }

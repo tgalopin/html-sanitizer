@@ -27,16 +27,17 @@ class ANodeVisitor extends AbstractNodeVisitor
 {
     use HasChildrenNodeVisitorTrait;
 
-    /**
-     * @var AHrefSanitizer
-     */
-    private $hrefSanitizer;
+    private $sanitizer;
 
     public function __construct(array $config = [])
     {
         parent::__construct($config);
 
-        $this->hrefSanitizer = new AHrefSanitizer($this->config['allowed_hosts'], $this->config['allow_mailto']);
+        $this->sanitizer = new AHrefSanitizer(
+            $this->config['allowed_hosts'],
+            $this->config['allow_mailto'],
+            $this->config['force_https']
+        );
     }
 
     protected function getDomNodeName(): string
@@ -54,13 +55,14 @@ class ANodeVisitor extends AbstractNodeVisitor
         return [
             'allowed_hosts' => null,
             'allow_mailto' => true,
+            'force_https' => false,
         ];
     }
 
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
         $node = new ANode($cursor->node);
-        $node->setAttribute('href', $this->hrefSanitizer->sanitize($this->getAttribute($domNode, 'href')));
+        $node->setAttribute('href', $this->sanitizer->sanitize($this->getAttribute($domNode, 'href')));
 
         return $node;
     }

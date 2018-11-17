@@ -12,48 +12,70 @@
 namespace Tests\HtmlSanitizer\Sanitizer;
 
 use HtmlSanitizer\Extension\Iframe\Sanitizer\IframeSrcSanitizer;
+use PHPUnit\Framework\TestCase;
 
-class IframeSrcSanitizerTest extends AbstractUrlSanitizerTest
+class IframeSrcSanitizerTest extends TestCase
 {
-    public function provideForceHttps()
+    public function provideUrls()
     {
-        $urls = $this->provideUrls();
+        // Simple cases
+        yield [
+            'allowedHosts' => null,
+            'forceHttps' => false,
+            'input' => 'https://trusted.com/iframe.php',
+            'output' => 'https://trusted.com/iframe.php',
+        ];
 
-        foreach ($urls as $url => $accepted) {
-            yield $url => [$url, $accepted ? $url : null];
-        }
+        yield [
+            'allowedHosts' => ['trusted.com'],
+            'forceHttps' => false,
+            'input' => 'https://trusted.com/iframe.php',
+            'output' => 'https://trusted.com/iframe.php',
+        ];
 
-        // Ensure HTTP is rewritten to HTTPS
-        yield 'http://trusted.com/image.jpeg' => ['http://trusted.com/image.jpeg', 'https://trusted.com/image.jpeg'];
+        yield [
+            'allowedHosts' => ['trusted.com'],
+            'forceHttps' => false,
+            'input' => 'https://untrusted.com/iframe.php',
+            'output' => null,
+        ];
+
+        yield [
+            'allowedHosts' => null,
+            'forceHttps' => false,
+            'input' => '/iframe.php',
+            'output' => null,
+        ];
+
+        // Force HTTPS
+        yield [
+            'allowedHosts' => ['trusted.com'],
+            'forceHttps' => true,
+            'input' => 'http://trusted.com/iframe.php',
+            'output' => 'https://trusted.com/iframe.php',
+        ];
+
+        // Data-URI not allowed
+        yield [
+            'allowedHosts' => null,
+            'forceHttps' => false,
+            'input' => 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+            'output' => null,
+        ];
+
+        yield [
+            'allowedHosts' => null,
+            'forceHttps' => true,
+            'input' => 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+            'output' => null,
+        ];
     }
 
     /**
-     * @dataProvider provideForceHttps
+     * @dataProvider provideUrls
      */
-    public function testForceHttps($input, $expected)
+    public function testSanitize($allowedHosts, $forceHttps, $input, $expected)
     {
-        $sanitizer = new IframeSrcSanitizer(['trusted.com'], true);
-        $this->assertEquals($expected, $sanitizer->sanitize($input));
-    }
-
-    public function provideDontForceHttps()
-    {
-        $urls = $this->provideUrls();
-
-        foreach ($urls as $url => $accepted) {
-            yield $url => [$url, $accepted ? $url : null];
-        }
-
-        // Ensure HTTP is kept
-        yield 'http://trusted.com/image.jpeg' => ['http://trusted.com/image.jpeg', 'http://trusted.com/image.jpeg'];
-    }
-
-    /**
-     * @dataProvider provideDontForceHttps
-     */
-    public function testDontForceHttps($input, $expected)
-    {
-        $sanitizer = new IframeSrcSanitizer(['trusted.com'], false);
-        $this->assertEquals($expected, $sanitizer->sanitize($input));
+        $this->assertSame($expected, (new IframeSrcSanitizer($allowedHosts, $forceHttps))->sanitize($input));
     }
 }

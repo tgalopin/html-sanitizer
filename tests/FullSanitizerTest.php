@@ -142,7 +142,7 @@ class FullSanitizerTest extends AbstractSanitizerTest
             ],
             [
                 '<iframe src="/frame/example" width="300" height="300" frameborder="0">Lorem ipsum</iframe>',
-                '<iframe src="/frame/example" width="300" height="300" frameborder="0">Lorem ipsum</iframe>',
+                '<iframe width="300" height="300" frameborder="0">Lorem ipsum</iframe>',
             ],
             [
                 '<iframe src="http://trusted.com/frame/example" width="300" height="300" frameborder="0">Lorem ipsum</iframe>',
@@ -158,7 +158,7 @@ class FullSanitizerTest extends AbstractSanitizerTest
             ],
             [
                 '<img src="/img/example.jpg" alt="Image alternative text" title="Image title" class="foo">',
-                '<img src="/img/example.jpg" alt="Image alternative text" title="Image title" />',
+                '<img alt="Image alternative text" title="Image title" />',
             ],
             [
                 '<img src="http://trusted.com/img/example.jpg" alt="Image alternative text" title="Image title" class="foo" />',
@@ -315,7 +315,7 @@ class FullSanitizerTest extends AbstractSanitizerTest
             ],
             [
                 '<a href= onmouseover="alert(\\\'XSS\\\');">Lorem ipsum</a>',
-                '<a href="onmouseover&#61;&#34;alert(\&#039;XSS\&#039;);&#34;">Lorem ipsum</a>',
+                '<a>Lorem ipsum</a>',
             ],
 
             /*
@@ -327,8 +327,8 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 '<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>',
             ],
             [
-                '<figure><img src="/img/example.jpg" onclick="alert(\'ok\')" /></figure>',
-                '<figure><img src="/img/example.jpg" /></figure>',
+                '<figure><img src="https://trusted.com/img/example.jpg" onclick="alert(\'ok\')" /></figure>',
+                '<figure><img src="https://trusted.com/img/example.jpg" /></figure>',
             ],
             [
                 '<a href="javascript:alert(\'ok\')">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</a>',
@@ -336,7 +336,7 @@ class FullSanitizerTest extends AbstractSanitizerTest
             ],
             [
                 '<img src= onmouseover="alert(\'XSS\');" />',
-                '<img src="onmouseover&#61;&#34;alert(&#039;XSS&#039;);&#34;" />',
+                '<img />',
             ],
             [
                 '<<img src="javascript:evil"/>img src="javascript:evil"/>',
@@ -352,7 +352,7 @@ class FullSanitizerTest extends AbstractSanitizerTest
             ],
             [
                 '<iframe src= onmouseover="alert(\'XSS\');" />',
-                '<iframe src="onmouseover&#61;&#34;alert(&#039;XSS&#039;);&#34;"></iframe>',
+                '<iframe></iframe>',
             ],
             [
                 '<<iframe src="javascript:evil"/>iframe src="javascript:evil"/>',
@@ -368,8 +368,8 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 '<div>Lorem ipsum dolor sit amet, consectetur.</div>',
             ],
             [
-                '<img src="/img/example.jpg" style="position:absolute;top:0;left:0;width:9000px;height:9000px;" />',
-                '<img src="/img/example.jpg" />',
+                '<img src="https://trusted.com/img/example.jpg" style="position:absolute;top:0;left:0;width:9000px;height:9000px;" />',
+                '<img src="https://trusted.com/img/example.jpg" />',
             ],
             [
                 '<a style="font-size: 40px; color: red;">Lorem ipsum dolor sit amet, consectetur.</a>',

@@ -20,7 +20,6 @@ use HtmlSanitizer\Extension\Listing\ListExtension;
 use HtmlSanitizer\Extension\Table\TableExtension;
 use HtmlSanitizer\Parser\MastermindsParser;
 use HtmlSanitizer\Parser\ParserInterface;
-use HtmlSanitizer\Util\Dumper;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
@@ -88,7 +87,7 @@ class Sanitizer implements SanitizerInterface
         }
 
         // Remove NULL character
-        $html = str_replace(chr(0), '', $html);
+        $html = str_replace(\chr(0), '', $html);
 
         try {
             $parsed = $this->parser->parse($html);
@@ -107,6 +106,6 @@ class Sanitizer implements SanitizerInterface
     private function isValidUtf8(string $html): bool
     {
         // preg_match() fails silently on strings containing invalid UTF-8.
-        return mb_strlen($html) == 0 || preg_match('/^./us', $html) === 1;
+        return $html === '' || preg_match('/^./us', $html) === 1;
     }
 }

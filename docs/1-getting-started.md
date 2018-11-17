@@ -3,8 +3,8 @@
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
 - [Extensions](#extensions)
-- [Filtering images and iframes hosts](#filtering-images-and-iframes-hosts)
-- [Forcing HTTPS on images and iframes source hosts](#forcing-https-on-images-and-iframes-source-hosts)
+- [Filtering links, images and iframes hosts](#filtering-links-images-and-iframes-hosts)
+- [Forcing HTTPS on links, images and iframes hosts](#forcing-https-on-images-and-iframes-source-hosts)
 - [Configuring allowed attributes](#configuring-allowed-attributes)
 
 ## Installation
@@ -59,61 +59,92 @@ Here is the list of tags each extension allow:
 - **iframe** allows the insertion of iframes: `iframe`
 - **extra** allows the insertion of the following tags: `abbr`, `caption`, `hr`, `rp`, `rt`, `ruby`
 
-## Filtering images and iframes hosts
+> Note: sensible attributes are allowed by default for each tag (for instance, the `src` attribute is
+> allowed by default on images). You can also
+> [override these allowed attributes manually](#configuring-allowed-attributes) if you need to.
 
-The sanitizer image and iframe extensions provide a feature to filter hosts, which can be useful 
+## Filtering links, images and iframes hosts
+
+> Note: the Sanitizer does not allow relative URLs: they are always filtered out for security reasons.
+
+The sanitizer basic, image and iframe extensions provide a feature to filter hosts, which can be useful 
 to avoid connecting to external websites that may, for instance, track your website views.
 
-To enable this feature, you need to enable the `image` and/or `iframe` extension and configure the tag:
+To enable this feature, you need to configure the tags:
 
 ```php
 $sanitizer = HtmlSanitizer\Sanitizer::create([
-    'extensions' => ['image', 'iframe'],
+    'extensions' => ['basic', 'image', 'iframe'],
     'tags' => [
-        'img' => [
+        'a' => [
             /*
-            * If an array is provided, all the images relying on other hosts than one in this array
-            * will be disabled (the `src` attribute will be blank). This can be useful if you want
-            * to prevent images contacting external websites.
-            *
-            * Any allowed domain also includes its subdomains.
-            *
-            *      'allowed_hosts' => ['trusted1.com', 'google.com'],
-            */
+             * If an array is provided, links targeting other hosts than one in this array
+             * will be disabled (the `href` attribute will be blank). This can be useful if you want
+             * to prevent links targeting external websites. Keep null to allow all hosts.
+             * Any allowed domain also includes its subdomains.
+             *
+             * Example:
+             *      'allowed_hosts' => ['trusted1.com', 'google.com'],
+             */
             'allowed_hosts' => null,
             
             /*
-            * If true, images data-uri URLs will be accepted.
-            */
+             * If true, mailto links will be accepted.
+             */
+            'allow_mailto' => false,
+        ],
+        
+        'img' => [
+            /*
+             * If an array is provided, images relying on other hosts than one in this array
+             * will be disabled (the `src` attribute will be blank). This can be useful if you want
+             * to prevent images contacting external websites. Keep null to allow all hosts.
+             * Any allowed domain also includes its subdomains.
+             *
+             * Example:
+             *      'allowed_hosts' => ['trusted1.com', 'google.com'],
+             */
+            'allowed_hosts' => null,
+            
+            /*
+             * If true, images data-uri URLs will be accepted.
+             */
             'allow_data_uri' => false,
         ],
         
         'iframe' => [
             /*
-            * If an array is provided, all the iframes relying on other hosts than one in this array
-            * will be disabled (the `src` attribute will be blank). This can be useful if you want
-            * to prevent iframes contacting external websites.
-            *
-            * Any allowed domain also includes its subdomains.
-            *
-            *      'allowed_hosts' => ['trusted1.com', 'google.com'],
-            */
+             * If an array is provided, iframes relying on other hosts than one in this array
+             * will be disabled (the `src` attribute will be blank). This can be useful if you want
+             * to prevent iframes contacting external websites.
+             * Any allowed domain also includes its subdomains.
+             *
+             * Example:
+             *      'allowed_hosts' => ['trusted1.com', 'google.com'],
+             */
             'allowed_hosts' => null,
         ],
     ],
 ]);
 ```
 
-## Forcing HTTPs on images and iframes source hosts
+## Forcing HTTPs on links, images and iframes hosts
 
-The sanitizer image and iframe extensions provide a feature to force HTTPs on targeted hosts.
+The sanitizer basic, image and iframe extensions provide a feature to force HTTPs on targeted hosts.
 
-To enable this feature, you need to enable the `image` and/or `iframe` extension and configure the tag:
+To enable this feature, you need to configure the tags:
 
 ```php
 $sanitizer = HtmlSanitizer\Sanitizer::create([
-    'extensions' => ['image', 'iframe'],
+    'extensions' => ['basic', 'image', 'iframe'],
     'tags' => [
+        'a' => [
+            /*
+             * If true, all links targets using the HTTP protocol will be rewritten to use HTTPS instead.
+             */
+            'force_https' => false,
+        ],
+        
         'img' => [
             /*
              * If true, all images URLs using the HTTP protocol will be rewritten to use HTTPS instead.

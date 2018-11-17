@@ -3,8 +3,8 @@
 If you want to use additional tags than the one present in the sanitizer core extensions, you can create your
 own extension.
 
-There are two steps in the creation of an extension to handle additional tags: creating the node visitor which
-will handle the custom tag, and registering it using an extension.
+There are two steps in the creation of an extension: creating the node visitor which will handle the
+custom tag and registering this visitor by creating an extension class.
 
 To better understand how to create an extension suited to your needs, you can also have a look at the
 [Image extension](https://github.com/tgalopin/html-sanitizer/tree/master/src/Extension/Image)

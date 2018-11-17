@@ -284,7 +284,7 @@ class SimpleSanitizerTest extends AbstractSanitizerTest
             ],
             [
                 '<a href= onmouseover="alert(\\\'XSS\\\');">Lorem ipsum</a>',
-                '<a href="onmouseover&#61;&#34;alert(\&#039;XSS\&#039;);&#34;">Lorem ipsum</a>',
+                '<a>Lorem ipsum</a>',
             ],
 
 
@@ -339,8 +339,8 @@ class SimpleSanitizerTest extends AbstractSanitizerTest
                 '<p></p>',
             ],
             [
-                '<p onload=""<a href="/" onload="">first part of the text</> second part',
-                '<p><a href="/">first part of the text second part</a></p>',
+                '<p onload=""<a href="https://trusted.com/" onload="">first part of the text</> second part',
+                '<p><a href="https://trusted.com/">first part of the text second part</a></p>',
             ],
             [
                 '<p onload=""<b onload="">Hello',

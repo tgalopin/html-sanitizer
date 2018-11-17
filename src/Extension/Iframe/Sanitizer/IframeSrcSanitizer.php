@@ -20,9 +20,7 @@ class IframeSrcSanitizer
 {
     use UrlSanitizerTrait;
 
-    /**
-     * @var bool
-     */
+    private $allowedHosts;
     private $forceHttps;
 
     public function __construct(?array $allowedHosts, bool $forceHttps)
@@ -33,27 +31,6 @@ class IframeSrcSanitizer
 
     public function sanitize(?string $input): ?string
     {
-        $url = $this->parseAndCleanUrl($input, ['https', 'http', 'mailto']);
-        if (!$url) {
-            return null;
-        }
-
-        // Local URL
-        if ($this->isLocalUrl($url)) {
-            return $this->buildUrl($url);
-        }
-
-        // Absolute URL: check host
-        if (!$url['host'] || !$this->isAllowedHost($url['host'])) {
-            return null;
-        }
-
-        // Force HTTPS
-        if ($this->forceHttps && $url['scheme'] === 'http') {
-            $url['scheme'] = 'https';
-        }
-
-        // Allowed: rebuild a clean URL
-        return $this->buildUrl($url);
+        return $this->sanitizeUrl($input, ['http', 'https'], $this->allowedHosts, $this->forceHttps);
     }
 }
