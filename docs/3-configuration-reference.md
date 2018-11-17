@@ -30,12 +30,12 @@ $sanitizer = HtmlSanitizer\Sanitizer::create([
             'allowed_attributes' => ['href', 'title'],
             
             /*
-             * If an array is provided, all the links targeting other hosts than one in this array
+             * If an array is provided, links targeting other hosts than one in this array
              * will be disabled (the `href` attribute will be blank). This can be useful if you want
-             * to prevent links to target external websites.
-             *
+             * to prevent links targeting external websites. Keep null to allow all hosts.
              * Any allowed domain also includes its subdomains.
              *
+             * Example:
              *      'allowed_hosts' => ['trusted1.com', 'google.com'],
              */
             'allowed_hosts' => null,
@@ -45,6 +45,11 @@ $sanitizer = HtmlSanitizer\Sanitizer::create([
              * will be blank).
              */
             'allow_mailto' => true,
+            
+            /*
+             * If true, all links targets using the HTTP protocol will be rewritten to use HTTPS instead.
+             */
+            'force_https' => false,
         ],
         'blockquote' => [
             'allowed_attributes' => [],
@@ -107,15 +112,12 @@ $sanitizer = HtmlSanitizer\Sanitizer::create([
             'allowed_attributes' => ['src', 'width', 'height', 'frameborder', 'title', 'allow', 'allowfullscreen'],
         
             /*
-             * If an array is provided, all the frames relying on other hosts than one in this array
+             * If an array is provided, iframes relying on other hosts than one in this array
              * will be disabled (the `src` attribute will be blank). This can be useful if you want
-             * to prevent frames from external websites.
-             *
-             * Be careful: some website integrations rely in frames and may break if you use this
-             * configuration key.
-             *
+             * to prevent iframes contacting external websites.
              * Any allowed domain also includes its subdomains.
              *
+             * Example:
              *      'allowed_hosts' => ['trusted1.com', 'google.com'],
              */
             'allowed_hosts' => null,
@@ -129,12 +131,12 @@ $sanitizer = HtmlSanitizer\Sanitizer::create([
             'allowed_attributes' => ['src', 'alt', 'title'],
             
             /*
-             * If an array is provided, all the images relying on other hosts than one in this array
+             * If an array is provided, images relying on other hosts than one in this array
              * will be disabled (the `src` attribute will be blank). This can be useful if you want
-             * to prevent images contacting external websites.
-             *
+             * to prevent images contacting external websites. Keep null to allow all hosts.
              * Any allowed domain also includes its subdomains.
              *
+             * Example:
              *      'allowed_hosts' => ['trusted1.com', 'google.com'],
              */
             'allowed_hosts' => null,
