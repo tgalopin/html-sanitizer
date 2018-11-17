@@ -30,13 +30,13 @@ class IframeNodeVisitor extends AbstractNodeVisitor
     /**
      * @var IframeSrcSanitizer
      */
-    private $srcSanitizer;
+    private $sanitizer;
 
     public function __construct(array $config = [])
     {
         parent::__construct($config);
 
-        $this->srcSanitizer = new IframeSrcSanitizer($this->config['allowed_hosts'], $this->config['force_https']);
+        $this->sanitizer = new IframeSrcSanitizer($this->config['allowed_hosts'], $this->config['force_https']);
     }
 
     protected function getDomNodeName(): string
@@ -65,7 +65,7 @@ class IframeNodeVisitor extends AbstractNodeVisitor
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
         $node = new IframeNode($cursor->node);
-        $node->setAttribute('src', $this->srcSanitizer->sanitize($this->getAttribute($domNode, 'src')));
+        $node->setAttribute('src', $this->sanitizer->sanitize($this->getAttribute($domNode, 'src')));
 
         return $node;
     }

@@ -20,14 +20,8 @@ class ImgSrcSanitizer
 {
     use UrlSanitizerTrait;
 
-    /**
-     * @var bool
-     */
+    private $allowedHosts;
     private $allowDataUri;
-
-    /**
-     * @var bool
-     */
     private $forceHttps;
 
     public function __construct(?array $allowedHosts, bool $allowDataUri, bool $forceHttps)
@@ -39,41 +33,21 @@ class ImgSrcSanitizer
 
     public function sanitize(?string $input): ?string
     {
-        $url = $this->parseAndCleanUrl($input, ['https', 'http', 'mailto', 'data']);
-        if (!$url) {
+        $allowedSchemes = ['http', 'https'];
+        $allowedHosts = $this->allowedHosts;
+
+        if ($this->allowDataUri) {
+            $allowedSchemes[] = 'data';
+            $allowedHosts[] = null;
+        }
+
+        $sanitized = $this->sanitizeUrl($input, $allowedSchemes, $allowedHosts, $this->forceHttps);
+
+        // Allow only images in data URIs
+        if (strpos($sanitized, 'data:') === 0 && strpos($sanitized, 'data:image/') !== 0) {
             return null;
         }
 
-        // Local URL
-        if ($this->isLocalUrl($url)) {
-            return $this->buildUrl($url);
-        }
-
-        // data
-        if ($url['scheme'] === 'data') {
-            if (!$this->allowDataUri || empty($url['path'])) {
-                return null;
-            }
-
-            // Allow only images as content type
-            if (mb_strpos($url['path'], 'image/') !== 0) {
-                return null;
-            }
-
-            return $this->buildUrl($url);
-        }
-
-        // Absolute URL: check host
-        if (!$url['host'] || !$this->isAllowedHost($url['host'])) {
-            return null;
-        }
-
-        // Force HTTPS
-        if ($this->forceHttps && $url['scheme'] === 'http') {
-            $url['scheme'] = 'https';
-        }
-
-        // Allowed: rebuild a clean URL
-        return $this->buildUrl($url);
+        return $sanitized;
     }
 }

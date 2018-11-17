@@ -11,9 +11,8 @@
 
 namespace HtmlSanitizer\Sanitizer;
 
+use HtmlSanitizer\UrlParser\UrlParser;
 use function League\Uri\build;
-use League\Uri\Exception as UriException;
-use function League\Uri\parse;
 
 /**
  * @internal
@@ -21,53 +20,54 @@ use function League\Uri\parse;
 trait UrlSanitizerTrait
 {
     /**
-     * @var string[]
+     * @var UrlParser|null
      */
-    private $allowedHosts;
+    private $parser;
 
-    private function parseAndCleanUrl(?string $input, array $allowedSchemes): ?array
+    private function sanitizeUrl(?string $input, array $allowedSchemes, ?array $allowedHosts, bool $forceHttps = false): ?string
     {
-        if ($input === null) {
+        if (!$input) {
             return null;
         }
 
-        // Remove invalid characters
-        $input = str_replace(["\n", "\t", "\r", chr(0)], '', $input);
-
-        try {
-            $url = parse($input);
-        } catch (UriException $e) {
-            return null;
+        if (!$this->parser) {
+            $this->parser = new UrlParser();
         }
+
+        $url = $this->parser->parse($input);
 
         // Malformed URL
-        if (!is_array($url) || !$url) {
+        if (!\is_array($url) || !$url) {
             return null;
         }
 
         // Invalid scheme
-        if (!in_array($url['scheme'], array_merge($allowedSchemes, [null]), true)) {
+        if (!\in_array($url['scheme'], $allowedSchemes, true)) {
             return null;
         }
 
-        return $url;
+        // Invalid host
+        if ($allowedHosts !== null && !$this->isAllowedHost($url['host'], $allowedHosts)) {
+            return null;
+        }
+
+        // Force HTTPS
+        if ($forceHttps && $url['scheme'] === 'http') {
+            $url['scheme'] = 'https';
+        }
+
+        return build($url);
     }
 
-    private function isLocalUrl(array $url): bool
+    private function isAllowedHost(?string $host, array $allowedHosts): bool
     {
-        return $url['scheme'] === null && $url['host'] === null && $url['port'] === null
-            && $url['user'] === null && $url['pass'] === null;
-    }
-
-    private function isAllowedHost(string $host): bool
-    {
-        if ($this->allowedHosts === null) {
+        if ($host === null && \in_array(null, $allowedHosts, true)) {
             return true;
         }
 
         $parts = array_reverse(explode('.', $host));
 
-        foreach ($this->allowedHosts as $allowedHost) {
+        foreach ($allowedHosts as $allowedHost) {
             if ($this->matchAllowedHostParts($parts, array_reverse(explode('.', $allowedHost)))) {
                 return true;
             }
@@ -86,10 +86,5 @@ trait UrlSanitizerTrait
         }
 
         return true;
-    }
-
-    private function buildUrl(array $url): string
-    {
-        return build($url);
     }
 }

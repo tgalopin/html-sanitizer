@@ -20,49 +20,37 @@ class AHrefSanitizer
 {
     use UrlSanitizerTrait;
 
-    /**
-     * @var bool
-     */
+    private $allowedHosts;
     private $allowMailTo;
+    private $forceHttps;
 
-    public function __construct(?array $allowedHosts, bool $allowMailTo)
+    public function __construct(?array $allowedHosts, bool $allowMailTo, bool $forceHttps)
     {
         $this->allowedHosts = $allowedHosts;
         $this->allowMailTo = $allowMailTo;
+        $this->forceHttps = $forceHttps;
     }
 
     public function sanitize(?string $input): ?string
     {
-        $url = $this->parseAndCleanUrl($input, ['https', 'http', 'mailto']);
-        if (!$url) {
+        $allowedSchemes = ['http', 'https'];
+        $allowedHosts = $this->allowedHosts;
+
+        if ($this->allowMailTo) {
+            $allowedSchemes[] = 'mailto';
+
+            if (\is_array($this->allowedHosts)) {
+                $allowedHosts[] = null;
+            }
+        }
+
+        $sanitized = $this->sanitizeUrl($input, $allowedSchemes, $allowedHosts, $this->forceHttps);
+
+        // Basic validation that it's an e-mail
+        if (strpos($sanitized, 'mailto:') === 0 && (strpos($sanitized, '@') === false || strpos($sanitized, '.') === false)) {
             return null;
         }
 
-        // Local URL
-        if ($this->isLocalUrl($url)) {
-            return $this->buildUrl($url);
-        }
-
-        // mailto
-        if ($url['scheme'] === 'mailto') {
-            if (!$this->allowMailTo || empty($url['path'])) {
-                return null;
-            }
-
-            // Simple check that the e-mail is valid
-            if (mb_strpos($url['path'], '@') === false || mb_strpos($url['path'], '.') === false) {
-                return null;
-            }
-
-            return $this->buildUrl($url);
-        }
-
-        // Absolute URL: check host
-        if (!$url['host'] || !$this->isAllowedHost($url['host'])) {
-            return null;
-        }
-
-        // Allowed: rebuild a clean URL
-        return $this->buildUrl($url);
+        return $sanitized;
     }
 }
