@@ -358,6 +358,14 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 '<<iframe src="javascript:evil"/>iframe src="javascript:evil"/>',
                 '<iframe>iframe src&#61;&#34;javascript:evil&#34;/&gt;</iframe>',
             ],
+            [
+                '<scr<script>ipt>alert(1)</script>',
+                '',
+            ],
+            [
+                '<scr<a>ipt>alert(1)</script>',
+                '<a>ipt&gt;alert(1)</a>',
+            ],
 
             /*
              * Styles

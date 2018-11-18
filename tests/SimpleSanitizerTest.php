@@ -308,6 +308,14 @@ class SimpleSanitizerTest extends AbstractSanitizerTest
                 '"><script>...</script><input value="',
                 '&#34;&gt;',
             ],
+            [
+                '<scr<script>ipt>alert(1)</script>',
+                '',
+            ],
+            [
+                '<scr<a>ipt>alert(1)</script>',
+                '<a>ipt&gt;alert(1)</a>',
+            ],
 
             /*
              * Styles
