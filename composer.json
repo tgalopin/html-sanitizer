@@ -22,7 +22,7 @@
     "require": {
         "php": ">=7.1",
         "ext-dom": "*",
-        "masterminds/html5": "^2.3",
+        "masterminds/html5": "^2.4",
         "psr/log": "^1.0",
         "league/uri-parser": "^1.4"
     },
