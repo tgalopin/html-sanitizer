@@ -44,10 +44,12 @@ class AHrefSanitizer
             }
         }
 
-        $sanitized = $this->sanitizeUrl($input, $allowedSchemes, $allowedHosts, $this->forceHttps);
+        if (!$sanitized = $this->sanitizeUrl($input, $allowedSchemes, $allowedHosts, $this->forceHttps)) {
+            return null;
+        }
 
         // Basic validation that it's an e-mail
-        if (strpos($sanitized, 'mailto:') === 0 && (strpos($sanitized, '@') === false || strpos($sanitized, '.') === false)) {
+        if (0 === strpos($sanitized, 'mailto:') && (false === strpos($sanitized, '@') || false === strpos($sanitized, '.'))) {
             return null;
         }
 

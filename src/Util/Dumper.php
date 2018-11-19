@@ -30,13 +30,14 @@ class Dumper
         echo "}\n";
     }
 
-    private static function dumpDomNode(\DOMNode $node)
+    private static function dumpDomNode(\DOMNode $node): string
     {
-        self::$id++;
+        ++self::$id;
 
         $name = self::$id.'-'.$node->nodeName;
         echo '    "'.$name."\";\n";
 
+        /** @var \DOMNode $child */
         foreach ($node->childNodes ?: [] as $child) {
             $childName = self::dumpDomNode($child);
             echo '    "'.$name.'" -> "'.$childName."\";\n";

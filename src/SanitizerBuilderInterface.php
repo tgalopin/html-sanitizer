@@ -24,8 +24,6 @@ interface SanitizerBuilderInterface
      * Register an extension to use in the sanitizer being built.
      *
      * @param ExtensionInterface $extension
-     *
-     * @return void
      */
     public function registerExtension(ExtensionInterface $extension);
 

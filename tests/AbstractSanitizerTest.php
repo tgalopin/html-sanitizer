@@ -23,7 +23,6 @@ abstract class AbstractSanitizerTest extends TestCase
     {
         // Fixtures shared by all sanitizers
         return [
-
             [
                 'hello world',
                 'hello world',
@@ -72,7 +71,6 @@ abstract class AbstractSanitizerTest extends TestCase
                 'Lorem ipsum<![CDATA[ <!-- ]]> <script>alert(1337)</script> <!-- -->',
                 'Lorem ipsum  ',
             ],
-
         ];
     }
 
@@ -94,7 +92,7 @@ abstract class AbstractSanitizerTest extends TestCase
     public function testRemoveNullByte()
     {
         $this->assertSame('Null byte', $this->createSanitizer()->sanitize("Null byte\0"));
-        $this->assertSame('Null byte', $this->createSanitizer()->sanitize("Null byte&#0;"));
+        $this->assertSame('Null byte', $this->createSanitizer()->sanitize('Null byte&#0;'));
     }
 
     public function testDeeplyNestedTagDos()

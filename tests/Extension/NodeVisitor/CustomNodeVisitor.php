@@ -32,7 +32,7 @@ class CustomNodeVisitor extends AbstractNodeVisitor
     public function getDefaultAllowedAttributes(): array
     {
         return [
-            'class', 'width', 'height'
+            'class', 'width', 'height',
         ];
     }
 
