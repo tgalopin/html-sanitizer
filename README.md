@@ -26,7 +26,7 @@ This library is also available as [a Symfony bundle](https://github.com/tgalopin
 
 ## Security Issues
 
-If you discover a security vulnerability within Symfony, please follow
+If you discover a security vulnerability within the sanitizer, please follow
 [our disclosure procedure](https://github.com/tgalopin/html-sanitizer/blob/master/docs/A-security-disclosure-procedure.md).
 
 ## Backward Compatibility promise
