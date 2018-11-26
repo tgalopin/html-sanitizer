@@ -32,7 +32,7 @@ class Dumper
 
     private static function dumpDomNode(\DOMNode $node)
     {
-        self::$id++;
+        ++self::$id;
 
         $name = self::$id.'-'.$node->nodeName;
         echo '    "'.$name."\";\n";

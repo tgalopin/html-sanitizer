@@ -23,7 +23,7 @@ class UrlParserTest extends TestCase
     {
         $parsed = (new UrlParser())->parse($url);
 
-        if ($expected === null) {
+        if (null === $expected) {
             $this->assertNull($parsed);
         } else {
             $this->assertInternalType('array', $parsed);

@@ -44,7 +44,7 @@ class ImgSrcSanitizer
         $sanitized = $this->sanitizeUrl($input, $allowedSchemes, $allowedHosts, $this->forceHttps);
 
         // Allow only images in data URIs
-        if (strpos($sanitized, 'data:') === 0 && strpos($sanitized, 'data:image/') !== 0) {
+        if (0 === strpos($sanitized, 'data:') && 0 !== strpos($sanitized, 'data:image/')) {
             return null;
         }
 

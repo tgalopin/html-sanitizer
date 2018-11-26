@@ -47,12 +47,12 @@ trait UrlSanitizerTrait
         }
 
         // Invalid host
-        if ($allowedHosts !== null && !$this->isAllowedHost($url['host'], $allowedHosts)) {
+        if (null !== $allowedHosts && !$this->isAllowedHost($url['host'], $allowedHosts)) {
             return null;
         }
 
         // Force HTTPS
-        if ($forceHttps && $url['scheme'] === 'http') {
+        if ($forceHttps && 'http' === $url['scheme']) {
             $url['scheme'] = 'https';
         }
 
@@ -61,7 +61,7 @@ trait UrlSanitizerTrait
 
     private function isAllowedHost(?string $host, array $allowedHosts): bool
     {
-        if ($host === null && \in_array(null, $allowedHosts, true)) {
+        if (null === $host && \in_array(null, $allowedHosts, true)) {
             return true;
         }
 

@@ -39,7 +39,6 @@ class FullSanitizerTest extends AbstractSanitizerTest
     public function provideFixtures(): array
     {
         return array_merge(parent::provideFixtures(), [
-
             /*
              * Normal tags
              */
@@ -383,7 +382,6 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 '<a style="font-size: 40px; color: red;">Lorem ipsum dolor sit amet, consectetur.</a>',
                 '<a>Lorem ipsum dolor sit amet, consectetur.</a>',
             ],
-
         ]);
     }
 }

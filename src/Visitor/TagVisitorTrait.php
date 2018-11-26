@@ -31,9 +31,9 @@ trait TagVisitorTrait
     /**
      * Set attributes from a DOM node to a sanitized node.
      *
-     * @param \DOMNode $domNode
+     * @param \DOMNode         $domNode
      * @param TagNodeInterface $node
-     * @param array $allowedAttributes
+     * @param array            $allowedAttributes
      */
     private function setAttributes(\DOMNode $domNode, TagNodeInterface $node, array $allowedAttributes = [])
     {
@@ -55,7 +55,7 @@ trait TagVisitorTrait
      * Read the value of a DOMNode attribute.
      *
      * @param \DOMNode $domNode
-     * @param string $name
+     * @param string   $name
      *
      * @return null|string
      */
