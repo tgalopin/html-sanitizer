@@ -23,6 +23,7 @@ This library is also available as [a Symfony bundle](https://github.com/tgalopin
 1. [Getting started](https://github.com/tgalopin/html-sanitizer/blob/master/docs/1-getting-started.md)
 2. [Creating an extension to allow custom tags](https://github.com/tgalopin/html-sanitizer/blob/master/docs/2-creating-an-extension-to-allow-custom-tags.md)
 3. [Configuration reference](https://github.com/tgalopin/html-sanitizer/blob/master/docs/3-configuration-reference.md)
+4. [Comparison with HTMLPurifier](https://github.com/tgalopin/html-sanitizer/blob/master/docs/4-comparison-with-htmlpurifier.md)
 
 ## Security Issues
 
