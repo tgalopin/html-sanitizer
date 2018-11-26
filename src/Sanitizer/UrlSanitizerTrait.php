@@ -82,8 +82,8 @@ trait UrlSanitizerTrait
         // Check each chunk of the domain is valid
         /**
          * @var array<int, string> $uriParts
-         * @var int $key
-         * @var string $trustedPart
+         * @var int                $key
+         * @var string             $trustedPart
          */
         foreach ($trustedParts as $key => $trustedPart) {
             if ($uriParts[$key] !== $trustedPart) {
