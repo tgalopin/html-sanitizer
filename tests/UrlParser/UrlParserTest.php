@@ -23,7 +23,7 @@ class UrlParserTest extends TestCase
     {
         $parsed = (new UrlParser())->parse($url);
 
-        if ($expected === null) {
+        if (null === $expected) {
             $this->assertNull($parsed);
         } else {
             $this->assertInternalType('array', $parsed);
@@ -390,7 +390,7 @@ class UrlParserTest extends TestCase
             '////x/' => ['scheme' => null, 'host' => ''],
             'tftp://foobar.com/someconfig;mode=netascii' => ['scheme' => 'tftp', 'host' => 'foobar.com'],
             'telnet://user:pass@foobar.com:23/' => ['scheme' => 'telnet', 'host' => 'foobar.com'],
-            'ut2004://10.10.10.10:7777/Index.ut2' => null,
+            'ut2004://10.10.10.10:7777/Index.ut2' => ['scheme' => 'ut2004', 'host' => '10.10.10.10'],
             'redis://foo:bar@somehost:6379/0?baz=bam&qux=baz' => ['scheme' => 'redis', 'host' => 'somehost'],
             'rsync://foo@host:911/sup' => ['scheme' => 'rsync', 'host' => 'host'],
             'git://github.com/foo/bar.git' => ['scheme' => 'git', 'host' => 'github.com'],

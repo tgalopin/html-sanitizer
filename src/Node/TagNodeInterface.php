@@ -33,8 +33,6 @@ interface TagNodeInterface extends NodeInterface
      *
      * @param string $name
      * @param string $value
-     *
-     * @return void
      */
     public function setAttribute(string $name, string $value);
 }

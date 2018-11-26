@@ -10,7 +10,7 @@ $time = microtime(true);
 
 echo "Running...\n";
 
-for ($i = 0; $i < $times; $i++) {
+for ($i = 0; $i < $times; ++$i) {
     $output = $sanitizer->sanitize($input);
 }
 

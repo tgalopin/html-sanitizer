@@ -26,11 +26,6 @@ class StyleNodeVisitor extends AbstractNodeVisitor
         return 'style' === $domNode->nodeName;
     }
 
-    public function getDefaultAllowedAttributes(): array
-    {
-        return [];
-    }
-
     public function enterNode(\DOMNode $domNode, Cursor $cursor)
     {
         $node = new StyleNode($cursor->node);

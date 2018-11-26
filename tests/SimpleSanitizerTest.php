@@ -24,7 +24,6 @@ class SimpleSanitizerTest extends AbstractSanitizerTest
     public function provideFixtures(): array
     {
         return array_merge(parent::provideFixtures(), [
-
             /*
              * Normal tags
              */
@@ -287,7 +286,6 @@ class SimpleSanitizerTest extends AbstractSanitizerTest
                 '<a>Lorem ipsum</a>',
             ],
 
-
             /*
              * Scripts
              */
@@ -370,7 +368,6 @@ class SimpleSanitizerTest extends AbstractSanitizerTest
                 '<a title="``onmouseover=alert(1337)">Hello</a>',
                 '<a title="&#96;&#96;onmouseover&#61;alert(1337) ">Hello</a>',
             ],
-
         ]);
     }
 }

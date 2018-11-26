@@ -27,9 +27,7 @@ interface ExtensionInterface
 
     /**
      * Return a list of node visitors to register in the sanitizer following the format tagName => visitor.
-     * For instance:
-     *
-     *      'strong' => new StrongVisitor($config,
+     * For instance: 'strong' => new StrongVisitor($config).
      *
      * @param array $config The configuration given by the user of the library.
      *

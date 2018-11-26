@@ -106,6 +106,6 @@ class Sanitizer implements SanitizerInterface
     private function isValidUtf8(string $html): bool
     {
         // preg_match() fails silently on strings containing invalid UTF-8.
-        return $html === '' || preg_match('/^./us', $html) === 1;
+        return '' === $html || 1 === preg_match('/^./us', $html);
     }
 }

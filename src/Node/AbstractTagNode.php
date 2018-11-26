@@ -59,13 +59,13 @@ abstract class AbstractTagNode extends AbstractNode implements TagNodeInterface
     {
         $rendered = [];
         foreach ($this->attributes as $name => $value) {
-            if ($value === null) {
+            if (null === $value) {
                 // Tag should be removed as a sanitizer found suspect data inside
                 continue;
             }
 
             $attr = $this->encodeHtmlEntities($name);
-            if ($value !== '') {
+            if ('' !== $value) {
                 // In quirks mode, IE8 does a poor job producing innerHTML values.
                 // If JavaScript does:
                 //      nodeA.innerHTML = nodeB.innerHTML;
