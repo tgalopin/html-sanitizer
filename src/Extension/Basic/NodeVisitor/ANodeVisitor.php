@@ -27,6 +27,9 @@ class ANodeVisitor extends AbstractNodeVisitor
 {
     use HasChildrenNodeVisitorTrait;
 
+    /**
+     * @var AHrefSanitizer
+     */
     private $sanitizer;
 
     public function __construct(array $config = [])

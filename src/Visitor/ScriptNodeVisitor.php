@@ -26,11 +26,6 @@ class ScriptNodeVisitor extends AbstractNodeVisitor
         return 'script' === $domNode->nodeName || 'noscript' === $domNode->nodeName;
     }
 
-    public function getDefaultAllowedAttributes(): array
-    {
-        return [];
-    }
-
     public function enterNode(\DOMNode $domNode, Cursor $cursor)
     {
         $node = new ScriptNode($cursor->node);
@@ -41,6 +36,6 @@ class ScriptNodeVisitor extends AbstractNodeVisitor
 
     public function leaveNode(\DOMNode $domNode, Cursor $cursor)
     {
-        $cursor->node = $cursor->node->getParent();
+        $cursor->node = $cursor->node ? $cursor->node->getParent() : null;
     }
 }

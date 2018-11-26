@@ -20,8 +20,19 @@ class ImgSrcSanitizer
 {
     use UrlSanitizerTrait;
 
+    /**
+     * @var array|null
+     */
     private $allowedHosts;
+
+    /**
+     * @var bool
+     */
     private $allowDataUri;
+
+    /**
+     * @var bool
+     */
     private $forceHttps;
 
     public function __construct(?array $allowedHosts, bool $allowDataUri, bool $forceHttps)
@@ -41,7 +52,9 @@ class ImgSrcSanitizer
             $allowedHosts[] = null;
         }
 
-        $sanitized = $this->sanitizeUrl($input, $allowedSchemes, $allowedHosts, $this->forceHttps);
+        if (!$sanitized = $this->sanitizeUrl($input, $allowedSchemes, $allowedHosts, $this->forceHttps)) {
+            return null;
+        }
 
         // Allow only images in data URIs
         if (0 === strpos($sanitized, 'data:') && 0 !== strpos($sanitized, 'data:image/')) {

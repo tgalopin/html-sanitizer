@@ -61,12 +61,13 @@ trait UrlSanitizerTrait
 
     private function isAllowedHost(?string $host, array $allowedHosts): bool
     {
-        if (null === $host && \in_array(null, $allowedHosts, true)) {
-            return true;
+        if (null === $host) {
+            return \in_array(null, $allowedHosts, true);
         }
 
         $parts = array_reverse(explode('.', $host));
 
+        /** @var string $allowedHost */
         foreach ($allowedHosts as $allowedHost) {
             if ($this->matchAllowedHostParts($parts, array_reverse(explode('.', $allowedHost)))) {
                 return true;
@@ -79,6 +80,10 @@ trait UrlSanitizerTrait
     private function matchAllowedHostParts(array $uriParts, array $trustedParts): bool
     {
         // Check each chunk of the domain is valid
+        /**
+         * @var int
+         * @var string $trustedPart
+         */
         foreach ($trustedParts as $key => $trustedPart) {
             if ($uriParts[$key] !== $trustedPart) {
                 return false;

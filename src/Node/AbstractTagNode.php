@@ -22,6 +22,9 @@ abstract class AbstractTagNode extends AbstractNode implements TagNodeInterface
 {
     use StringSanitizerTrait;
 
+    /**
+     * @var string[]|null[]
+     */
     private $attributes = [];
 
     /**

@@ -23,7 +23,10 @@ class TextNode extends AbstractNode
     use IsChildlessTrait;
     use StringSanitizerTrait;
 
-    private $text = '';
+    /**
+     * @var string
+     */
+    private $text;
 
     public function __construct(NodeInterface $parent, string $text)
     {

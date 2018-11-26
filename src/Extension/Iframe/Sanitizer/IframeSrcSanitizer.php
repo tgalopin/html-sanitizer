@@ -20,7 +20,14 @@ class IframeSrcSanitizer
 {
     use UrlSanitizerTrait;
 
+    /**
+     * @var array|null
+     */
     private $allowedHosts;
+
+    /**
+     * @var bool
+     */
     private $forceHttps;
 
     public function __construct(?array $allowedHosts, bool $forceHttps)

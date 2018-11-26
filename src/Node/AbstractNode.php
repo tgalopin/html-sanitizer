@@ -16,6 +16,9 @@ namespace HtmlSanitizer\Node;
  */
 abstract class AbstractNode implements NodeInterface
 {
+    /**
+     * @var NodeInterface
+     */
     private $parent;
 
     public function __construct(NodeInterface $parent)

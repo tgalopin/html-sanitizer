@@ -20,8 +20,19 @@ class AHrefSanitizer
 {
     use UrlSanitizerTrait;
 
+    /**
+     * @var array|null
+     */
     private $allowedHosts;
+
+    /**
+     * @var bool
+     */
     private $allowMailTo;
+
+    /**
+     * @var bool
+     */
     private $forceHttps;
 
     public function __construct(?array $allowedHosts, bool $allowMailTo, bool $forceHttps)
@@ -44,7 +55,9 @@ class AHrefSanitizer
             }
         }
 
-        $sanitized = $this->sanitizeUrl($input, $allowedSchemes, $allowedHosts, $this->forceHttps);
+        if (!$sanitized = $this->sanitizeUrl($input, $allowedSchemes, $allowedHosts, $this->forceHttps)) {
+            return null;
+        }
 
         // Basic validation that it's an e-mail
         if (0 === strpos($sanitized, 'mailto:') && (false === strpos($sanitized, '@') || false === strpos($sanitized, '.'))) {

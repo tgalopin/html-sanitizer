@@ -36,6 +36,7 @@ class SanitizerBuilder implements SanitizerBuilderInterface
     {
         $nodeVisitors = [];
 
+        /** @var string $extensionName */
         foreach ($config['extensions'] ?? [] as $extensionName) {
             if (!isset($this->extensions[$extensionName])) {
                 throw new \InvalidArgumentException(sprintf(
@@ -45,6 +46,7 @@ class SanitizerBuilder implements SanitizerBuilderInterface
                 ));
             }
 
+            /** @var string $tagName */
             foreach ($this->extensions[$extensionName]->createNodeVisitors($config) as $tagName => $visitor) {
                 $nodeVisitors[$tagName] = $visitor;
             }

@@ -16,5 +16,9 @@
         <LessSpecificReturnType errorLevel="info" />
         <RedundantCondition errorLevel="info" />
         <RedundantConditionGivenDocblockType errorLevel="info" />
+        <MissingReturnType errorLevel="suppress" />
+        <MixedArgument errorLevel="suppress" />
+        <PossiblyNullPropertyAssignmentValue errorLevel="suppress" />
+        <MissingConstructor errorLevel="suppress" />
     </issueHandlers>
 </psalm>

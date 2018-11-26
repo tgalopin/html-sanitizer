@@ -33,9 +33,13 @@ class DomVisitor implements DomVisitorInterface
      */
     private $reversedVisitors;
 
+    /**
+     * @param NodeVisitorInterface[] $visitors
+     */
     public function __construct(array $visitors = [])
     {
         $this->visitors = $visitors;
+        $this->reversedVisitors = [];
     }
 
     public function visit(\DOMNode $node): DocumentNode
@@ -60,6 +64,7 @@ class DomVisitor implements DomVisitorInterface
             }
         }
 
+        /** @var \DOMNode $child */
         foreach ($node->childNodes ?? [] as $k => $child) {
             if ('#text' === $child->nodeName) {
                 // Add text in the safe tree without a visitor for performance
