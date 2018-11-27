@@ -12,8 +12,10 @@
 namespace HtmlSanitizer;
 
 use HtmlSanitizer\Extension\ExtensionInterface;
+use HtmlSanitizer\Parser\ParserInterface;
 use HtmlSanitizer\Visitor\ScriptNodeVisitor;
 use HtmlSanitizer\Visitor\StyleNodeVisitor;
+use Psr\Log\LoggerInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
@@ -27,9 +29,29 @@ class SanitizerBuilder implements SanitizerBuilderInterface
      */
     private $extensions = [];
 
+    /**
+     * @var ParserInterface|null
+     */
+    private $parser;
+
+    /**
+     * @var LoggerInterface|null
+     */
+    private $logger;
+
     public function registerExtension(ExtensionInterface $extension)
     {
         $this->extensions[$extension->getName()] = $extension;
+    }
+
+    public function setParser(?ParserInterface $parser)
+    {
+        $this->parser = $parser;
+    }
+
+    public function setLogger(?LoggerInterface $logger)
+    {
+        $this->logger = $logger;
     }
 
     public function build(array $config): SanitizerInterface
@@ -54,6 +76,6 @@ class SanitizerBuilder implements SanitizerBuilderInterface
         $nodeVisitors['script'] = new ScriptNodeVisitor();
         $nodeVisitors['style'] = new StyleNodeVisitor();
 
-        return new Sanitizer(new DomVisitor($nodeVisitors), $config['max_input_length'] ?? 20000);
+        return new Sanitizer(new DomVisitor($nodeVisitors), $config['max_input_length'] ?? 20000, $this->parser, $this->logger);
     }
 }
