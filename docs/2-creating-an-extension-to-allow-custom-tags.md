@@ -47,8 +47,9 @@ use HtmlSanitizer\Model\Cursor;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
+use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
 
-class MyTagNodeVisitor extends AbstractNodeVisitor
+class MyTagNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait; // Or IsChildlessTagVisitorTrait
 
