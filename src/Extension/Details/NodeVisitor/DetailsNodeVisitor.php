@@ -16,19 +16,25 @@ use HtmlSanitizer\Model\Cursor;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
+use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
  *
  * @final
  */
-class DetailsNodeVisitor extends AbstractNodeVisitor
+class DetailsNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 
     protected function getDomNodeName(): string
     {
         return 'details';
+    }
+
+    public function getDefaultAllowedAttributes(): array
+    {
+        return ['open'];
     }
 
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface

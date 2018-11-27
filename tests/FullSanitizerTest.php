@@ -92,6 +92,10 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 '<details>Lorem ipsum</details>',
             ],
             [
+                '<details class="foo" open>Lorem ipsum</details>',
+                '<details open="open">Lorem ipsum</details>',
+            ],
+            [
                 '<div class="foo">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>',
                 '<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>',
             ],

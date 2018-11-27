@@ -27,4 +27,11 @@ class DetailsNode extends AbstractTagNode
     {
         return 'details';
     }
+
+    public function render(): string
+    {
+        $isOpen = null !== $this->getAttribute('open');
+
+        return '<details'.($isOpen ? ' open="open"' : '').'>'.$this->renderChildren().'</details>';
+    }
 }
