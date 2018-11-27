@@ -16,19 +16,25 @@ use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Extension\Basic\Node\StrongNode;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
+use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
  *
  * @final
  */
-class StrongNodeVisitor extends AbstractNodeVisitor
+class StrongNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 
     protected function getDomNodeName(): string
     {
         return 'strong';
+    }
+
+    public function getSupportedNodeNames(): array
+    {
+        return ['strong', 'b'];
     }
 
     public function supports(\DOMNode $domNode, Cursor $cursor): bool

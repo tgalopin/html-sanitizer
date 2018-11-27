@@ -16,13 +16,14 @@ use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Extension\Extra\Node\RubyNode;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
+use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
  *
  * @final
  */
-class RubyNodeVisitor extends AbstractNodeVisitor
+class RubyNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 

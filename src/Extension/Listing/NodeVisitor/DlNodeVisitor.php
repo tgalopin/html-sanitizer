@@ -16,13 +16,14 @@ use HtmlSanitizer\Extension\Listing\Node\DlNode;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
+use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
  *
  * @final
  */
-class DlNodeVisitor extends AbstractNodeVisitor
+class DlNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 

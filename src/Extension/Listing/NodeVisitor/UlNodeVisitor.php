@@ -16,13 +16,14 @@ use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Extension\Listing\Node\UlNode;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
+use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
  *
  * @final
  */
-class UlNodeVisitor extends AbstractNodeVisitor
+class UlNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 

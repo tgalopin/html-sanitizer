@@ -17,13 +17,14 @@ use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Extension\Image\Sanitizer\ImgSrcSanitizer;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\IsChildlessTagVisitorTrait;
+use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
  *
  * @final
  */
-class ImgNodeVisitor extends AbstractNodeVisitor
+class ImgNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use IsChildlessTagVisitorTrait;
 

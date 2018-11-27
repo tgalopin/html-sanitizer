@@ -16,13 +16,14 @@ use HtmlSanitizer\Extension\Extra\Node\HrNode;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\IsChildlessTagVisitorTrait;
+use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
  *
  * @final
  */
-class HrNodeVisitor extends AbstractNodeVisitor
+class HrNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use IsChildlessTagVisitorTrait;
 

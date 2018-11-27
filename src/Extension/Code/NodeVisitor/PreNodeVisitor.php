@@ -16,13 +16,14 @@ use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Extension\Code\Node\PreNode;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
+use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
  *
  * @final
  */
-class PreNodeVisitor extends AbstractNodeVisitor
+class PreNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 

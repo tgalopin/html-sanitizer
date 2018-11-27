@@ -16,13 +16,14 @@ use HtmlSanitizer\Extension\Basic\Node\DelNode;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
+use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
  *
  * @final
  */
-class DelNodeVisitor extends AbstractNodeVisitor
+class DelNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 

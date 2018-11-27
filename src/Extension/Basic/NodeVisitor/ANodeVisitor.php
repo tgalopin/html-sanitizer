@@ -17,13 +17,14 @@ use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Extension\Basic\Sanitizer\AHrefSanitizer;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
+use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
  *
  * @final
  */
-class ANodeVisitor extends AbstractNodeVisitor
+class ANodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 

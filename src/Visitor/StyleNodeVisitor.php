@@ -19,8 +19,13 @@ use HtmlSanitizer\Node\StyleNode;
  *
  * @internal
  */
-class StyleNodeVisitor extends AbstractNodeVisitor
+class StyleNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
+    public function getSupportedNodeNames(): array
+    {
+        return ['style'];
+    }
+
     public function supports(\DOMNode $domNode, Cursor $cursor): bool
     {
         return 'style' === $domNode->nodeName;
