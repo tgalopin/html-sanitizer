@@ -20,6 +20,7 @@ use HtmlSanitizer\Extension\Listing\ListExtension;
 use HtmlSanitizer\Extension\Table\TableExtension;
 use HtmlSanitizer\Parser\MastermindsParser;
 use HtmlSanitizer\Parser\ParserInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
@@ -43,11 +44,17 @@ class Sanitizer implements SanitizerInterface
      */
     private $parser;
 
-    public function __construct(DomVisitorInterface $domVisitor, int $maxInputLength, ParserInterface $parser = null)
+    /**
+     * @var LoggerInterface|null
+     */
+    private $logger;
+
+    public function __construct(DomVisitorInterface $domVisitor, int $maxInputLength, ParserInterface $parser = null, LoggerInterface $logger = null)
     {
         $this->domVisitor = $domVisitor;
         $this->maxInputLength = $maxInputLength;
         $this->parser = $parser ?: new MastermindsParser();
+        $this->logger = $logger;
     }
 
     /**
@@ -72,6 +79,19 @@ class Sanitizer implements SanitizerInterface
     }
 
     public function sanitize(string $html): string
+    {
+        $sanitized = $this->doSanitize($html);
+
+        if ($this->logger) {
+            $this->logger->debug('Sanitized given input to "{output}".', [
+                'output' => mb_substr($sanitized, 0, 50).(mb_strlen($sanitized) > 50 ? '...' : ''),
+            ]);
+        }
+
+        return $sanitized;
+    }
+
+    private function doSanitize(string $html): string
     {
         // Prevent DOS attack induced by extremely long HTML strings
         if (mb_strlen($html) > $this->maxInputLength) {
