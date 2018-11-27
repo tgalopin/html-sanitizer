@@ -1,6 +1,8 @@
 # html-sanitizer
 
-[![Build Status](https://travis-ci.org/tgalopin/html-sanitizer.svg?branch=master)](https://travis-ci.org/tgalopin/html-sanitizer)
+[![Build Status](https://img.shields.io/travis/tgalopin/html-sanitizer/master.svg?style=flat-square)](https://travis-ci.org/acmephp/acmephp)
+[![Packagist Version](https://img.shields.io/packagist/v/tgalopin/html-sanitizer.svg?style=flat-square)](https://packagist.org/packages/acmephp/acmephp)
+[![Software license](https://img.shields.io/github/license/tgalopin/html-sanitizer.svg?style=flat-square)](https://github.com/tgalopin/html-sanitizer/blob/master/LICENSE)
 
 [![SymfonyInsight](https://insight.symfony.com/projects/befd5a5b-574c-4bea-9c4f-3ad202729a1b/big.svg)](https://insight.symfony.com/projects/befd5a5b-574c-4bea-9c4f-3ad202729a1b)
 
