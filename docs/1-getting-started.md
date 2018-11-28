@@ -36,11 +36,11 @@ enable to allow specific tags in the content (read the next part to learn more a
 ## Extensions
 
 Extensions are a way to quickly add sets of tags to the whitelist of allowed tags.
-There are 7 core extensions that you can enable by adding them in your configuration:
+There are 8 core extensions that you can enable by adding them in your configuration:
 
 ```php
 $sanitizer = HtmlSanitizer\Sanitizer::create([
-    'extensions' => ['basic', 'code', 'image', 'list', 'table', 'iframe', 'extra'],
+    'extensions' => ['basic', 'code', 'image', 'list', 'table', 'iframe', 'details', 'extra'],
 ]);
 $safeHtml = $sanitizer->sanitize($untrustedHtml);
 ```
@@ -57,6 +57,7 @@ Here is the list of tags each extension allow:
 - **image** allows the insertion of images: `img`
 - **code** allows the insertion of code blocks: `pre`, `code`
 - **iframe** allows the insertion of iframes: `iframe`
+- **details** allows the insertion of view/hide blocks: `details`, `summary`
 - **extra** allows the insertion of the following tags: `abbr`, `caption`, `hr`, `rp`, `rt`, `ruby`
 
 > Note: sensible attributes are allowed by default for each tag (for instance, the `src` attribute is

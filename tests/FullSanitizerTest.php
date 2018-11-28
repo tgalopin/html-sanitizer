@@ -19,7 +19,7 @@ class FullSanitizerTest extends AbstractSanitizerTest
     public function createSanitizer(): SanitizerInterface
     {
         return Sanitizer::create([
-            'extensions' => ['basic', 'code', 'image', 'list', 'table', 'iframe', 'extra'],
+            'extensions' => ['basic', 'code', 'details', 'image', 'list', 'table', 'iframe', 'extra'],
             'tags' => [
                 'a' => [
                     'allowed_hosts' => ['trusted.com', 'external.com'],
@@ -86,6 +86,14 @@ class FullSanitizerTest extends AbstractSanitizerTest
             [
                 '<del class="foo">Lorem ipsum</del>',
                 '<del>Lorem ipsum</del>',
+            ],
+            [
+                '<details class="foo">Lorem ipsum</details>',
+                '<details>Lorem ipsum</details>',
+            ],
+            [
+                '<details class="foo" open>Lorem ipsum</details>',
+                '<details open="open">Lorem ipsum</details>',
             ],
             [
                 '<div class="foo">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>',
@@ -222,6 +230,10 @@ class FullSanitizerTest extends AbstractSanitizerTest
             [
                 '<strong class="foo">Lorem ipsum</strong>',
                 '<strong>Lorem ipsum</strong>',
+            ],
+            [
+                '<summary class="foo">Lorem ipsum</summary>',
+                '<summary>Lorem ipsum</summary>',
             ],
             [
                 '<b class="foo">Lorem ipsum</b>',

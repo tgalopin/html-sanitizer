@@ -61,6 +61,14 @@ class EmptySanitizerTest extends AbstractSanitizerTest
                 'Lorem ipsum',
             ],
             [
+                '<details class="foo">Lorem ipsum</details>',
+                'Lorem ipsum',
+            ],
+            [
+                '<details class="foo" open>Lorem ipsum</details>',
+                'Lorem ipsum',
+            ],
+            [
                 '<div class="foo">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>',
                 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
             ],
@@ -178,6 +186,10 @@ class EmptySanitizerTest extends AbstractSanitizerTest
             ],
             [
                 '<strong class="foo">Lorem ipsum</strong>',
+                'Lorem ipsum',
+            ],
+            [
+                '<summary class="foo">Lorem ipsum</summary>',
                 'Lorem ipsum',
             ],
             [

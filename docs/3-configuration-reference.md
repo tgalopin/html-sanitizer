@@ -17,7 +17,7 @@ $sanitizer = HtmlSanitizer\Sanitizer::create([
     /*
      * List of extensions to enable on this sanitizer.
      */
-    'extensions' => ['basic', 'list', 'table', 'image', 'code', 'iframe', 'extra'],
+    'extensions' => ['basic', 'list', 'table', 'image', 'code', 'iframe', 'details', 'extra'],
 
     /*
      * Configuration for specific tags.
@@ -68,6 +68,9 @@ $sanitizer = HtmlSanitizer\Sanitizer::create([
         ],
         'del' => [
             'allowed_attributes' => [],
+        ],
+        'details' => [
+            'allowed_attributes' => ['open'],
         ],
         'div' => [
             'allowed_attributes' => [],
@@ -188,6 +191,9 @@ $sanitizer = HtmlSanitizer\Sanitizer::create([
             'allowed_attributes' => [],
         ],
         'sub' => [
+            'allowed_attributes' => [],
+        ],
+        'summary' => [
             'allowed_attributes' => [],
         ],
         'sup' => [
