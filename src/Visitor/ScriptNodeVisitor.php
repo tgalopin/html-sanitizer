@@ -19,8 +19,13 @@ use HtmlSanitizer\Node\ScriptNode;
  *
  * @internal
  */
-class ScriptNodeVisitor extends AbstractNodeVisitor
+class ScriptNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
+    public function getSupportedNodeNames(): array
+    {
+        return ['script', 'noscript'];
+    }
+
     public function supports(\DOMNode $domNode, Cursor $cursor): bool
     {
         return 'script' === $domNode->nodeName || 'noscript' === $domNode->nodeName;

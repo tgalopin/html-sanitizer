@@ -23,6 +23,11 @@ trait TagVisitorTrait
 {
     abstract protected function getDomNodeName(): string;
 
+    public function getSupportedNodeNames(): array
+    {
+        return [$this->getDomNodeName()];
+    }
+
     public function supports(\DOMNode $domNode, Cursor $cursor): bool
     {
         return $this->getDomNodeName() === $domNode->nodeName;

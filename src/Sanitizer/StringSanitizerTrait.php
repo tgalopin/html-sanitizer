@@ -16,17 +16,21 @@ namespace HtmlSanitizer\Sanitizer;
  */
 trait StringSanitizerTrait
 {
+    private static $replacements = [
+        // "&#34;" is shorter than "&quot;"
+        '&quot;' => '&#34;',
+
+        // Fix several potential issues in how browsers intepret attributes values
+        '+' => '&#43;',
+        '=' => '&#61;',
+        '@' => '&#64;',
+        '`' => '&#96;',
+    ];
+
     public function encodeHtmlEntities(string $string): string
     {
         $string = htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-
-        // "&#34;" is shorter than "&quot;"
-        $string = str_replace('&quot;', '&#34;', $string);
-
-        // Fix several potential issues in how browsers intepret attributes values
-        foreach (['+', '=', '@', '`'] as $char) {
-            $string = str_replace($char, '&#'.ord($char).';', $string);
-        }
+        $string = str_replace(array_keys(self::$replacements), array_values(self::$replacements), $string);
 
         return $string;
     }
