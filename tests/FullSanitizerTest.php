@@ -21,16 +21,154 @@ class FullSanitizerTest extends AbstractSanitizerTest
         return Sanitizer::create([
             'extensions' => ['basic', 'code', 'details', 'image', 'list', 'table', 'iframe', 'extra'],
             'tags' => [
-                'a' => [
-                    'allowed_hosts' => ['trusted.com', 'external.com'],
+                'abbr' => [
+                    'allowed_attributes' => ['data-attr'],
                 ],
-                'img' => [
-                    'allowed_hosts' => ['trusted.com'],
-                    'force_https' => true,
+                'a' => [
+                    'allowed_attributes' => ['href', 'title', 'data-attr'],
+                    'allowed_hosts' => ['trusted.com', 'external.com'],
+                    'allow_mailto' => true,
+                    'force_https' => false,
+                ],
+                'blockquote' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'br' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'caption' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'code' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'dd' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'del' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'details' => [
+                    'allowed_attributes' => ['open', 'data-attr'],
+                ],
+                'div' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'dl' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'dt' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'em' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'figcaption' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'figure' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'h1' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'h2' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'h3' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'h4' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'h5' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'h6' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'hr' => [
+                    'allowed_attributes' => ['data-attr'],
                 ],
                 'iframe' => [
+                    'allowed_attributes' => ['src', 'width', 'height', 'frameborder', 'title', 'allow', 'allowfullscreen', 'data-attr'],
                     'allowed_hosts' => ['trusted.com'],
                     'force_https' => true,
+                ],
+                'img' => [
+                    'allowed_attributes' => ['src', 'alt', 'title', 'data-attr'],
+                    'allowed_hosts' => ['trusted.com'],
+                    'allow_data_uri' => false,
+                    'force_https' => true,
+                ],
+                'i' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'li' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'ol' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'pre' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'p' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'q' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'rp' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'rt' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'ruby' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'small' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'span' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'strong' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'sub' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'summary' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'sup' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'table' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'tbody' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'td' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'tfoot' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'thead' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'th' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'tr' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'ul' => [
+                    'allowed_attributes' => ['data-attr'],
                 ],
             ],
         ]);
@@ -44,112 +182,116 @@ class FullSanitizerTest extends AbstractSanitizerTest
              */
 
             [
-                '<abbr class="foo">Lorem ipsum</abbr>',
-                '<abbr>Lorem ipsum</abbr>',
+                '<abbr class="foo" data-attr="foo">Lorem ipsum</abbr>',
+                '<abbr data-attr="foo">Lorem ipsum</abbr>',
             ],
             [
-                '<a href="https://trusted.com" title="Link title" class="foo">Lorem ipsum</a>',
-                '<a href="https://trusted.com" title="Link title">Lorem ipsum</a>',
+                '<a href="https://trusted.com" title="Link title" class="foo" data-attr="foo">Lorem ipsum</a>',
+                '<a href="https://trusted.com" title="Link title" data-attr="foo">Lorem ipsum</a>',
             ],
             [
-                '<a href="https://untrusted.com" title="Link title" class="foo">Lorem ipsum</a>',
-                '<a title="Link title">Lorem ipsum</a>',
+                '<a href="https://untrusted.com" title="Link title" class="foo" data-attr="foo">Lorem ipsum</a>',
+                '<a title="Link title" data-attr="foo">Lorem ipsum</a>',
             ],
             [
-                '<a href="https://external.com" title="Link title" class="foo">Lorem ipsum</a>',
-                '<a href="https://external.com" title="Link title">Lorem ipsum</a>',
+                '<a href="https://external.com" title="Link title" class="foo" data-attr="foo">Lorem ipsum</a>',
+                '<a href="https://external.com" title="Link title" data-attr="foo">Lorem ipsum</a>',
             ],
             [
-                '<a href="mailto:test&#64;gmail.com" title="Link title" class="foo">Lorem ipsum</a>',
-                '<a href="mailto:test&#64;gmail.com" title="Link title">Lorem ipsum</a>',
+                '<a href="mailto:test&#64;gmail.com" title="Link title" class="foo" data-attr="foo">Lorem ipsum</a>',
+                '<a href="mailto:test&#64;gmail.com" title="Link title" data-attr="foo">Lorem ipsum</a>',
             ],
             [
-                '<blockquote class="foo">Lorem ipsum</blockquote>',
-                '<blockquote>Lorem ipsum</blockquote>',
+                '<blockquote class="foo" data-attr="foo">Lorem ipsum</blockquote>',
+                '<blockquote data-attr="foo">Lorem ipsum</blockquote>',
             ],
             [
-                'Lorem ipsum <br class="foo">dolor sit amet <br class="foo" />consectetur adipisicing.',
-                'Lorem ipsum <br />dolor sit amet <br />consectetur adipisicing.',
+                'Lorem ipsum <br class="foo" data-attr="foo">dolor sit amet <br class="foo" data-attr="foo" />consectetur adipisicing.',
+                'Lorem ipsum <br data-attr="foo" />dolor sit amet <br data-attr="foo" />consectetur adipisicing.',
             ],
             [
-                '<caption class="foo">Lorem ipsum</caption>',
-                '<caption>Lorem ipsum</caption>',
+                '<caption class="foo" data-attr="foo">Lorem ipsum</caption>',
+                '<caption data-attr="foo">Lorem ipsum</caption>',
             ],
             [
-                '<code class="foo">Lorem ipsum</code>',
-                '<code>Lorem ipsum</code>',
+                '<code class="foo" data-attr="foo">Lorem ipsum</code>',
+                '<code data-attr="foo">Lorem ipsum</code>',
             ],
             [
-                '<dd class="foo">Lorem ipsum</dd>',
-                '<dd>Lorem ipsum</dd>',
+                '<dd class="foo" data-attr="foo">Lorem ipsum</dd>',
+                '<dd data-attr="foo">Lorem ipsum</dd>',
             ],
             [
-                '<del class="foo">Lorem ipsum</del>',
-                '<del>Lorem ipsum</del>',
+                '<del class="foo" data-attr="foo">Lorem ipsum</del>',
+                '<del data-attr="foo">Lorem ipsum</del>',
             ],
             [
-                '<details class="foo">Lorem ipsum</details>',
-                '<details>Lorem ipsum</details>',
+                '<details class="foo" data-attr="foo">Lorem ipsum</details>',
+                '<details data-attr="foo">Lorem ipsum</details>',
             ],
             [
-                '<details class="foo" open>Lorem ipsum</details>',
-                '<details open="open">Lorem ipsum</details>',
+                '<details class="foo" data-attr="foo" open>Lorem ipsum</details>',
+                '<details open="open" data-attr="foo">Lorem ipsum</details>',
             ],
             [
-                '<div class="foo">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>',
-                '<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>',
+                '<details class="foo" data-attr="foo" open="foo">Lorem ipsum</details>',
+                '<details open="open" data-attr="foo">Lorem ipsum</details>',
             ],
             [
-                '<dl class="foo">Lorem ipsum</dl>',
-                '<dl>Lorem ipsum</dl>',
+                '<div class="foo" data-attr="foo">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>',
+                '<div data-attr="foo">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>',
             ],
             [
-                '<dt class="foo">Lorem ipsum</dt>',
-                '<dt>Lorem ipsum</dt>',
+                '<dl class="foo" data-attr="foo">Lorem ipsum</dl>',
+                '<dl data-attr="foo">Lorem ipsum</dl>',
             ],
             [
-                '<em class="foo">Lorem ipsum</em>',
-                '<em>Lorem ipsum</em>',
+                '<dt class="foo" data-attr="foo">Lorem ipsum</dt>',
+                '<dt data-attr="foo">Lorem ipsum</dt>',
             ],
             [
-                '<figcaption class="foo">Lorem ipsum</figcaption>',
-                '<figcaption>Lorem ipsum</figcaption>',
+                '<em class="foo" data-attr="foo">Lorem ipsum</em>',
+                '<em data-attr="foo">Lorem ipsum</em>',
             ],
             [
-                '<figure class="foo">Lorem ipsum</figure>',
-                '<figure>Lorem ipsum</figure>',
+                '<figcaption class="foo" data-attr="foo">Lorem ipsum</figcaption>',
+                '<figcaption data-attr="foo">Lorem ipsum</figcaption>',
             ],
             [
-                '<h1 class="foo">Lorem ipsum</h1>',
-                '<h1>Lorem ipsum</h1>',
+                '<figure class="foo" data-attr="foo">Lorem ipsum</figure>',
+                '<figure data-attr="foo">Lorem ipsum</figure>',
             ],
             [
-                '<h2 class="foo">Lorem ipsum</h2>',
-                '<h2>Lorem ipsum</h2>',
+                '<h1 class="foo" data-attr="foo">Lorem ipsum</h1>',
+                '<h1 data-attr="foo">Lorem ipsum</h1>',
             ],
             [
-                '<h3 class="foo">Lorem ipsum</h3>',
-                '<h3>Lorem ipsum</h3>',
+                '<h2 class="foo" data-attr="foo">Lorem ipsum</h2>',
+                '<h2 data-attr="foo">Lorem ipsum</h2>',
             ],
             [
-                '<h4 class="foo">Lorem ipsum</h4>',
-                '<h4>Lorem ipsum</h4>',
+                '<h3 class="foo" data-attr="foo">Lorem ipsum</h3>',
+                '<h3 data-attr="foo">Lorem ipsum</h3>',
             ],
             [
-                '<h5 class="foo">Lorem ipsum</h5>',
-                '<h5>Lorem ipsum</h5>',
+                '<h4 class="foo" data-attr="foo">Lorem ipsum</h4>',
+                '<h4 data-attr="foo">Lorem ipsum</h4>',
             ],
             [
-                '<h6 class="foo">Lorem ipsum</h6>',
-                '<h6>Lorem ipsum</h6>',
+                '<h5 class="foo" data-attr="foo">Lorem ipsum</h5>',
+                '<h5 data-attr="foo">Lorem ipsum</h5>',
             ],
             [
-                '<hr class="foo" />',
-                '<hr />',
+                '<h6 class="foo" data-attr="foo">Lorem ipsum</h6>',
+                '<h6 data-attr="foo">Lorem ipsum</h6>',
             ],
             [
-                '<iframe src="/frame/example" width="300" height="300" frameborder="0">Lorem ipsum</iframe>',
-                '<iframe width="300" height="300" frameborder="0">Lorem ipsum</iframe>',
+                '<hr class="foo" data-attr="foo" />',
+                '<hr data-attr="foo" />',
+            ],
+            [
+                '<iframe src="/frame/example" width="300" height="300" frameborder="0" data-attr="foo">Lorem ipsum</iframe>',
+                '<iframe width="300" height="300" frameborder="0" data-attr="foo">Lorem ipsum</iframe>',
             ],
             [
                 '<iframe src="http://trusted.com/frame/example" width="300" height="300" frameborder="0">Lorem ipsum</iframe>',
@@ -164,16 +306,16 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 '<iframe>Lorem ipsum</iframe>',
             ],
             [
-                '<img src="/img/example.jpg" alt="Image alternative text" title="Image title" class="foo">',
-                '<img alt="Image alternative text" title="Image title" />',
+                '<img src="/img/example.jpg" alt="Image alternative text" title="Image title" class="foo" data-attr="foo">',
+                '<img alt="Image alternative text" title="Image title" data-attr="foo" />',
             ],
             [
-                '<img src="http://trusted.com/img/example.jpg" alt="Image alternative text" title="Image title" class="foo" />',
-                '<img src="https://trusted.com/img/example.jpg" alt="Image alternative text" title="Image title" />',
+                '<img src="http://trusted.com/img/example.jpg" alt="Image alternative text" title="Image title" class="foo" data-attr="foo" />',
+                '<img src="https://trusted.com/img/example.jpg" alt="Image alternative text" title="Image title" data-attr="foo" />',
             ],
             [
-                '<img src="http://untrusted.com/img/example.jpg" alt="Image alternative text" title="Image title" class="foo" />',
-                '<img alt="Image alternative text" title="Image title" />',
+                '<img src="http://untrusted.com/img/example.jpg" alt="Image alternative text" title="Image title" class="foo" data-attr="foo" />',
+                '<img alt="Image alternative text" title="Image title" data-attr="foo" />',
             ],
             [
                 '<img />',
@@ -184,100 +326,100 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 '<img title />',
             ],
             [
-                '<i class="foo">Lorem ipsum</i>',
-                '<i>Lorem ipsum</i>',
+                '<i class="foo" data-attr="foo">Lorem ipsum</i>',
+                '<i data-attr="foo">Lorem ipsum</i>',
             ],
             [
-                '<li class="foo">Lorem ipsum</li>',
-                '<li>Lorem ipsum</li>',
+                '<li class="foo" data-attr="foo">Lorem ipsum</li>',
+                '<li data-attr="foo">Lorem ipsum</li>',
             ],
             [
-                '<ol class="foo">Lorem ipsum</ol>',
-                '<ol>Lorem ipsum</ol>',
+                '<ol class="foo" data-attr="foo">Lorem ipsum</ol>',
+                '<ol data-attr="foo">Lorem ipsum</ol>',
             ],
             [
-                '<p class="foo">Lorem ipsum</p>',
-                '<p>Lorem ipsum</p>',
+                '<p class="foo" data-attr="foo">Lorem ipsum</p>',
+                '<p data-attr="foo">Lorem ipsum</p>',
             ],
             [
-                '<pre class="foo">Lorem ipsum</pre>',
-                '<pre>Lorem ipsum</pre>',
+                '<pre class="foo" data-attr="foo">Lorem ipsum</pre>',
+                '<pre data-attr="foo">Lorem ipsum</pre>',
             ],
             [
-                '<q class="foo">Lorem ipsum</q>',
-                '<q>Lorem ipsum</q>',
+                '<q class="foo" data-attr="foo">Lorem ipsum</q>',
+                '<q data-attr="foo">Lorem ipsum</q>',
             ],
             [
-                '<rp class="foo">Lorem ipsum</rp>',
-                '<rp>Lorem ipsum</rp>',
+                '<rp class="foo" data-attr="foo">Lorem ipsum</rp>',
+                '<rp data-attr="foo">Lorem ipsum</rp>',
             ],
             [
-                '<rt class="foo">Lorem ipsum</rt>',
-                '<rt>Lorem ipsum</rt>',
+                '<rt class="foo" data-attr="foo">Lorem ipsum</rt>',
+                '<rt data-attr="foo">Lorem ipsum</rt>',
             ],
             [
-                '<ruby class="foo">Lorem ipsum</ruby>',
-                '<ruby>Lorem ipsum</ruby>',
+                '<ruby class="foo" data-attr="foo">Lorem ipsum</ruby>',
+                '<ruby data-attr="foo">Lorem ipsum</ruby>',
             ],
             [
-                '<small class="foo">Lorem ipsum</small>',
-                '<small>Lorem ipsum</small>',
+                '<small class="foo" data-attr="foo">Lorem ipsum</small>',
+                '<small data-attr="foo">Lorem ipsum</small>',
             ],
             [
-                '<span class="foo">Lorem ipsum</span>',
-                '<span>Lorem ipsum</span>',
+                '<span class="foo" data-attr="foo">Lorem ipsum</span>',
+                '<span data-attr="foo">Lorem ipsum</span>',
             ],
             [
-                '<strong class="foo">Lorem ipsum</strong>',
-                '<strong>Lorem ipsum</strong>',
+                '<strong class="foo" data-attr="foo">Lorem ipsum</strong>',
+                '<strong data-attr="foo">Lorem ipsum</strong>',
             ],
             [
-                '<summary class="foo">Lorem ipsum</summary>',
-                '<summary>Lorem ipsum</summary>',
+                '<summary class="foo" data-attr="foo">Lorem ipsum</summary>',
+                '<summary data-attr="foo">Lorem ipsum</summary>',
             ],
             [
-                '<b class="foo">Lorem ipsum</b>',
-                '<strong>Lorem ipsum</strong>',
+                '<b class="foo" data-attr="foo">Lorem ipsum</b>',
+                '<strong data-attr="foo">Lorem ipsum</strong>',
             ],
             [
-                '<sub class="foo">Lorem ipsum</sub>',
-                '<sub>Lorem ipsum</sub>',
+                '<sub class="foo" data-attr="foo">Lorem ipsum</sub>',
+                '<sub data-attr="foo">Lorem ipsum</sub>',
             ],
             [
-                '<sup class="foo">Lorem ipsum</sup>',
-                '<sup>Lorem ipsum</sup>',
+                '<sup class="foo" data-attr="foo">Lorem ipsum</sup>',
+                '<sup data-attr="foo">Lorem ipsum</sup>',
             ],
             [
-                '<table class="foo">Lorem ipsum</table>',
-                '<table>Lorem ipsum</table>',
+                '<table class="foo" data-attr="foo">Lorem ipsum</table>',
+                '<table data-attr="foo">Lorem ipsum</table>',
             ],
             [
-                '<tbody class="foo">Lorem ipsum</tbody>',
-                '<tbody>Lorem ipsum</tbody>',
+                '<tbody class="foo" data-attr="foo">Lorem ipsum</tbody>',
+                '<tbody data-attr="foo">Lorem ipsum</tbody>',
             ],
             [
-                '<td class="foo">Lorem ipsum</td>',
-                '<td>Lorem ipsum</td>',
+                '<td class="foo" data-attr="foo">Lorem ipsum</td>',
+                '<td data-attr="foo">Lorem ipsum</td>',
             ],
             [
-                '<tfoot class="foo">Lorem ipsum</tfoot>',
-                '<tfoot>Lorem ipsum</tfoot>',
+                '<tfoot class="foo" data-attr="foo">Lorem ipsum</tfoot>',
+                '<tfoot data-attr="foo">Lorem ipsum</tfoot>',
             ],
             [
-                '<thead class="foo">Lorem ipsum</thead>',
-                '<thead>Lorem ipsum</thead>',
+                '<thead class="foo" data-attr="foo">Lorem ipsum</thead>',
+                '<thead data-attr="foo">Lorem ipsum</thead>',
             ],
             [
-                '<th class="foo">Lorem ipsum</th>',
-                '<th>Lorem ipsum</th>',
+                '<th class="foo" data-attr="foo">Lorem ipsum</th>',
+                '<th data-attr="foo">Lorem ipsum</th>',
             ],
             [
-                '<tr class="foo">Lorem ipsum</tr>',
-                '<tr>Lorem ipsum</tr>',
+                '<tr class="foo" data-attr="foo">Lorem ipsum</tr>',
+                '<tr data-attr="foo">Lorem ipsum</tr>',
             ],
             [
-                '<ul class="foo">Lorem ipsum</ul>',
-                '<ul>Lorem ipsum</ul>',
+                '<ul class="foo" data-attr="foo">Lorem ipsum</ul>',
+                '<ul data-attr="foo">Lorem ipsum</ul>',
             ],
 
             /*
