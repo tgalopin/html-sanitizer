@@ -82,7 +82,7 @@ class DomVisitor implements DomVisitorInterface
                 // Add text in the safe tree without a visitor for performance
                 $cursor->node->addChild(new TextNode($cursor->node, $child->nodeValue));
             } elseif (!$child instanceof \DOMText) {
-                // Ignore HTML comments
+                // Ignore comments for security reasons (interpreted differently by browsers)
                 $this->visitNode($child, $cursor);
             }
         }
