@@ -329,6 +329,18 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 '<a>Lorem ipsum</a>',
             ],
 
+            // Inspired by https://twitter.com/brutelogic/status/1066333383276593152?s=19
+            [
+                '"><svg/onload=confirm(1)>"@x.y',
+                '&#34;&gt;&#34;&#64;x.y',
+            ],
+
+            // Inspired by https://html5sec.org
+            [
+                '<a href="javascript:&apos;<svg onload&equals;alert&lpar;1&rpar;&nvgt;&apos;">Lorem ipsum</a>',
+                '<a>Lorem ipsum</a>',
+            ],
+
             /*
              * Scripts
              */

@@ -25,6 +25,15 @@ trait StringSanitizerTrait
         '=' => '&#61;',
         '@' => '&#64;',
         '`' => '&#96;',
+
+        // Some DB engines will transform UTF8 full-width characters their classical version
+        // if the data is saved in a non-UTF8 field
+        '＜' => '&#xFF1C;',
+        '＞' => '&#xFF1E;',
+        '＋' => '&#xFF0B;',
+        '＝' => '&#xFF1D;',
+        '＠' => '&#xFF20;',
+        '｀' => '&#xFF40;',
     ];
 
     public function encodeHtmlEntities(string $string): string

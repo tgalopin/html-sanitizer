@@ -56,6 +56,12 @@ abstract class AbstractSanitizerTest extends TestCase
                 '',
             ],
 
+            // Idea from Barry Dorrans (https://www.youtube.com/watch?v=kz7wmRV9xsU)
+            [
+                '＜script＞alert(\'ok\');＜/script＞',
+                '&#xFF1C;script&#xFF1E;alert(&#039;ok&#039;);&#xFF1C;/script&#xFF1E;',
+            ],
+
             // Styles
             [
                 '<style>body { background: red; }</style>',
