@@ -39,6 +39,12 @@ class DetailsNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitor
 
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return new DetailsNode($cursor->node);
+        $node = new DetailsNode($cursor->node);
+
+        if (null !== $this->getAttribute($domNode, 'open')) {
+            $node->setAttribute('open', 'open');
+        }
+
+        return $node;
     }
 }
