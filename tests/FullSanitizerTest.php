@@ -30,6 +30,12 @@ class FullSanitizerTest extends AbstractSanitizerTest
                     'allow_mailto' => true,
                     'force_https' => false,
                 ],
+                'article' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'aside' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
                 'blockquote' => [
                     'allowed_attributes' => ['data-attr'],
                 ],
@@ -60,6 +66,9 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 'dt' => [
                     'allowed_attributes' => ['data-attr'],
                 ],
+                'footer' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
                 'em' => [
                     'allowed_attributes' => ['data-attr'],
                 ],
@@ -87,6 +96,9 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 'h6' => [
                     'allowed_attributes' => ['data-attr'],
                 ],
+                'header' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
                 'hr' => [
                     'allowed_attributes' => ['data-attr'],
                 ],
@@ -105,6 +117,15 @@ class FullSanitizerTest extends AbstractSanitizerTest
                     'allowed_attributes' => ['data-attr'],
                 ],
                 'li' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'main' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'mark' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'nav' => [
                     'allowed_attributes' => ['data-attr'],
                 ],
                 'ol' => [
@@ -126,6 +147,9 @@ class FullSanitizerTest extends AbstractSanitizerTest
                     'allowed_attributes' => ['data-attr'],
                 ],
                 'ruby' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
+                'section' => [
                     'allowed_attributes' => ['data-attr'],
                 ],
                 'small' => [
@@ -164,6 +188,9 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 'th' => [
                     'allowed_attributes' => ['data-attr'],
                 ],
+                'time' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
                 'tr' => [
                     'allowed_attributes' => ['data-attr'],
                 ],
@@ -200,6 +227,14 @@ class FullSanitizerTest extends AbstractSanitizerTest
             [
                 '<a href="mailto:test&#64;gmail.com" title="Link title" class="foo" data-attr="foo">Lorem ipsum</a>',
                 '<a href="mailto:test&#64;gmail.com" title="Link title" data-attr="foo">Lorem ipsum</a>',
+            ],
+            [
+                '<article class="foo" data-attr="foo">Lorem ipsum</article>',
+                '<article data-attr="foo">Lorem ipsum</article>',
+            ],
+            [
+                '<aside class="foo" data-attr="foo">Lorem ipsum</aside>',
+                '<aside data-attr="foo">Lorem ipsum</aside>',
             ],
             [
                 '<blockquote class="foo" data-attr="foo">Lorem ipsum</blockquote>',
@@ -262,6 +297,10 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 '<figure data-attr="foo">Lorem ipsum</figure>',
             ],
             [
+                '<footer class="foo" data-attr="foo">Lorem ipsum</footer>',
+                '<footer data-attr="foo">Lorem ipsum</footer>',
+            ],
+            [
                 '<h1 class="foo" data-attr="foo">Lorem ipsum</h1>',
                 '<h1 data-attr="foo">Lorem ipsum</h1>',
             ],
@@ -284,6 +323,10 @@ class FullSanitizerTest extends AbstractSanitizerTest
             [
                 '<h6 class="foo" data-attr="foo">Lorem ipsum</h6>',
                 '<h6 data-attr="foo">Lorem ipsum</h6>',
+            ],
+            [
+                '<header class="foo" data-attr="foo">Lorem ipsum</header>',
+                '<header data-attr="foo">Lorem ipsum</header>',
             ],
             [
                 '<hr class="foo" data-attr="foo" />',
@@ -334,6 +377,18 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 '<li data-attr="foo">Lorem ipsum</li>',
             ],
             [
+                '<main class="foo" data-attr="foo">Lorem ipsum</main>',
+                '<main data-attr="foo">Lorem ipsum</main>',
+            ],
+            [
+                '<mark class="foo" data-attr="foo">Lorem ipsum</mark>',
+                '<mark data-attr="foo">Lorem ipsum</mark>',
+            ],
+            [
+                '<nav class="foo" data-attr="foo">Lorem ipsum</nav>',
+                '<nav data-attr="foo">Lorem ipsum</nav>',
+            ],
+            [
                 '<ol class="foo" data-attr="foo">Lorem ipsum</ol>',
                 '<ol data-attr="foo">Lorem ipsum</ol>',
             ],
@@ -362,6 +417,10 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 '<ruby data-attr="foo">Lorem ipsum</ruby>',
             ],
             [
+                '<section class="foo" data-attr="foo">Lorem ipsum</section>',
+                '<section data-attr="foo">Lorem ipsum</section>',
+            ],
+            [
                 '<small class="foo" data-attr="foo">Lorem ipsum</small>',
                 '<small data-attr="foo">Lorem ipsum</small>',
             ],
@@ -376,6 +435,10 @@ class FullSanitizerTest extends AbstractSanitizerTest
             [
                 '<summary class="foo" data-attr="foo">Lorem ipsum</summary>',
                 '<summary data-attr="foo">Lorem ipsum</summary>',
+            ],
+            [
+                '<time class="foo" data-attr="foo">Lorem ipsum</time>',
+                '<time data-attr="foo">Lorem ipsum</time>',
             ],
             [
                 '<b class="foo" data-attr="foo">Lorem ipsum</b>',
