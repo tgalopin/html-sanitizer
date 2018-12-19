@@ -36,4 +36,9 @@ class TimeNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInt
     {
         return new TimeNode($cursor->node);
     }
+
+    public function getDefaultAllowedAttributes(): array
+    {
+        return ['datetime'];
+    }
 }
