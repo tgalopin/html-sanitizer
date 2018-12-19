@@ -189,7 +189,7 @@ class FullSanitizerTest extends AbstractSanitizerTest
                     'allowed_attributes' => ['data-attr'],
                 ],
                 'time' => [
-                    'allowed_attributes' => ['data-attr'],
+                    'allowed_attributes' => ['data-attr', 'datetime'],
                 ],
                 'tr' => [
                     'allowed_attributes' => ['data-attr'],
@@ -437,8 +437,8 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 '<summary data-attr="foo">Lorem ipsum</summary>',
             ],
             [
-                '<time class="foo" data-attr="foo">Lorem ipsum</time>',
-                '<time data-attr="foo">Lorem ipsum</time>',
+                '<time class="foo" datetime="2018-12-25 00:00" data-attr="foo">Lorem ipsum</time>',
+                '<time datetime="2018-12-25 00:00" data-attr="foo">Lorem ipsum</time>',
             ],
             [
                 '<b class="foo" data-attr="foo">Lorem ipsum</b>',
