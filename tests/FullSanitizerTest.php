@@ -107,6 +107,9 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 'li' => [
                     'allowed_attributes' => ['data-attr'],
                 ],
+                'mark' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
                 'ol' => [
                     'allowed_attributes' => ['data-attr'],
                 ],
@@ -163,6 +166,9 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 ],
                 'th' => [
                     'allowed_attributes' => ['data-attr'],
+                ],
+                'time' => [
+                    'allowed_attributes' => ['data-attr', 'datetime'],
                 ],
                 'tr' => [
                     'allowed_attributes' => ['data-attr'],
@@ -334,6 +340,10 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 '<li data-attr="foo">Lorem ipsum</li>',
             ],
             [
+                '<mark class="foo" data-attr="foo">Lorem ipsum</mark>',
+                '<mark data-attr="foo">Lorem ipsum</mark>',
+            ],
+            [
                 '<ol class="foo" data-attr="foo">Lorem ipsum</ol>',
                 '<ol data-attr="foo">Lorem ipsum</ol>',
             ],
@@ -376,6 +386,10 @@ class FullSanitizerTest extends AbstractSanitizerTest
             [
                 '<summary class="foo" data-attr="foo">Lorem ipsum</summary>',
                 '<summary data-attr="foo">Lorem ipsum</summary>',
+            ],
+            [
+                '<time class="foo" datetime="2018-12-25 00:00" data-attr="foo">Lorem ipsum</time>',
+                '<time datetime="2018-12-25 00:00" data-attr="foo">Lorem ipsum</time>',
             ],
             [
                 '<b class="foo" data-attr="foo">Lorem ipsum</b>',
