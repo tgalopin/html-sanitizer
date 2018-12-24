@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace HtmlSanitizer\Extension\Basic\NodeVisitor;
+namespace HtmlSanitizer\Extension\Extra\NodeVisitor;
 
-use HtmlSanitizer\Extension\Basic\Node\TimeNode;
+use HtmlSanitizer\Extension\Extra\Node\TimeNode;
 use HtmlSanitizer\Model\Cursor;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;

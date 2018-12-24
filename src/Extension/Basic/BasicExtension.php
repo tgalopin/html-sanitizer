@@ -43,7 +43,6 @@ class BasicExtension implements ExtensionInterface
             'h5' => new NodeVisitor\H5NodeVisitor($config['tags']['h5'] ?? []),
             'h6' => new NodeVisitor\H6NodeVisitor($config['tags']['h6'] ?? []),
             'i' => new NodeVisitor\INodeVisitor($config['tags']['i'] ?? []),
-            'mark' => new NodeVisitor\MarkNodeVisitor($config['tags']['mark'] ?? []),
             'p' => new NodeVisitor\PNodeVisitor($config['tags']['p'] ?? []),
             'q' => new NodeVisitor\QNodeVisitor($config['tags']['q'] ?? []),
             'small' => new NodeVisitor\SmallNodeVisitor($config['tags']['small'] ?? []),
@@ -51,7 +50,6 @@ class BasicExtension implements ExtensionInterface
             'strong' => new NodeVisitor\StrongNodeVisitor($config['tags']['strong'] ?? []),
             'sub' => new NodeVisitor\SubNodeVisitor($config['tags']['sub'] ?? []),
             'sup' => new NodeVisitor\SupNodeVisitor($config['tags']['sup'] ?? []),
-            'time' => new NodeVisitor\TimeNodeVisitor($config['tags']['time'] ?? []),
         ];
     }
 }

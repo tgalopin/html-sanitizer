@@ -31,9 +31,11 @@ class ExtraExtension implements ExtensionInterface
             'abbr' => new NodeVisitor\AbbrNodeVisitor($config['tags']['abbr'] ?? []),
             'caption' => new NodeVisitor\CaptionNodeVisitor($config['tags']['caption'] ?? []),
             'hr' => new NodeVisitor\HrNodeVisitor($config['tags']['hr'] ?? []),
+            'mark' => new NodeVisitor\MarkNodeVisitor($config['tags']['mark'] ?? []),
             'rp' => new NodeVisitor\RpNodeVisitor($config['tags']['rp'] ?? []),
             'rt' => new NodeVisitor\RtNodeVisitor($config['tags']['rt'] ?? []),
             'ruby' => new NodeVisitor\RubyNodeVisitor($config['tags']['ruby'] ?? []),
+            'time' => new NodeVisitor\TimeNodeVisitor($config['tags']['time'] ?? []),
         ];
     }
 }

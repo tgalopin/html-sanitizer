@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace HtmlSanitizer\Extension\Basic\Node;
+namespace HtmlSanitizer\Extension\Extra\Node;
 
 use HtmlSanitizer\Node\AbstractTagNode;
 use HtmlSanitizer\Node\HasChildrenTrait;
