@@ -530,7 +530,6 @@ class SimpleSanitizerTest extends AbstractSanitizerTest
             [
                 '<img """><script>alert(0)</script>',
                 '',
-
             ],
             [
                 '<blockquote><script>alert(0)</script></blockquote>',
