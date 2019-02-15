@@ -454,11 +454,6 @@ class SimpleSanitizerTest extends AbstractSanitizerTest
                 '<a title="``onmouseover=alert(1337)">Hello</a>',
                 '<a title="&#96;&#96;onmouseover&#61;alert(1337) ">Hello</a>',
             ],
-
-            /*
-             * more xss :)
-             */
-
             // Tag stripping, different ways to work around removal of HTML tags.
             [
                 '<script>alert(0)</script>',
