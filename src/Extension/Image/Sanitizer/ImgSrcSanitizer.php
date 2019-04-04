@@ -38,7 +38,7 @@ class ImgSrcSanitizer
 
         if ($this->allowDataUri) {
             $allowedSchemes[] = 'data';
-            $allowedHosts[] = null;
+            $allowedHosts = null;
         }
 
         if (!$sanitized = $this->sanitizeUrl($input, $allowedSchemes, $allowedHosts, $this->forceHttps)) {
