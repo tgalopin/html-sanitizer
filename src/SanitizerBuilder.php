@@ -42,16 +42,22 @@ class SanitizerBuilder implements SanitizerBuilderInterface
     public function registerExtension(ExtensionInterface $extension)
     {
         $this->extensions[$extension->getName()] = $extension;
+
+        return $this;
     }
 
     public function setParser(?ParserInterface $parser)
     {
         $this->parser = $parser;
+
+        return $this;
     }
 
     public function setLogger(?LoggerInterface $logger)
     {
         $this->logger = $logger;
+
+        return $this;
     }
 
     public function build(array $config): SanitizerInterface
