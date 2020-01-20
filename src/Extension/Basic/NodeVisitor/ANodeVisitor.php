@@ -38,6 +38,7 @@ class ANodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterf
         parent::__construct($config);
 
         $this->sanitizer = new AHrefSanitizer(
+            $this->config['allowed_schemes'],
             $this->config['allowed_hosts'],
             $this->config['allow_mailto'],
             $this->config['force_https']
@@ -57,6 +58,7 @@ class ANodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterf
     public function getDefaultConfiguration(): array
     {
         return [
+            'allowed_schemes' => ['http', 'https'],
             'allowed_hosts' => null,
             'allow_mailto' => true,
             'force_https' => false,

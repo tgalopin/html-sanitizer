@@ -20,17 +20,19 @@ class IframeSrcSanitizer
 {
     use UrlSanitizerTrait;
 
+    private $allowedSchemes;
     private $allowedHosts;
     private $forceHttps;
 
-    public function __construct(?array $allowedHosts, bool $forceHttps)
+    public function __construct(array $allowedSchemes, ?array $allowedHosts, bool $forceHttps)
     {
+        $this->allowedSchemes = $allowedSchemes;
         $this->allowedHosts = $allowedHosts;
         $this->forceHttps = $forceHttps;
     }
 
     public function sanitize(?string $input): ?string
     {
-        return $this->sanitizeUrl($input, ['http', 'https'], $this->allowedHosts, $this->forceHttps);
+        return $this->sanitizeUrl($input, $this->allowedSchemes, $this->allowedHosts, $this->forceHttps);
     }
 }

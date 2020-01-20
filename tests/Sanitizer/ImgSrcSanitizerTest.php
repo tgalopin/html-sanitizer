@@ -20,6 +20,7 @@ class ImgSrcSanitizerTest extends TestCase
     {
         // Simple cases
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowDataUri' => false,
             'forceHttps' => false,
@@ -28,6 +29,7 @@ class ImgSrcSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => ['trusted.com'],
             'allowDataUri' => false,
             'forceHttps' => false,
@@ -36,6 +38,7 @@ class ImgSrcSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => ['trusted.com'],
             'allowDataUri' => false,
             'forceHttps' => false,
@@ -44,6 +47,7 @@ class ImgSrcSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowDataUri' => false,
             'forceHttps' => false,
@@ -52,6 +56,7 @@ class ImgSrcSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowDataUri' => true,
             'forceHttps' => false,
@@ -61,6 +66,7 @@ class ImgSrcSanitizerTest extends TestCase
 
         // Force HTTPS
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => ['trusted.com'],
             'allowDataUri' => false,
             'forceHttps' => true,
@@ -70,6 +76,7 @@ class ImgSrcSanitizerTest extends TestCase
 
         // Data-URI
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowDataUri' => false,
             'forceHttps' => false,
@@ -78,6 +85,7 @@ class ImgSrcSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowDataUri' => true,
             'forceHttps' => false,
@@ -86,6 +94,7 @@ class ImgSrcSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => ['trusted.com'],
             'allowDataUri' => true,
             'forceHttps' => false,
@@ -94,6 +103,7 @@ class ImgSrcSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowDataUri' => true,
             'forceHttps' => false,
@@ -102,6 +112,7 @@ class ImgSrcSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowDataUri' => true,
             'forceHttps' => false,
@@ -110,10 +121,20 @@ class ImgSrcSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowDataUri' => true,
             'forceHttps' => false,
             'input' => 'data:text/plain;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+            'output' => null,
+        ];
+
+        yield [
+            'allowedSchemes' => ['https'],
+            'allowedHosts' => null,
+            'allowDataUri' => false,
+            'forceHttps' => false,
+            'input' => 'http://trusted.com/image.php',
             'output' => null,
         ];
     }
@@ -121,8 +142,8 @@ class ImgSrcSanitizerTest extends TestCase
     /**
      * @dataProvider provideUrls
      */
-    public function testSanitize($allowedHosts, $allowDataUri, $forceHttps, $input, $expected)
+    public function testSanitize($allowedSchemes, $allowedHosts, $allowDataUri, $forceHttps, $input, $expected)
     {
-        $this->assertSame($expected, (new ImgSrcSanitizer($allowedHosts, $allowDataUri, $forceHttps))->sanitize($input));
+        $this->assertSame($expected, (new ImgSrcSanitizer($allowedSchemes, $allowedHosts, $allowDataUri, $forceHttps))->sanitize($input));
     }
 }

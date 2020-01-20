@@ -20,12 +20,14 @@ class ImgSrcSanitizer
 {
     use UrlSanitizerTrait;
 
+    private $allowedSchemes;
     private $allowedHosts;
     private $allowDataUri;
     private $forceHttps;
 
-    public function __construct(?array $allowedHosts, bool $allowDataUri, bool $forceHttps)
+    public function __construct(array $allowedSchemes, ?array $allowedHosts, bool $allowDataUri, bool $forceHttps)
     {
+        $this->allowedSchemes = $allowedSchemes;
         $this->allowedHosts = $allowedHosts;
         $this->allowDataUri = $allowDataUri;
         $this->forceHttps = $forceHttps;
@@ -33,7 +35,7 @@ class ImgSrcSanitizer
 
     public function sanitize(?string $input): ?string
     {
-        $allowedSchemes = ['http', 'https'];
+        $allowedSchemes = $this->allowedSchemes;
         $allowedHosts = $this->allowedHosts;
 
         if ($this->allowDataUri) {

@@ -20,6 +20,7 @@ class AHrefSanitizerTest extends TestCase
     {
         // Simple cases
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowMailTo' => false,
             'forceHttps' => false,
@@ -28,6 +29,7 @@ class AHrefSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => ['trusted.com'],
             'allowMailTo' => false,
             'forceHttps' => false,
@@ -36,6 +38,7 @@ class AHrefSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => ['trusted.com'],
             'allowMailTo' => false,
             'forceHttps' => false,
@@ -44,6 +47,7 @@ class AHrefSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowMailTo' => false,
             'forceHttps' => false,
@@ -52,6 +56,7 @@ class AHrefSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowMailTo' => true,
             'forceHttps' => false,
@@ -61,6 +66,7 @@ class AHrefSanitizerTest extends TestCase
 
         // Force HTTPS
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => ['trusted.com'],
             'allowMailTo' => false,
             'forceHttps' => true,
@@ -70,6 +76,7 @@ class AHrefSanitizerTest extends TestCase
 
         // Data-URI not allowed
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowMailTo' => true,
             'forceHttps' => false,
@@ -78,6 +85,7 @@ class AHrefSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowMailTo' => true,
             'forceHttps' => true,
@@ -87,6 +95,7 @@ class AHrefSanitizerTest extends TestCase
 
         // MailTo
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowMailTo' => false,
             'forceHttps' => false,
@@ -95,6 +104,7 @@ class AHrefSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowMailTo' => true,
             'forceHttps' => false,
@@ -103,6 +113,7 @@ class AHrefSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => ['trusted.com'],
             'allowMailTo' => true,
             'forceHttps' => false,
@@ -111,6 +122,7 @@ class AHrefSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => ['trusted.com'],
             'allowMailTo' => true,
             'forceHttps' => true,
@@ -119,6 +131,7 @@ class AHrefSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowMailTo' => true,
             'forceHttps' => false,
@@ -127,10 +140,20 @@ class AHrefSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowMailTo' => true,
             'forceHttps' => false,
             'input' => 'mailto:',
+            'output' => null,
+        ];
+
+        yield [
+            'allowedSchemes' => ['https'],
+            'allowedHosts' => null,
+            'allowMailTo' => true,
+            'forceHttps' => false,
+            'input' => 'http://trusted.com/link.php',
             'output' => null,
         ];
     }
@@ -138,8 +161,8 @@ class AHrefSanitizerTest extends TestCase
     /**
      * @dataProvider provideUrls
      */
-    public function testSanitize($allowedHosts, $allowMailTo, $forceHttps, $input, $expected)
+    public function testSanitize($allowedSchemes, $allowedHosts, $allowMailTo, $forceHttps, $input, $expected)
     {
-        $this->assertSame($expected, (new AHrefSanitizer($allowedHosts, $allowMailTo, $forceHttps))->sanitize($input));
+        $this->assertSame($expected, (new AHrefSanitizer($allowedSchemes, $allowedHosts, $allowMailTo, $forceHttps))->sanitize($input));
     }
 }
