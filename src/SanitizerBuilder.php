@@ -11,7 +11,15 @@
 
 namespace HtmlSanitizer;
 
+use HtmlSanitizer\Extension\Basic\BasicExtension;
+use HtmlSanitizer\Extension\Code\CodeExtension;
+use HtmlSanitizer\Extension\Details\DetailsExtension;
 use HtmlSanitizer\Extension\ExtensionInterface;
+use HtmlSanitizer\Extension\Extra\ExtraExtension;
+use HtmlSanitizer\Extension\Iframe\IframeExtension;
+use HtmlSanitizer\Extension\Image\ImageExtension;
+use HtmlSanitizer\Extension\Listing\ListExtension;
+use HtmlSanitizer\Extension\Table\TableExtension;
 use HtmlSanitizer\Parser\ParserInterface;
 use HtmlSanitizer\Visitor\ScriptNodeVisitor;
 use HtmlSanitizer\Visitor\StyleNodeVisitor;
@@ -38,6 +46,21 @@ class SanitizerBuilder implements SanitizerBuilderInterface
      * @var LoggerInterface|null
      */
     private $logger;
+
+    public static function createDefault(): self
+    {
+        $builder = new self();
+        $builder->registerExtension(new BasicExtension());
+        $builder->registerExtension(new ListExtension());
+        $builder->registerExtension(new ImageExtension());
+        $builder->registerExtension(new CodeExtension());
+        $builder->registerExtension(new TableExtension());
+        $builder->registerExtension(new IframeExtension());
+        $builder->registerExtension(new DetailsExtension());
+        $builder->registerExtension(new ExtraExtension());
+
+        return $builder;
+    }
 
     public function registerExtension(ExtensionInterface $extension)
     {
