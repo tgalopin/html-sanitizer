@@ -15,8 +15,15 @@ use HtmlSanitizer\Sanitizer;
 use HtmlSanitizer\SanitizerInterface;
 use PHPUnit\Framework\TestCase;
 
-class MalformedHtmlTest extends TestCase
+class MalformedInputTest extends TestCase
 {
+    public function testSanitizeMalformedString()
+    {
+        $input = "<p>Apr\u00e8s s&#039;il y a un gros bug et que tout le monde en profite, mon avis l\u00e0 dessus peut changer. Mais normalement non, pas de reset pour les joueurs arriv\u00e9s avec la beta publique.<\/p>\n\n<p>Par contre certains \u00e9quilibrages changeront, c&#";
+
+        $this->assertEquals('', $this->createSanitizer()->sanitize($input));
+    }
+
     public function testSanitizeMalformedUrl()
     {
         // Use rtrim to remove end line should be able to change without consequence on the validity of the test
