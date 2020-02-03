@@ -37,7 +37,11 @@ class IframeNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorI
     {
         parent::__construct($config);
 
-        $this->sanitizer = new IframeSrcSanitizer($this->config['allowed_hosts'], $this->config['force_https']);
+        $this->sanitizer = new IframeSrcSanitizer(
+            $this->config['allowed_schemes'],
+            $this->config['allowed_hosts'],
+            $this->config['force_https']
+        );
     }
 
     protected function getDomNodeName(): string
@@ -58,6 +62,7 @@ class IframeNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorI
     public function getDefaultConfiguration(): array
     {
         return [
+            'allowed_schemes' => ['http', 'https'],
             'allowed_hosts' => null,
             'force_https' => false,
         ];

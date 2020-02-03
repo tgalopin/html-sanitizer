@@ -38,6 +38,7 @@ class ImgNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInte
         parent::__construct($config);
 
         $this->sanitizer = new ImgSrcSanitizer(
+            $this->config['allowed_schemes'],
             $this->config['allowed_hosts'],
             $this->config['allow_data_uri'],
             $this->config['force_https']
@@ -57,6 +58,7 @@ class ImgNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInte
     public function getDefaultConfiguration(): array
     {
         return [
+            'allowed_schemes' => ['http', 'https'],
             'allowed_hosts' => null,
             'allow_data_uri' => false,
             'force_https' => false,

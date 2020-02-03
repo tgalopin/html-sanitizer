@@ -20,6 +20,7 @@ class IframeSrcSanitizerTest extends TestCase
     {
         // Simple cases
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'forceHttps' => false,
             'input' => 'https://trusted.com/iframe.php',
@@ -27,6 +28,7 @@ class IframeSrcSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => ['trusted.com'],
             'forceHttps' => false,
             'input' => 'https://trusted.com/iframe.php',
@@ -34,6 +36,7 @@ class IframeSrcSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => ['trusted.com'],
             'forceHttps' => false,
             'input' => 'https://untrusted.com/iframe.php',
@@ -41,6 +44,7 @@ class IframeSrcSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'forceHttps' => false,
             'input' => '/iframe.php',
@@ -49,6 +53,7 @@ class IframeSrcSanitizerTest extends TestCase
 
         // Force HTTPS
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => ['trusted.com'],
             'forceHttps' => true,
             'input' => 'http://trusted.com/iframe.php',
@@ -57,6 +62,7 @@ class IframeSrcSanitizerTest extends TestCase
 
         // Data-URI not allowed
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'forceHttps' => false,
             'input' => 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
@@ -64,9 +70,18 @@ class IframeSrcSanitizerTest extends TestCase
         ];
 
         yield [
+            'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'forceHttps' => true,
             'input' => 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+            'output' => null,
+        ];
+
+        yield [
+            'allowedSchemes' => ['https'],
+            'allowedHosts' => null,
+            'forceHttps' => false,
+            'input' => 'http://trusted.com/iframe.php',
             'output' => null,
         ];
     }
@@ -74,8 +89,8 @@ class IframeSrcSanitizerTest extends TestCase
     /**
      * @dataProvider provideUrls
      */
-    public function testSanitize($allowedHosts, $forceHttps, $input, $expected)
+    public function testSanitize($allowedSchemes, $allowedHosts, $forceHttps, $input, $expected)
     {
-        $this->assertSame($expected, (new IframeSrcSanitizer($allowedHosts, $forceHttps))->sanitize($input));
+        $this->assertSame($expected, (new IframeSrcSanitizer($allowedSchemes, $allowedHosts, $forceHttps))->sanitize($input));
     }
 }
