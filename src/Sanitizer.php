@@ -11,14 +11,6 @@
 
 namespace HtmlSanitizer;
 
-use HtmlSanitizer\Extension\Basic\BasicExtension;
-use HtmlSanitizer\Extension\Code\CodeExtension;
-use HtmlSanitizer\Extension\Details\DetailsExtension;
-use HtmlSanitizer\Extension\Extra\ExtraExtension;
-use HtmlSanitizer\Extension\Iframe\IframeExtension;
-use HtmlSanitizer\Extension\Image\ImageExtension;
-use HtmlSanitizer\Extension\Listing\ListExtension;
-use HtmlSanitizer\Extension\Table\TableExtension;
 use HtmlSanitizer\Parser\MastermindsParser;
 use HtmlSanitizer\Parser\ParserInterface;
 use Psr\Log\LoggerInterface;
@@ -67,17 +59,7 @@ class Sanitizer implements SanitizerInterface
      */
     public static function create(array $config): SanitizerInterface
     {
-        $builder = new SanitizerBuilder();
-        $builder->registerExtension(new BasicExtension());
-        $builder->registerExtension(new ListExtension());
-        $builder->registerExtension(new ImageExtension());
-        $builder->registerExtension(new CodeExtension());
-        $builder->registerExtension(new TableExtension());
-        $builder->registerExtension(new IframeExtension());
-        $builder->registerExtension(new DetailsExtension());
-        $builder->registerExtension(new ExtraExtension());
-
-        return $builder->build($config);
+        return SanitizerBuilder::createDefault()->build($config);
     }
 
     public function sanitize(string $html): string

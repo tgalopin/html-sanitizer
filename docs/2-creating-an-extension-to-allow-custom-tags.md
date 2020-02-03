@@ -16,7 +16,7 @@ A node visitor is a class able to handle DOMNode instances of a certain type. It
 `HtmlSanitizer\Visitor\VisitorInterface`.
 
 A node visitor is responsible of adding a node to the tree of safe HTML by filtering the DOMNode
-it's given. Thus, for an example `my-tag` custom tag, we need to create two classes: a Node and 
+it's given. Thus, for an example `my-tag` custom tag, we need to create two classes: a Node and
 a NodeVisitor.
 
 The node could look like this:
@@ -129,6 +129,17 @@ $builder->registerExtension(new HtmlSanitizer\Extension\BasicExtension());
 $builder->registerExtension(new HtmlSanitizer\Extension\ListExtension());
 // Add the other core ones you need
 
+$builder->registerExtension(new App\Sanitizer\MyTagExtension());
+
+$sanitizer = $builder->build([
+    'extensions' => ['basic', 'list', 'my-tag'],
+});
+```
+
+You can also use `HtmlSanitizer\SanitizerBuilder::createDefault()` to get a `SanitizerBuilder` with all the core extensions:
+
+```php
+$builder = HtmlSanitizer\SanitizerBuilder::createDefault();
 $builder->registerExtension(new App\Sanitizer\MyTagExtension());
 
 $sanitizer = $builder->build([
