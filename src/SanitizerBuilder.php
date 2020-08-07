@@ -12,12 +12,12 @@
 namespace HtmlSanitizer;
 
 use HtmlSanitizer\Extension\Basic\BasicExtension;
-use HtmlSanitizer\Extension\Code\CodeExtension;
-use HtmlSanitizer\Extension\Details\DetailsExtension;
+use HtmlSanitizer\Extension\Code\CodeExtension; 
 use HtmlSanitizer\Extension\ExtensionInterface;
-use HtmlSanitizer\Extension\Extra\ExtraExtension;
+use HtmlSanitizer\Extension\Extra\ExtraExtension; 
+use HtmlSanitizer\Extension\MathMl\MathMlExtension; 
 use HtmlSanitizer\Extension\Iframe\IframeExtension;
-use HtmlSanitizer\Extension\Image\ImageExtension;
+use HtmlSanitizer\Extension\Image\ImageExtension; 
 use HtmlSanitizer\Extension\Listing\ListExtension;
 use HtmlSanitizer\Extension\Table\TableExtension;
 use HtmlSanitizer\Parser\ParserInterface;
@@ -54,10 +54,10 @@ class SanitizerBuilder implements SanitizerBuilderInterface
         $builder->registerExtension(new ListExtension());
         $builder->registerExtension(new ImageExtension());
         $builder->registerExtension(new CodeExtension());
-        $builder->registerExtension(new TableExtension());
-        $builder->registerExtension(new IframeExtension());
-        $builder->registerExtension(new DetailsExtension());
+        $builder->registerExtension(new TableExtension()); 
+        $builder->registerExtension(new IframeExtension()); 
         $builder->registerExtension(new ExtraExtension());
+        $builder->registerExtension(new MathMlExtension()); 
 
         return $builder;
     }
