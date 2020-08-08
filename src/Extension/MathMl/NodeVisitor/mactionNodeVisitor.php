@@ -69,6 +69,7 @@ class mactionNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitor
     {        
         $node = new mactionNode($cursor->node);
         $node->setAttribute('xlink:href', $this->sanitizer->sanitize($this->getAttribute($domNode, 'xlink:href')));
+        
         return $node; 
     }
 }
