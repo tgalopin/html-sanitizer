@@ -133,7 +133,7 @@ $builder->registerExtension(new App\Sanitizer\MyTagExtension());
 
 $sanitizer = $builder->build([
     'extensions' => ['basic', 'list', 'my-tag'],
-});
+]);
 ```
 
 You can also use `HtmlSanitizer\SanitizerBuilder::createDefault()` to get a `SanitizerBuilder` with all the core extensions:
