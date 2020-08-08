@@ -12,7 +12,7 @@
 namespace HtmlSanitizer\Extension\MathMl\NodeVisitor;
 
 use HtmlSanitizer\Model\Cursor;
-use HtmlSanitizer\Extension\MathMl\Node\eqNode;
+use HtmlSanitizer\Extension\MathMl\Node\EqNode;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
@@ -23,7 +23,7 @@ use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
  *
  * @final
  */
-class eqNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
+class EqNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 
@@ -39,7 +39,7 @@ class eqNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInter
 
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return new eqNode($cursor->node);
+        return new EqNode($cursor->node);
     }
 }
 

@@ -12,7 +12,7 @@
 namespace HtmlSanitizer\Extension\MathMl\NodeVisitor;
 
 use HtmlSanitizer\Model\Cursor;
-use HtmlSanitizer\Extension\MathMl\Node\mlabeledtrNode;
+use HtmlSanitizer\Extension\MathMl\Node\MlabeledtrNode;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
@@ -23,7 +23,7 @@ use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
  *
  * @final
  */
-class mlabeledtrNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
+class MlabeledtrNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 
@@ -39,7 +39,7 @@ class mlabeledtrNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisi
 
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return new mlabeledtrNode($cursor->node);
+        return new MlabeledtrNode($cursor->node);
     }
 }
 

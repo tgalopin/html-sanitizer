@@ -12,7 +12,7 @@
 namespace HtmlSanitizer\Extension\MathMl\NodeVisitor;
 
 use HtmlSanitizer\Model\Cursor;
-use HtmlSanitizer\Extension\MathMl\Node\piecewiseNode;
+use HtmlSanitizer\Extension\MathMl\Node\PiecewiseNode;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
@@ -23,7 +23,7 @@ use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
  *
  * @final
  */
-class piecewiseNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
+class PiecewiseNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 
@@ -39,7 +39,7 @@ class piecewiseNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisit
 
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return new piecewiseNode($cursor->node);
+        return new PiecewiseNode($cursor->node);
     }
 }
 

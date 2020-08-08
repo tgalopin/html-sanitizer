@@ -12,7 +12,7 @@
 namespace HtmlSanitizer\Extension\MathMl\NodeVisitor;
 
 use HtmlSanitizer\Model\Cursor;
-use HtmlSanitizer\Extension\MathMl\Node\arcsinNode;
+use HtmlSanitizer\Extension\MathMl\Node\ArcsinNode;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
@@ -23,7 +23,7 @@ use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
  *
  * @final
  */
-class arcsinNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
+class ArcsinNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 
@@ -39,7 +39,7 @@ class arcsinNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorI
 
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return new arcsinNode($cursor->node);
+        return new ArcsinNode($cursor->node);
     }
 }
 

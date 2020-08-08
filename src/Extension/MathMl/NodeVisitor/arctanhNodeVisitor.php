@@ -12,7 +12,7 @@
 namespace HtmlSanitizer\Extension\MathMl\NodeVisitor;
 
 use HtmlSanitizer\Model\Cursor;
-use HtmlSanitizer\Extension\MathMl\Node\arctanhNode;
+use HtmlSanitizer\Extension\MathMl\Node\ArctanhNode;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
@@ -23,7 +23,7 @@ use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
  *
  * @final
  */
-class arctanhNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
+class ArctanhNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 
@@ -39,7 +39,7 @@ class arctanhNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitor
 
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return new arctanhNode($cursor->node);
+        return new ArctanhNode($cursor->node);
     }
 }
 

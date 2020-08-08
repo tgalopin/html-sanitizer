@@ -12,7 +12,7 @@
 namespace HtmlSanitizer\Extension\MathMl\NodeVisitor;
 
 use HtmlSanitizer\Model\Cursor;
-use HtmlSanitizer\Extension\MathMl\Node\lambdaNode;
+use HtmlSanitizer\Extension\MathMl\Node\LambdaNode;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
@@ -23,7 +23,7 @@ use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
  *
  * @final
  */
-class lambdaNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
+class LambdaNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 
@@ -39,7 +39,7 @@ class lambdaNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorI
 
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return new lambdaNode($cursor->node);
+        return new LambdaNode($cursor->node);
     }
 }
 

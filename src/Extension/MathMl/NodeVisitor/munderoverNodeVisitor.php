@@ -12,7 +12,7 @@
 namespace HtmlSanitizer\Extension\MathMl\NodeVisitor;
 
 use HtmlSanitizer\Model\Cursor;
-use HtmlSanitizer\Extension\MathMl\Node\munderoverNode;
+use HtmlSanitizer\Extension\MathMl\Node\MunderoverNode;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
@@ -23,7 +23,7 @@ use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
  *
  * @final
  */
-class munderoverNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
+class MunderoverNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 
@@ -39,7 +39,7 @@ class munderoverNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisi
 
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return new munderoverNode($cursor->node);
+        return new MunderoverNode($cursor->node);
     }
 }
 

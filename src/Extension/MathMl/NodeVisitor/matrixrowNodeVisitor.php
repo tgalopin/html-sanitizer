@@ -12,7 +12,7 @@
 namespace HtmlSanitizer\Extension\MathMl\NodeVisitor;
 
 use HtmlSanitizer\Model\Cursor;
-use HtmlSanitizer\Extension\MathMl\Node\matrixrowNode;
+use HtmlSanitizer\Extension\MathMl\Node\MatrixrowNode;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
@@ -23,7 +23,7 @@ use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
  *
  * @final
  */
-class matrixrowNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
+class MatrixrowNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 
@@ -39,7 +39,7 @@ class matrixrowNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisit
 
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return new matrixrowNode($cursor->node);
+        return new MatrixrowNode($cursor->node);
     }
 }
 

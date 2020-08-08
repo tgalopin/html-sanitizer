@@ -19,7 +19,7 @@ use HtmlSanitizer\Node\HasChildrenTrait;
  *
  * @final
  */
-class domainofapplicationNode extends AbstractTagNode
+class DomainofapplicationNode extends AbstractTagNode
 {
     use HasChildrenTrait;
 

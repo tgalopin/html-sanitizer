@@ -12,7 +12,7 @@
 namespace HtmlSanitizer\Extension\MathMl\NodeVisitor;
 
 use HtmlSanitizer\Model\Cursor;
-use HtmlSanitizer\Extension\MathMl\Node\vectorproductNode;
+use HtmlSanitizer\Extension\MathMl\Node\VectorproductNode;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
@@ -23,7 +23,7 @@ use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
  *
  * @final
  */
-class vectorproductNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
+class VectorproductNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 
@@ -39,7 +39,7 @@ class vectorproductNodeVisitor extends AbstractNodeVisitor implements NamedNodeV
 
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return new vectorproductNode($cursor->node);
+        return new VectorproductNode($cursor->node);
     }
 }
 

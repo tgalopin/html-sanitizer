@@ -12,7 +12,7 @@
 namespace HtmlSanitizer\Extension\MathMl\NodeVisitor;
 
 use HtmlSanitizer\Model\Cursor;
-use HtmlSanitizer\Extension\MathMl\Node\emptysetNode;
+use HtmlSanitizer\Extension\MathMl\Node\EmptysetNode;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
@@ -23,7 +23,7 @@ use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
  *
  * @final
  */
-class emptysetNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
+class EmptysetNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 
@@ -39,7 +39,7 @@ class emptysetNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisito
 
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return new emptysetNode($cursor->node);
+        return new EmptysetNode($cursor->node);
     }
 }
 

@@ -16,7 +16,7 @@ use HtmlSanitizer\Sanitizer\UrlSanitizerTrait;
 /**
  * @internal
  */
-class mactionSanitizer
+class MactionSanitizer
 {
     use UrlSanitizerTrait;
 

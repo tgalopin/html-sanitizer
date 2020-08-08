@@ -19,7 +19,7 @@ use HtmlSanitizer\Node\HasChildrenTrait;
  *
  * @final
  */
-class laplacianNode extends AbstractTagNode
+class LaplacianNode extends AbstractTagNode
 {
     use HasChildrenTrait;
 

@@ -12,7 +12,7 @@
 namespace HtmlSanitizer\Extension\MathMl\NodeVisitor;
 
 use HtmlSanitizer\Model\Cursor;
-use HtmlSanitizer\Extension\MathMl\Node\equivalentNode;
+use HtmlSanitizer\Extension\MathMl\Node\EquivalentNode;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
@@ -23,7 +23,7 @@ use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
  *
  * @final
  */
-class equivalentNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
+class EquivalentNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 
@@ -39,7 +39,7 @@ class equivalentNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisi
 
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return new equivalentNode($cursor->node);
+        return new EquivalentNode($cursor->node);
     }
 }
 

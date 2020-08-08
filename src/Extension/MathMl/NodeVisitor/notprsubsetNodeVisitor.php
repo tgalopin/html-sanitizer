@@ -12,7 +12,7 @@
 namespace HtmlSanitizer\Extension\MathMl\NodeVisitor;
 
 use HtmlSanitizer\Model\Cursor;
-use HtmlSanitizer\Extension\MathMl\Node\notprsubsetNode;
+use HtmlSanitizer\Extension\MathMl\Node\NotprsubsetNode;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
@@ -23,7 +23,7 @@ use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
  *
  * @final
  */
-class notprsubsetNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
+class NotprsubsetNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 
@@ -39,7 +39,7 @@ class notprsubsetNodeVisitor extends AbstractNodeVisitor implements NamedNodeVis
 
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return new notprsubsetNode($cursor->node);
+        return new NotprsubsetNode($cursor->node);
     }
 }
 

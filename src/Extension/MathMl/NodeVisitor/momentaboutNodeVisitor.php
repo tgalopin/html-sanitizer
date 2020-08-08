@@ -12,7 +12,7 @@
 namespace HtmlSanitizer\Extension\MathMl\NodeVisitor;
 
 use HtmlSanitizer\Model\Cursor;
-use HtmlSanitizer\Extension\MathMl\Node\momentaboutNode;
+use HtmlSanitizer\Extension\MathMl\Node\MomentaboutNode;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
@@ -23,7 +23,7 @@ use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
  *
  * @final
  */
-class momentaboutNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
+class MomentaboutNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 
@@ -39,7 +39,7 @@ class momentaboutNodeVisitor extends AbstractNodeVisitor implements NamedNodeVis
 
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return new momentaboutNode($cursor->node);
+        return new MomentaboutNode($cursor->node);
     }
 }
 

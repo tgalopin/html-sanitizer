@@ -19,7 +19,7 @@ use HtmlSanitizer\Node\HasChildrenTrait;
  *
  * @final
  */
-class divergenceNode extends AbstractTagNode
+class DivergenceNode extends AbstractTagNode
 {
     use HasChildrenTrait;
 

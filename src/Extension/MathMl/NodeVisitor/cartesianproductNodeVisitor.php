@@ -12,7 +12,7 @@
 namespace HtmlSanitizer\Extension\MathMl\NodeVisitor;
 
 use HtmlSanitizer\Model\Cursor;
-use HtmlSanitizer\Extension\MathMl\Node\cartesianproductNode;
+use HtmlSanitizer\Extension\MathMl\Node\CartesianproductNode;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
@@ -23,7 +23,7 @@ use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
  *
  * @final
  */
-class cartesianproductNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
+class CartesianproductNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 
@@ -39,7 +39,7 @@ class cartesianproductNodeVisitor extends AbstractNodeVisitor implements NamedNo
 
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return new cartesianproductNode($cursor->node);
+        return new CartesianproductNode($cursor->node);
     }
 }
 

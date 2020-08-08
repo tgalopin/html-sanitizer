@@ -12,9 +12,9 @@
 namespace HtmlSanitizer\Extension\MathMl\NodeVisitor;
 
 use HtmlSanitizer\Model\Cursor;
-use HtmlSanitizer\Extension\MathMl\Node\mactionNode;
+use HtmlSanitizer\Extension\MathMl\Node\MactionNode;
 use HtmlSanitizer\Node\NodeInterface;
-use HtmlSanitizer\Extension\MathMl\Sanitizer\mactionSanitizer;
+use HtmlSanitizer\Extension\MathMl\Sanitizer\MactionSanitizer;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
 use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
@@ -24,7 +24,7 @@ use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
  *
  * @final
  */
-class mactionNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
+class MactionNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 
@@ -37,7 +37,7 @@ class mactionNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitor
     {
         parent::__construct($config);
 
-        $this->sanitizer = new mactionSanitizer(
+        $this->sanitizer = new MactionSanitizer(
             $this->config['allowed_schemes'],
             $this->config['allowed_hosts'],
             $this->config['allow_mailto'],
@@ -67,10 +67,9 @@ class mactionNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitor
 
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {        
-        $node = new mactionNode($cursor->node);
+        $node = new MactionNode($cursor->node);
         $node->setAttribute('xlink:href', $this->sanitizer->sanitize($this->getAttribute($domNode, 'xlink:href')));
         
         return $node; 
     }
 }
-

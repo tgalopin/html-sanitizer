@@ -12,7 +12,7 @@
 namespace HtmlSanitizer\Extension\MathMl\NodeVisitor;
 
 use HtmlSanitizer\Model\Cursor;
-use HtmlSanitizer\Extension\MathMl\Node\partialdiffNode;
+use HtmlSanitizer\Extension\MathMl\Node\PartialdiffNode;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
@@ -23,7 +23,7 @@ use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
  *
  * @final
  */
-class partialdiffNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
+class PartialdiffNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 
@@ -39,7 +39,7 @@ class partialdiffNodeVisitor extends AbstractNodeVisitor implements NamedNodeVis
 
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return new partialdiffNode($cursor->node);
+        return new PartialdiffNode($cursor->node);
     }
 }
 

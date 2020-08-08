@@ -12,7 +12,7 @@
 namespace HtmlSanitizer\Extension\MathMl\NodeVisitor;
 
 use HtmlSanitizer\Model\Cursor;
-use HtmlSanitizer\Extension\MathMl\Node\annotationxmlNode;
+use HtmlSanitizer\Extension\MathMl\Node\AnnotationxmlNode;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
@@ -23,7 +23,7 @@ use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
  *
  * @final
  */
-class annotationxmlNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
+class AnnotationxmlNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 
@@ -38,7 +38,6 @@ class annotationxmlNodeVisitor extends AbstractNodeVisitor implements NamedNodeV
     }
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return new annotationxmlNode($cursor->node);
+        return new AnnotationxmlNode($cursor->node);
     }
 }
-

@@ -12,7 +12,7 @@
 namespace HtmlSanitizer\Extension\MathMl\NodeVisitor;
 
 use HtmlSanitizer\Model\Cursor;
-use HtmlSanitizer\Extension\MathMl\Node\exponentialeNode;
+use HtmlSanitizer\Extension\MathMl\Node\ExponentialeNode;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
@@ -23,7 +23,7 @@ use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
  *
  * @final
  */
-class exponentialeNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
+class ExponentialeNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
 
@@ -39,7 +39,7 @@ class exponentialeNodeVisitor extends AbstractNodeVisitor implements NamedNodeVi
 
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return new exponentialeNode($cursor->node);
+        return new ExponentialeNode($cursor->node);
     }
 }
 
