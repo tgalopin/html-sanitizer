@@ -13,6 +13,7 @@ namespace HtmlSanitizer;
 
 use HtmlSanitizer\Extension\Basic\BasicExtension;
 use HtmlSanitizer\Extension\Code\CodeExtension; 
+use HtmlSanitizer\Extension\Details\DetailsExtension;
 use HtmlSanitizer\Extension\ExtensionInterface;
 use HtmlSanitizer\Extension\Extra\ExtraExtension; 
 use HtmlSanitizer\Extension\MathMl\MathMlExtension; 
@@ -52,6 +53,7 @@ class SanitizerBuilder implements SanitizerBuilderInterface
         $builder = new self();
         $builder->registerExtension(new BasicExtension());
         $builder->registerExtension(new ListExtension());
+        $builder->registerExtension(new DetailsExtension());
         $builder->registerExtension(new ImageExtension());
         $builder->registerExtension(new CodeExtension());
         $builder->registerExtension(new TableExtension()); 
