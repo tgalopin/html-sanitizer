@@ -144,5 +144,5 @@ $builder->registerExtension(new App\Sanitizer\MyTagExtension());
 
 $sanitizer = $builder->build([
     'extensions' => ['basic', 'list', 'my-tag'],
-});
+]);
 ```
