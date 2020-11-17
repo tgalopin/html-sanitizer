@@ -10,11 +10,11 @@ html-sanitizer is a library aiming at handling, cleaning and sanitizing HTML sen
 (who you cannot trust), allowing you to store it and display it safely. It has sensible defaults
 to provide a great developer experience while still being entirely configurable.
 
-Internally, the sanitizer has a deep understanding of HTML: it parses the input and create a tree of
+Internally, the sanitizer has a deep understanding of the HTML: it parses the input and create a tree of
 DOMNode objects, which it uses to keep only the safe elements from the content. By using this
 technique, it is safe (it works with a strict whitelist), fast and easily extensible.
 
-It also provides useful features such as the possibility to transform images or iframes URLs to HTTPS.
+It also provides useful features such as the possibility to transform the images or iframes URLs to HTTPS.
 
 ## Symfony integration
 
