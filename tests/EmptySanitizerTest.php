@@ -189,15 +189,15 @@ class EmptySanitizerTest extends AbstractSanitizerTest
                 'Lorem ipsum',
             ],
             [
-                '<summary class="foo">Lorem ipsum</summary>',
-                'Lorem ipsum',
-            ],
-            [
                 '<b class="foo">Lorem ipsum</b>',
                 'Lorem ipsum',
             ],
             [
                 '<sub class="foo">Lorem ipsum</sub>',
+                'Lorem ipsum',
+            ],
+            [
+                '<summary class="foo">Lorem ipsum</summary>',
                 'Lorem ipsum',
             ],
             [
@@ -218,6 +218,10 @@ class EmptySanitizerTest extends AbstractSanitizerTest
             ],
             [
                 '<tfoot class="foo">Lorem ipsum</tfoot>',
+                'Lorem ipsum',
+            ],
+            [
+                '<u class="foo">Lorem ipsum</u>',
                 'Lorem ipsum',
             ],
 

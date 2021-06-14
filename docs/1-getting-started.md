@@ -4,7 +4,7 @@
 - [Basic usage](#basic-usage)
 - [Extensions](#extensions)
 - [Filtering links, images and iframes hosts](#filtering-links-images-and-iframes-hosts)
-- [Forcing HTTPS on links, images and iframes hosts](#forcing-https-on-images-and-iframes-source-hosts)
+- [Forcing HTTPS on links, images and iframes hosts](#forcing-https-on-links-images-and-iframes-hosts)
 - [Configuring allowed attributes](#configuring-allowed-attributes)
 
 ## Installation
@@ -49,7 +49,7 @@ Here is the list of tags each extension allow:
 
 - **basic** allows the insertion of basic HTML elements:
   `a`, `b`, `br`, `blockquote`, `div`, `del`, `em`, `figcaption`, `figure`, `h1`, `h2`, `h3`, `h4`, `h5`, 
-  `h6`, `i`, `p`, `q`, `small`, `span`, `strong`, `sub`, `sup`
+  `h6`, `i`, `p`, `q`, `small`, `span`, `strong`, `sub`, `sup`, `u`
 - **list** allows the insertion of lists: 
   `dd`, `dl`, `dt`, `li`, `ol`, `ul`
 - **table** allows the insertion of tables: 
@@ -129,7 +129,7 @@ $sanitizer = HtmlSanitizer\Sanitizer::create([
 ]);
 ```
 
-## Forcing HTTPs on links, images and iframes hosts
+## Forcing HTTPS on links, images and iframes hosts
 
 The sanitizer basic, image and iframe extensions provide a feature to force HTTPs on targeted hosts.
 

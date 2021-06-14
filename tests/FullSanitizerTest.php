@@ -173,6 +173,9 @@ class FullSanitizerTest extends AbstractSanitizerTest
                 'tr' => [
                     'allowed_attributes' => ['data-attr'],
                 ],
+                'u' => [
+                    'allowed_attributes' => ['data-attr'],
+                ],
                 'ul' => [
                     'allowed_attributes' => ['data-attr'],
                 ],
