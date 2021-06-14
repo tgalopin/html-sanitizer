@@ -237,6 +237,10 @@ class SimpleSanitizerTest extends AbstractSanitizerTest
                 'Lorem ipsum',
             ],
             [
+                '<u class="foo">Lorem ipsum</u>',
+                '<u>Lorem ipsum</u>',
+            ],
+            [
                 '<ul class="foo">Lorem ipsum</ul>',
                 'Lorem ipsum',
             ],
