@@ -23,6 +23,7 @@ class AHrefSanitizerTest extends TestCase
             'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowMailTo' => false,
+            'allowRelativeLinks' => false,
             'forceHttps' => false,
             'input' => 'https://trusted.com/link.php',
             'output' => 'https://trusted.com/link.php',
@@ -32,6 +33,7 @@ class AHrefSanitizerTest extends TestCase
             'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => ['trusted.com'],
             'allowMailTo' => false,
+            'allowRelativeLinks' => false,
             'forceHttps' => false,
             'input' => 'https://trusted.com/link.php',
             'output' => 'https://trusted.com/link.php',
@@ -41,6 +43,7 @@ class AHrefSanitizerTest extends TestCase
             'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => ['trusted.com'],
             'allowMailTo' => false,
+            'allowRelativeLinks' => false,
             'forceHttps' => false,
             'input' => 'https://untrusted.com/link.php',
             'output' => null,
@@ -50,6 +53,7 @@ class AHrefSanitizerTest extends TestCase
             'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowMailTo' => false,
+            'allowRelativeLinks' => false,
             'forceHttps' => false,
             'input' => '/link.php',
             'output' => null,
@@ -59,9 +63,20 @@ class AHrefSanitizerTest extends TestCase
             'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowMailTo' => true,
+            'allowRelativeLinks' => false,
             'forceHttps' => false,
             'input' => '/link.php',
             'output' => null,
+        ];
+
+        yield [
+            'allowedSchemes' => ['http', 'https'],
+            'allowedHosts' => null,
+            'allowMailTo' => true,
+            'allowRelativeLinks' => true,
+            'forceHttps' => false,
+            'input' => '/link.php',
+            'output' => '/link.php',
         ];
 
         // Force HTTPS
@@ -69,6 +84,7 @@ class AHrefSanitizerTest extends TestCase
             'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => ['trusted.com'],
             'allowMailTo' => false,
+            'allowRelativeLinks' => false,
             'forceHttps' => true,
             'input' => 'http://trusted.com/link.php',
             'output' => 'https://trusted.com/link.php',
@@ -79,6 +95,7 @@ class AHrefSanitizerTest extends TestCase
             'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowMailTo' => true,
+            'allowRelativeLinks' => false,
             'forceHttps' => false,
             'input' => 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
             'output' => null,
@@ -88,6 +105,7 @@ class AHrefSanitizerTest extends TestCase
             'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowMailTo' => true,
+            'allowRelativeLinks' => false,
             'forceHttps' => true,
             'input' => 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
             'output' => null,
@@ -98,6 +116,7 @@ class AHrefSanitizerTest extends TestCase
             'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowMailTo' => false,
+            'allowRelativeLinks' => false,
             'forceHttps' => false,
             'input' => 'mailto:test@gmail.com',
             'output' => null,
@@ -107,6 +126,7 @@ class AHrefSanitizerTest extends TestCase
             'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowMailTo' => true,
+            'allowRelativeLinks' => false,
             'forceHttps' => false,
             'input' => 'mailto:test@gmail.com',
             'output' => 'mailto:test@gmail.com',
@@ -116,6 +136,7 @@ class AHrefSanitizerTest extends TestCase
             'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => ['trusted.com'],
             'allowMailTo' => true,
+            'allowRelativeLinks' => false,
             'forceHttps' => false,
             'input' => 'mailto:test@gmail.com',
             'output' => 'mailto:test@gmail.com',
@@ -125,6 +146,7 @@ class AHrefSanitizerTest extends TestCase
             'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => ['trusted.com'],
             'allowMailTo' => true,
+            'allowRelativeLinks' => false,
             'forceHttps' => true,
             'input' => 'mailto:test@gmail.com',
             'output' => 'mailto:test@gmail.com',
@@ -134,6 +156,7 @@ class AHrefSanitizerTest extends TestCase
             'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowMailTo' => true,
+            'allowRelativeLinks' => false,
             'forceHttps' => false,
             'input' => 'mailto:invalid',
             'output' => null,
@@ -143,6 +166,7 @@ class AHrefSanitizerTest extends TestCase
             'allowedSchemes' => ['http', 'https'],
             'allowedHosts' => null,
             'allowMailTo' => true,
+            'allowRelativeLinks' => false,
             'forceHttps' => false,
             'input' => 'mailto:',
             'output' => null,
@@ -152,6 +176,7 @@ class AHrefSanitizerTest extends TestCase
             'allowedSchemes' => ['https'],
             'allowedHosts' => null,
             'allowMailTo' => true,
+            'allowRelativeLinks' => false,
             'forceHttps' => false,
             'input' => 'http://trusted.com/link.php',
             'output' => null,
@@ -161,8 +186,8 @@ class AHrefSanitizerTest extends TestCase
     /**
      * @dataProvider provideUrls
      */
-    public function testSanitize($allowedSchemes, $allowedHosts, $allowMailTo, $forceHttps, $input, $expected)
+    public function testSanitize($allowedSchemes, $allowedHosts, $allowMailTo, $allowRelativeLinks, $forceHttps, $input, $expected)
     {
-        $this->assertSame($expected, (new AHrefSanitizer($allowedSchemes, $allowedHosts, $allowMailTo, $forceHttps))->sanitize($input));
+        $this->assertSame($expected, (new AHrefSanitizer($allowedSchemes, $allowedHosts, $allowMailTo, $allowRelativeLinks, $forceHttps))->sanitize($input));
     }
 }

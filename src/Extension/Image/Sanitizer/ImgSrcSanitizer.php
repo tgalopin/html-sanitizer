@@ -23,13 +23,15 @@ class ImgSrcSanitizer
     private $allowedSchemes;
     private $allowedHosts;
     private $allowDataUri;
+    private $allowRelativeLinks;
     private $forceHttps;
 
-    public function __construct(array $allowedSchemes, ?array $allowedHosts, bool $allowDataUri, bool $forceHttps)
+    public function __construct(array $allowedSchemes, ?array $allowedHosts, bool $allowDataUri, bool $allowRelativeLinks, bool $forceHttps)
     {
         $this->allowedSchemes = $allowedSchemes;
         $this->allowedHosts = $allowedHosts;
         $this->allowDataUri = $allowDataUri;
+        $this->allowRelativeLinks = $allowRelativeLinks;
         $this->forceHttps = $forceHttps;
     }
 
@@ -38,8 +40,15 @@ class ImgSrcSanitizer
         $allowedSchemes = $this->allowedSchemes;
         $allowedHosts = $this->allowedHosts;
 
-        if ($this->allowDataUri) {
+        if ($this->allowDataUri && !$this->allowRelativeLinks) {
             $allowedSchemes[] = 'data';
+            if (null !== $allowedHosts) {
+                $allowedHosts[] = null;
+            }
+        }
+
+        if ($this->allowRelativeLinks) {
+            $allowedSchemes[] = null;
             if (null !== $allowedHosts) {
                 $allowedHosts[] = null;
             }

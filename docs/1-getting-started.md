@@ -93,6 +93,11 @@ $sanitizer = HtmlSanitizer\Sanitizer::create([
              * If true, mailto links will be accepted.
              */
             'allow_mailto' => false,
+            
+            /*
+             * If true, relative links will be accepted.
+             */
+            'allow_relative_links' => false,
         ],
         
         'img' => [
@@ -111,6 +116,11 @@ $sanitizer = HtmlSanitizer\Sanitizer::create([
              * If true, images data-uri URLs will be accepted.
              */
             'allow_data_uri' => false,
+            
+            /*
+             * If true, relative links will be accepted.
+             */
+            'allow_relative_links' => false,
         ],
         
         'iframe' => [
@@ -124,6 +134,11 @@ $sanitizer = HtmlSanitizer\Sanitizer::create([
              *      'allowed_hosts' => ['trusted1.com', 'google.com'],
              */
             'allowed_hosts' => null,
+            
+            /*
+             * If true, relative links will be accepted.
+             */
+            'allow_relative_links' => false,
         ],
     ],
 ]);
