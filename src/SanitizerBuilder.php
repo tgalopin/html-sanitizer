@@ -14,6 +14,7 @@ namespace HtmlSanitizer;
 use HtmlSanitizer\Extension\Basic\BasicExtension;
 use HtmlSanitizer\Extension\Code\CodeExtension;
 use HtmlSanitizer\Extension\Details\DetailsExtension;
+use HtmlSanitizer\Extension\MathMl\MathMlExtension;
 use HtmlSanitizer\Extension\ExtensionInterface;
 use HtmlSanitizer\Extension\Extra\ExtraExtension;
 use HtmlSanitizer\Extension\Iframe\IframeExtension;
@@ -57,6 +58,7 @@ class SanitizerBuilder implements SanitizerBuilderInterface
         $builder->registerExtension(new TableExtension());
         $builder->registerExtension(new IframeExtension());
         $builder->registerExtension(new DetailsExtension());
+        $builder->registerExtension(new MathMlExtension());
         $builder->registerExtension(new ExtraExtension());
 
         return $builder;
