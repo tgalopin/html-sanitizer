@@ -93,6 +93,22 @@ $sanitizer = HtmlSanitizer\Sanitizer::create([
              * If true, mailto links will be accepted.
              */
             'allow_mailto' => false,
+
+            /*
+             * Set to a string to replace "rel" attribute with this value
+             *
+             * Example:
+             *      'force_rel' => 'nofollow noopener',
+             */
+            'force_rel' => false,
+
+            /*
+             * Set to a string to replace "target" attribute with this value
+             *
+             * Example:
+             *      'force_target' => '_blank',
+             */
+            'force_target' => false
         ],
         
         'img' => [

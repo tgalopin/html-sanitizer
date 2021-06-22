@@ -62,6 +62,8 @@ class ANodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterf
             'allowed_hosts' => null,
             'allow_mailto' => true,
             'force_https' => false,
+            'force_rel' => false,
+            'force_target' => false
         ];
     }
 
@@ -69,6 +71,12 @@ class ANodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterf
     {
         $node = new ANode($cursor->node);
         $node->setAttribute('href', $this->sanitizer->sanitize($this->getAttribute($domNode, 'href')));
+        if (false !== $this->config['force_rel']) {
+            $node->setAttribute('rel', $this->config['force_rel']);
+        }
+        if (false !== $this->config['force_target']) {
+            $node->setAttribute('target', $this->config['force_target']);
+        }
 
         return $node;
     }
