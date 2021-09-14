@@ -62,6 +62,7 @@ class ANodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterf
             'allowed_hosts' => null,
             'allow_mailto' => true,
             'force_https' => false,
+            'rel' => null,
         ];
     }
 
@@ -69,6 +70,9 @@ class ANodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterf
     {
         $node = new ANode($cursor->node);
         $node->setAttribute('href', $this->sanitizer->sanitize($this->getAttribute($domNode, 'href')));
+        if ($this->config['rel'] !== null) {
+            $node->setAttribute('rel', $this->config['rel']);
+        }
 
         return $node;
     }

@@ -29,6 +29,7 @@ class FullSanitizerTest extends AbstractSanitizerTest
                     'allowed_hosts' => ['trusted.com', 'external.com'],
                     'allow_mailto' => true,
                     'force_https' => false,
+                    'rel' => 'noopener',
                 ],
                 'blockquote' => [
                     'allowed_attributes' => ['data-attr'],
@@ -196,19 +197,19 @@ class FullSanitizerTest extends AbstractSanitizerTest
             ],
             [
                 '<a href="https://trusted.com" title="Link title" class="foo" data-attr="foo">Lorem ipsum</a>',
-                '<a href="https://trusted.com" title="Link title" data-attr="foo">Lorem ipsum</a>',
+                '<a href="https://trusted.com" rel="noopener" title="Link title" data-attr="foo">Lorem ipsum</a>',
             ],
             [
                 '<a href="https://untrusted.com" title="Link title" class="foo" data-attr="foo">Lorem ipsum</a>',
-                '<a title="Link title" data-attr="foo">Lorem ipsum</a>',
+                '<a rel="noopener" title="Link title" data-attr="foo">Lorem ipsum</a>',
             ],
             [
                 '<a href="https://external.com" title="Link title" class="foo" data-attr="foo">Lorem ipsum</a>',
-                '<a href="https://external.com" title="Link title" data-attr="foo">Lorem ipsum</a>',
+                '<a href="https://external.com" rel="noopener" title="Link title" data-attr="foo">Lorem ipsum</a>',
             ],
             [
                 '<a href="mailto:test&#64;gmail.com" title="Link title" class="foo" data-attr="foo">Lorem ipsum</a>',
-                '<a href="mailto:test&#64;gmail.com" title="Link title" data-attr="foo">Lorem ipsum</a>',
+                '<a href="mailto:test&#64;gmail.com" rel="noopener" title="Link title" data-attr="foo">Lorem ipsum</a>',
             ],
             [
                 '<blockquote class="foo" data-attr="foo">Lorem ipsum</blockquote>',
@@ -445,47 +446,47 @@ class FullSanitizerTest extends AbstractSanitizerTest
 
             [
                 '<a href="mailto:test&#64;gmail.com">Test</a>',
-                '<a href="mailto:test&#64;gmail.com">Test</a>',
+                '<a href="mailto:test&#64;gmail.com" rel="noopener">Test</a>',
             ],
             [
                 '<a href="mailto:alert(\'ok\')">Test</a>',
-                '<a>Test</a>',
+                '<a rel="noopener">Test</a>',
             ],
             [
                 '<a href="javascript:alert(\'ok\')">Test</a>',
-                '<a>Test</a>',
+                '<a rel="noopener">Test</a>',
             ],
             [
                 '<a href="javascript://%0Aalert(document.cookie)">Test</a>',
-                '<a>Test</a>',
+                '<a rel="noopener">Test</a>',
             ],
             [
                 '<a href="http://untrusted.com" onclick="alert(\'ok\')">Test</a>',
-                '<a>Test</a>',
+                '<a rel="noopener">Test</a>',
             ],
             [
                 '<a href="https://trusted.com">Test</a>',
-                '<a href="https://trusted.com">Test</a>',
+                '<a href="https://trusted.com" rel="noopener">Test</a>',
             ],
             [
                 '<a>Lorem ipsum</a>',
-                '<a>Lorem ipsum</a>',
+                '<a rel="noopener">Lorem ipsum</a>',
             ],
             [
                 '<a href="&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;&#97;&#108;&#101;&#114;&#116;&#40;&#39;&#88;&#83;&#83;&#39;&#41;">Lorem ipsum</a>',
-                '<a>Lorem ipsum</a>',
+                '<a rel="noopener">Lorem ipsum</a>',
             ],
             [
                 '<a href="http://trusted.com/index.html#this:stuff">Lorem ipsum</a>',
-                '<a href="http://trusted.com/index.html#this:stuff">Lorem ipsum</a>',
+                '<a href="http://trusted.com/index.html#this:stuff" rel="noopener">Lorem ipsum</a>',
             ],
             [
                 '<a href="java\0&#14;\t\r\n script:alert(\\\'foo\\\')">Lorem ipsum</a>',
-                '<a>Lorem ipsum</a>',
+                '<a rel="noopener">Lorem ipsum</a>',
             ],
             [
                 '<a href= onmouseover="alert(\\\'XSS\\\');">Lorem ipsum</a>',
-                '<a>Lorem ipsum</a>',
+                '<a rel="noopener">Lorem ipsum</a>',
             ],
 
             // Inspired by https://twitter.com/brutelogic/status/1066333383276593152?s=19
@@ -497,7 +498,7 @@ class FullSanitizerTest extends AbstractSanitizerTest
             // Inspired by https://html5sec.org
             [
                 '<a href="javascript:&apos;<svg onload&equals;alert&lpar;1&rpar;&nvgt;&apos;">Lorem ipsum</a>',
-                '<a>Lorem ipsum</a>',
+                '<a rel="noopener">Lorem ipsum</a>',
             ],
 
             /*
@@ -514,7 +515,7 @@ class FullSanitizerTest extends AbstractSanitizerTest
             ],
             [
                 '<a href="javascript:alert(\'ok\')">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</a>',
-                '<a>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</a>',
+                '<a rel="noopener">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</a>',
             ],
             [
                 '<img src= onmouseover="alert(\'XSS\');" />',
@@ -526,7 +527,7 @@ class FullSanitizerTest extends AbstractSanitizerTest
             ],
             [
                 '<<a href="javascript:evil"/>a href="javascript:evil"/>',
-                '<a>a href&#61;&#34;javascript:evil&#34;/&gt;</a>',
+                '<a rel="noopener">a href&#61;&#34;javascript:evil&#34;/&gt;</a>',
             ],
             [
                 '!<textarea>&lt;/textarea&gt;&lt;svg/onload=prompt`xs`&gt;</textarea>!',
@@ -546,7 +547,7 @@ class FullSanitizerTest extends AbstractSanitizerTest
             ],
             [
                 '<scr<a>ipt>alert(1)</script>',
-                '<a>ipt&gt;alert(1)</a>',
+                '<a rel="noopener">ipt&gt;alert(1)</a>',
             ],
 
             /*
@@ -563,7 +564,7 @@ class FullSanitizerTest extends AbstractSanitizerTest
             ],
             [
                 '<a style="font-size: 40px; color: red;">Lorem ipsum dolor sit amet, consectetur.</a>',
-                '<a>Lorem ipsum dolor sit amet, consectetur.</a>',
+                '<a rel="noopener">Lorem ipsum dolor sit amet, consectetur.</a>',
             ],
         ]);
     }
