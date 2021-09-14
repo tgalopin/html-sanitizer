@@ -40,6 +40,7 @@ class IframeNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorI
         $this->sanitizer = new IframeSrcSanitizer(
             $this->config['allowed_schemes'],
             $this->config['allowed_hosts'],
+            $this->config['allow_relative_links'],
             $this->config['force_https']
         );
     }
@@ -64,6 +65,7 @@ class IframeNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorI
         return [
             'allowed_schemes' => ['http', 'https'],
             'allowed_hosts' => null,
+            'allow_relative_links' => false,
             'force_https' => false,
         ];
     }

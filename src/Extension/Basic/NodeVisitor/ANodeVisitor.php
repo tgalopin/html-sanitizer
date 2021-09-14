@@ -41,6 +41,7 @@ class ANodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterf
             $this->config['allowed_schemes'],
             $this->config['allowed_hosts'],
             $this->config['allow_mailto'],
+            $this->config['allow_relative_links'],
             $this->config['force_https']
         );
     }
@@ -61,6 +62,7 @@ class ANodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterf
             'allowed_schemes' => ['http', 'https'],
             'allowed_hosts' => null,
             'allow_mailto' => true,
+            'allow_relative_links' => false,
             'force_https' => false,
             'rel' => null,
         ];

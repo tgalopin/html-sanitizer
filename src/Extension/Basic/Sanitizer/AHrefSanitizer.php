@@ -23,13 +23,15 @@ class AHrefSanitizer
     private $allowedSchemes;
     private $allowedHosts;
     private $allowMailTo;
+    private $allowRelativeLinks;
     private $forceHttps;
 
-    public function __construct(array $allowedSchemes, ?array $allowedHosts, bool $allowMailTo, bool $forceHttps)
+    public function __construct(array $allowedSchemes, ?array $allowedHosts, bool $allowMailTo, bool $allowRelativeLinks, bool $forceHttps)
     {
         $this->allowedSchemes = $allowedSchemes;
         $this->allowedHosts = $allowedHosts;
         $this->allowMailTo = $allowMailTo;
+        $this->allowRelativeLinks = $allowRelativeLinks;
         $this->forceHttps = $forceHttps;
     }
 
@@ -40,6 +42,14 @@ class AHrefSanitizer
 
         if ($this->allowMailTo) {
             $allowedSchemes[] = 'mailto';
+
+            if (\is_array($this->allowedHosts)) {
+                $allowedHosts[] = null;
+            }
+        }
+
+        if ($this->allowRelativeLinks) {
+            $allowedSchemes[] = null;
 
             if (\is_array($this->allowedHosts)) {
                 $allowedHosts[] = null;

@@ -41,6 +41,7 @@ class ImgNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInte
             $this->config['allowed_schemes'],
             $this->config['allowed_hosts'],
             $this->config['allow_data_uri'],
+            $this->config['allow_relative_links'],
             $this->config['force_https']
         );
     }
@@ -61,6 +62,7 @@ class ImgNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInte
             'allowed_schemes' => ['http', 'https'],
             'allowed_hosts' => null,
             'allow_data_uri' => false,
+            'allow_relative_links' => false,
             'force_https' => false,
         ];
     }
