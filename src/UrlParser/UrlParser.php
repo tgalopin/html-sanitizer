@@ -11,8 +11,8 @@
 
 namespace HtmlSanitizer\UrlParser;
 
-use function League\Uri\parse;
 use League\Uri\Exception;
+use function League\Uri\parse;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>

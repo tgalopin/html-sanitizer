@@ -23,10 +23,6 @@ interface ParserInterface
      * This method must throw a ParsingFailedException if parsing failed in order for
      * the sanitizer to catch it and return an empty string.
      *
-     * @param string $html
-     *
-     * @return \DOMNode
-     *
      * @throws ParsingFailedException When the parsing fails.
      */
     public function parse(string $html): \DOMNode;

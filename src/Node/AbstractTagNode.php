@@ -26,8 +26,6 @@ abstract class AbstractTagNode extends AbstractNode implements TagNodeInterface
 
     /**
      * Return this tag name (used to render it).
-     *
-     * @return string
      */
     abstract public function getTagName(): string;
 

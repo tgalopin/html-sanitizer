@@ -11,10 +11,10 @@
 
 namespace HtmlSanitizer\Extension\Basic\NodeVisitor;
 
-use HtmlSanitizer\Model\Cursor;
 use HtmlSanitizer\Extension\Basic\Node\ANode;
-use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Extension\Basic\Sanitizer\AHrefSanitizer;
+use HtmlSanitizer\Model\Cursor;
+use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
 use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
@@ -72,7 +72,7 @@ class ANodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterf
     {
         $node = new ANode($cursor->node);
         $node->setAttribute('href', $this->sanitizer->sanitize($this->getAttribute($domNode, 'href')));
-        if ($this->config['rel'] !== null) {
+        if (null !== $this->config['rel']) {
             $node->setAttribute('rel', $this->config['rel']);
         }
 

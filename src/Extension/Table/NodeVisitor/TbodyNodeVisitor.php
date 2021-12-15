@@ -11,9 +11,9 @@
 
 namespace HtmlSanitizer\Extension\Table\NodeVisitor;
 
+use HtmlSanitizer\Extension\Table\Node\TbodyNode;
 use HtmlSanitizer\Model\Cursor;
 use HtmlSanitizer\Node\NodeInterface;
-use HtmlSanitizer\Extension\Table\Node\TbodyNode;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
 use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;

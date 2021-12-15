@@ -11,8 +11,8 @@
 
 namespace HtmlSanitizer\Extension\Basic\NodeVisitor;
 
-use HtmlSanitizer\Model\Cursor;
 use HtmlSanitizer\Extension\Basic\Node\INode;
+use HtmlSanitizer\Model\Cursor;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;

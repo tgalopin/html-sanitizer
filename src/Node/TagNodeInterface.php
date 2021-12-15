@@ -21,18 +21,11 @@ interface TagNodeInterface extends NodeInterface
     /**
      * Return the value of this node given attribute.
      * Return null if the attribute does not exist.
-     *
-     * @param string $name
-     *
-     * @return null|string
      */
     public function getAttribute(string $name): ?string;
 
     /**
      * Set the value of this node given attribute.
-     *
-     * @param string $name
-     * @param string $value
      */
     public function setAttribute(string $name, string $value);
 }

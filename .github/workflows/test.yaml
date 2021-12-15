@@ -1,0 +1,86 @@
+name: html-sanitizer
+
+on:
+    pull_request: ~
+    push:
+        branches:
+            - master
+
+jobs:
+    coding-style:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@master
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.0'
+                  coverage: none
+            - name: php-cs-fixer
+              run: |
+                  wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.19.0/php-cs-fixer.phar -q
+                  php php-cs-fixer.phar fix --dry-run --diff
+
+    tests-php-7-2:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@master
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '7.2'
+                  coverage: none
+            - name: PHPUnit
+              run: |
+                  composer update --prefer-lowest --prefer-dist --no-interaction --no-ansi --no-progress
+                  php vendor/bin/simple-phpunit
+
+    tests-php-7-3:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@master
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '7.3'
+                  coverage: none
+            - name: PHPUnit
+              run: |
+                  composer update --prefer-dist --no-interaction --no-ansi --no-progress
+                  php vendor/bin/simple-phpunit
+
+    tests-php-7-4:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@master
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '7.4'
+                  coverage: none
+            - name: PHPUnit
+              run: |
+                  composer update --prefer-dist --no-interaction --no-ansi --no-progress
+                  php vendor/bin/simple-phpunit
+
+    tests-php-8-0:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@master
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.0'
+                  coverage: none
+            - name: PHPUnit
+              run: |
+                  composer update --prefer-dist --no-interaction --no-ansi --no-progress
+                  php vendor/bin/simple-phpunit
+
+    tests-php-8-1:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@master
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.1'
+                  coverage: none
+            - name: PHPUnit
+              run: |
+                  composer update --prefer-dist --no-interaction --no-ansi --no-progress
+                  php vendor/bin/simple-phpunit

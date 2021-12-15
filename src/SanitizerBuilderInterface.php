@@ -23,18 +23,12 @@ interface SanitizerBuilderInterface
     /**
      * Register an extension to use in the sanitizer being built.
      *
-     * @param ExtensionInterface $extension
-     *
      * @return SanitizerBuilderInterface
      */
     public function registerExtension(ExtensionInterface $extension);
 
     /**
      * Build the sanitizer using the given configuration.
-     *
-     * @param array $config
-     *
-     * @return SanitizerInterface
      */
     public function build(array $config): SanitizerInterface;
 }

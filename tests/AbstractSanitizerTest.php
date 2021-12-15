@@ -106,11 +106,10 @@ abstract class AbstractSanitizerTest extends TestCase
         $this->assertNotEmpty($this->createSanitizer()->sanitize(str_repeat('<div>T', 10000)));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testThrowInvalidExtension()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $builder = new SanitizerBuilder();
         $builder->build(['extensions' => ['invalid']]);
     }
