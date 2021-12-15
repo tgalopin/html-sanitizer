@@ -12,9 +12,9 @@
 namespace HtmlSanitizer\Extension\Iframe\NodeVisitor;
 
 use HtmlSanitizer\Extension\Iframe\Node\IframeNode;
+use HtmlSanitizer\Extension\Iframe\Sanitizer\IframeSrcSanitizer;
 use HtmlSanitizer\Model\Cursor;
 use HtmlSanitizer\Node\NodeInterface;
-use HtmlSanitizer\Extension\Iframe\Sanitizer\IframeSrcSanitizer;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
 use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;

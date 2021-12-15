@@ -33,8 +33,6 @@ abstract class AbstractNodeVisitor implements NodeVisitorInterface
 
     /**
      * Return this visitor default allowed attributes and their filters.
-     *
-     * @return array
      */
     public function getDefaultAllowedAttributes(): array
     {
@@ -44,8 +42,6 @@ abstract class AbstractNodeVisitor implements NodeVisitorInterface
     /**
      * Return this visitor additional default configuration.
      * Can only be of depth 1 as it will be merged with the one provided by the user.
-     *
-     * @return array
      */
     public function getDefaultConfiguration(): array
     {

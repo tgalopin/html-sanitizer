@@ -52,10 +52,6 @@ class Sanitizer implements SanitizerInterface
 
     /**
      * Quickly create an already configured sanitizer using the default builder.
-     *
-     * @param array $config
-     *
-     * @return SanitizerInterface
      */
     public static function create(array $config): SanitizerInterface
     {
@@ -102,11 +98,6 @@ class Sanitizer implements SanitizerInterface
         return $this->domVisitor->visit($parsed)->render();
     }
 
-    /**
-     * @param string $html
-     *
-     * @return bool
-     */
     private function isValidUtf8(string $html): bool
     {
         // preg_match() fails silently on strings containing invalid UTF-8.

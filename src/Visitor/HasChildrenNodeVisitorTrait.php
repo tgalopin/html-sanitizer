@@ -12,8 +12,8 @@
 namespace HtmlSanitizer\Visitor;
 
 use HtmlSanitizer\Model\Cursor;
-use HtmlSanitizer\Node\TagNodeInterface;
 use HtmlSanitizer\Node\NodeInterface;
+use HtmlSanitizer\Node\TagNodeInterface;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>

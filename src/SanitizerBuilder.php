@@ -89,11 +89,7 @@ class SanitizerBuilder implements SanitizerBuilderInterface
 
         foreach ($config['extensions'] ?? [] as $extensionName) {
             if (!isset($this->extensions[$extensionName])) {
-                throw new \InvalidArgumentException(sprintf(
-                    'You have requested a non-existent sanitizer extension "%s" (available extensions: %s)',
-                    $extensionName,
-                    implode(', ', array_keys($this->extensions))
-                ));
+                throw new \InvalidArgumentException(sprintf('You have requested a non-existent sanitizer extension "%s" (available extensions: %s)', $extensionName, implode(', ', array_keys($this->extensions))));
             }
 
             foreach ($this->extensions[$extensionName]->createNodeVisitors($config) as $tagName => $visitor) {

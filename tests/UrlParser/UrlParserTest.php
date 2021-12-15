@@ -26,7 +26,7 @@ class UrlParserTest extends TestCase
         if (null === $expected) {
             $this->assertNull($parsed);
         } else {
-            $this->assertInternalType('array', $parsed);
+            $this->assertIsArray($parsed);
             $this->assertArrayHasKey('scheme', $parsed);
             $this->assertArrayHasKey('host', $parsed);
             $this->assertSame($expected['scheme'], $parsed['scheme']);

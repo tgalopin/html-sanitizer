@@ -25,8 +25,6 @@ interface NamedNodeVisitorInterface extends NodeVisitorInterface
      * It will be called only on these specific DOM nodes.
      *
      * This method will be called before the `support` method of NodeVisitorInterface.
-     *
-     * @return array
      */
     public function getSupportedNodeNames(): array;
 }

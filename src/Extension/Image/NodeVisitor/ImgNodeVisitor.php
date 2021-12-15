@@ -11,10 +11,10 @@
 
 namespace HtmlSanitizer\Extension\Image\NodeVisitor;
 
-use HtmlSanitizer\Model\Cursor;
 use HtmlSanitizer\Extension\Image\Node\ImgNode;
-use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Extension\Image\Sanitizer\ImgSrcSanitizer;
+use HtmlSanitizer\Model\Cursor;
+use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\IsChildlessTagVisitorTrait;
 use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;

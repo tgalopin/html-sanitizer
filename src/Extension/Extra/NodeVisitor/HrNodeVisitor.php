@@ -11,8 +11,8 @@
 
 namespace HtmlSanitizer\Extension\Extra\NodeVisitor;
 
-use HtmlSanitizer\Model\Cursor;
 use HtmlSanitizer\Extension\Extra\Node\HrNode;
+use HtmlSanitizer\Model\Cursor;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 use HtmlSanitizer\Visitor\IsChildlessTagVisitorTrait;
