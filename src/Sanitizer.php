@@ -58,8 +58,13 @@ class Sanitizer implements SanitizerInterface
         return SanitizerBuilder::createDefault()->build($config);
     }
 
-    public function sanitize(string $html): string
+    public function sanitize(?string $html): ?string
     {
+        if(!$html)
+        {
+            return null;
+        }
+
         $sanitized = $this->doSanitize($html);
 
         if ($this->logger) {

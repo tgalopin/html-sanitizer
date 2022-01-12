@@ -20,5 +20,5 @@ namespace HtmlSanitizer;
  */
 interface SanitizerInterface
 {
-    public function sanitize(string $html): string;
+    public function sanitize(?string $html): ?string;
 }
