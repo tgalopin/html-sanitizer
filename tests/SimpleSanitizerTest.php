@@ -165,6 +165,14 @@ class SimpleSanitizerTest extends AbstractSanitizerTest
                 '<p>Lorem ipsum</p>',
             ],
             [
+                '<p style="text-align: center;">Lorem ipsum</p>',
+                '<p style="text-align: center;">Lorem ipsum</p>',
+            ],
+            [
+                '<div style="text-align: justify;">Lorem ipsum</div>',
+                '<div style="text-align: justify;">Lorem ipsum</div>',
+            ],
+            [
                 '<pre class="foo">Lorem ipsum</pre>',
                 'Lorem ipsum',
             ],
