@@ -653,6 +653,10 @@ class SimpleSanitizerTest extends AbstractSanitizerTest
                 '<img src=" &#14;  javascript:alert(0)">',
                 '',
             ],
+            [
+                '<s>strike</s>',
+                '<s>strike</s>',
+            ],
         ]);
     }
 }
