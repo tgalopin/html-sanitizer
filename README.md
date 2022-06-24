@@ -1,5 +1,8 @@
 # html-sanitizer
 
+> This library is deprecated as it was merged into Symfony as the HtmlSanitizer component in Symfony 6.1:
+> https://symfony.com/doc/current/html_sanitizer.html
+
 [![Build Status](https://img.shields.io/travis/tgalopin/html-sanitizer/master.svg?style=flat-square)](https://travis-ci.org/tgalopin/html-sanitizer)
 [![Packagist Version](https://img.shields.io/packagist/v/tgalopin/html-sanitizer.svg?style=flat-square)](https://packagist.org/packages/tgalopin/html-sanitizer)
 [![Software license](https://img.shields.io/github/license/tgalopin/html-sanitizer.svg?style=flat-square)](https://github.com/tgalopin/html-sanitizer/blob/master/LICENSE)
