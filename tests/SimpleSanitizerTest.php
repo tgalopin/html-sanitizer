@@ -25,6 +25,14 @@ class SimpleSanitizerTest extends AbstractSanitizerTest
     {
         return array_merge(parent::provideFixtures(), [
             /*
+             * Null value
+             */
+            [
+                null,
+                null
+            ]
+
+            /*
              * Normal tags
              */
 
