@@ -49,7 +49,7 @@ Here is the list of tags each extension allow:
 
 - **basic** allows the insertion of basic HTML elements:
   `a`, `b`, `br`, `blockquote`, `div`, `del`, `em`, `figcaption`, `figure`, `h1`, `h2`, `h3`, `h4`, `h5`, 
-  `h6`, `i`, `p`, `q`, `small`, `span`, `strong`, `sub`, `sup`, `u`
+  `h6`, `i`, `p`, `q`, `small`, `span`, `strong`, `sub`, `sup`, `u`, `s`
 - **list** allows the insertion of lists: 
   `dd`, `dl`, `dt`, `li`, `ol`, `ul`
 - **table** allows the insertion of tables: 

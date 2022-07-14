@@ -45,6 +45,7 @@ class BasicExtension implements ExtensionInterface
             'i' => new NodeVisitor\INodeVisitor($config['tags']['i'] ?? []),
             'p' => new NodeVisitor\PNodeVisitor($config['tags']['p'] ?? []),
             'q' => new NodeVisitor\QNodeVisitor($config['tags']['q'] ?? []),
+            's' => new NodeVisitor\SNodeVisitor($config['tags']['s'] ?? []),
             'small' => new NodeVisitor\SmallNodeVisitor($config['tags']['small'] ?? []),
             'span' => new NodeVisitor\SpanNodeVisitor($config['tags']['span'] ?? []),
             'strong' => new NodeVisitor\StrongNodeVisitor($config['tags']['strong'] ?? []),
