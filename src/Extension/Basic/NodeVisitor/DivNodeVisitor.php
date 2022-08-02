@@ -15,6 +15,7 @@ use HtmlSanitizer\Extension\Basic\Node\DivNode;
 use HtmlSanitizer\Model\Cursor;
 use HtmlSanitizer\Node\NodeInterface;
 use HtmlSanitizer\Visitor\AbstractNodeVisitor;
+use HtmlSanitizer\Visitor\AllowStyleAttributeTrait;
 use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
 use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
 
@@ -26,14 +27,23 @@ use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
 class DivNodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterface
 {
     use HasChildrenNodeVisitorTrait;
+    use AllowStyleAttributeTrait;
 
     protected function getDomNodeName(): string
     {
         return 'div';
     }
 
+    public function getDefaultAllowedAttributes(): array
+    {
+        return ['style'];
+    }
+
     protected function createNode(\DOMNode $domNode, Cursor $cursor): NodeInterface
     {
-        return new DivNode($cursor->node);
+        $node = new DivNode($cursor->node);
+        if (in_array('style', $this->config['allowed_attributes']))
+            $node->setAttribute('style', $this->sanitizeStyleAttr($this->getAttribute($domNode, 'style')));
+        return $node;
     }
 }
